@@ -45,7 +45,8 @@ public class ClienteVista implements Runnable{
             while(true){
                 String mensaje = in.readLine();
                 if(mensaje == null) break;
-                String[] mensajes = conversor.convertirStrings(codigo);
+                System.out.println("sisas");
+                String[] mensajes = conversor.convertirStrings(mensaje);
                 vistaObservable.actualizar(mensajes);
             }
         } catch(IOException ie){

@@ -7,14 +7,14 @@
     <packaging>jar</packaging>
     <dependencies>
         <dependency>
-            <groupId>org.jdatepicker</groupId>
-            <artifactId>jdatepicker</artifactId>
-            <version>1.3.4</version>
-        </dependency>
-        <dependency>
             <groupId>com.mycompany</groupId>
             <artifactId>dominio</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdatepicker</groupId>
+            <artifactId>jdatepicker</artifactId>
+            <version>1.3.4</version>
         </dependency>
     </dependencies>
     <properties>

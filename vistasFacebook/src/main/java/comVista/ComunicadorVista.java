@@ -5,6 +5,7 @@
 package comVista;
 
 import conversors.IJsonToObject;
+import conversors.JsonToObject;
 import entidades.Usuario;
 import eventos.Eventos;
 
@@ -18,7 +19,7 @@ public class ComunicadorVista implements IFachadaControlador {
     private IJsonToObject conversor;
     
     public ComunicadorVista(IVistaObservable vistaObservable, String codigo) {
-        
+        this.conversor = new JsonToObject();
         this.clienteVista = new ClienteVista(5000, vistaObservable, codigo);
         new Thread(clienteVista).start();
     }
