@@ -4,17 +4,26 @@
  */
 package vistasfacebook;
 
+import comVista.ComunicadorVista;
+import comVista.IVistaObservable;
+import conversors.IJsonToObject;
+import conversors.JsonToObject;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author tonyd
  */
-public class Registro extends javax.swing.JFrame {
+public class Registro extends javax.swing.JFrame implements IVistaObservable{
 
+    private ComunicadorVista comunicadorVista;
+    
     /**
      * Creates new form Registro
      */
     public Registro() {
         initComponents();
+        this.comunicadorVista = new ComunicadorVista(this, "111");
     }
 
     /**
@@ -152,6 +161,17 @@ public class Registro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmail1ActionPerformed
 
+    @Override
+    public void actualizar(String[] info){
+        IJsonToObject conversor = new JsonToObject();
+        Boolean resultado = conversor.convertirBoolean(info[1]);
+        if(resultado){
+            JOptionPane.showMessageDialog(this, "Se ha registrado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
+        } else{
+            JOptionPane.showMessageDialog(this, "No se pudo agregar el usuario", "Información", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
