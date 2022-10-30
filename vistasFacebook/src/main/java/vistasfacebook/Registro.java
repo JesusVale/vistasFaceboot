@@ -36,7 +36,6 @@ public class Registro extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnIniciarSesion = new javax.swing.JButton();
         lblRegistraCon = new javax.swing.JLabel();
-        dtpFechaNacimiento = new com.github.lgooddatepicker.components.DatePicker();
         lblYaCuenta = new javax.swing.JLabel();
         lblRectangulo2 = new javax.swing.JLabel();
         cmbSexo = new javax.swing.JComboBox<>();
@@ -76,7 +75,6 @@ public class Registro extends javax.swing.JFrame {
         lblRegistraCon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblRegistraCon.setText("Regsitra con...");
         jPanel1.add(lblRegistraCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 390, -1, -1));
-        jPanel1.add(dtpFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 450, 210, 35));
 
         lblYaCuenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblYaCuenta.setText("¿Ya tienes una cuenta?");
@@ -159,10 +157,10 @@ public class Registro extends javax.swing.JFrame {
         lblCorreoElectronico.setText("Correo Electrónico:");
         jPanel1.add(lblCorreoElectronico, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, -1, -1));
 
-        barra1.setBackground(new java.awt.Color(37, 161, 142));
-        barra1.setForeground(new java.awt.Color(37, 161, 142));
         barra1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         barra1.setText("   ");
+        barra1.setBackground(new java.awt.Color(37, 161, 142));
+        barra1.setForeground(new java.awt.Color(37, 161, 142));
         barra1.setOpaque(true);
         jPanel1.add(barra1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1030, 65));
 
@@ -269,7 +267,6 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox<String> cmbSexo;
-    private com.github.lgooddatepicker.components.DatePicker dtpFechaNacimiento;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblCorreoElectronico;
     private javax.swing.JLabel lblFechaNacimiento;
@@ -287,57 +284,9 @@ public class Registro extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void abrirPerfil() {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Perfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Perfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Perfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Perfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Perfil().setVisible(true);
-            }
-        });
+     
     }
 
     private void abrirLogin() {
-
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
-        });
     }
 }
