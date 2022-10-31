@@ -181,7 +181,8 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable{
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         Calendar calendar = Calendar.getInstance();
-        Usuario usuario=new Usuario(txtNombre.getText(),txtPassword.getText(),txtEmail.getText(),txtNoCelular.getText(),Sexo.MASCULINO, calendar);
+        Usuario usuario=new Usuario(txtNombre.getText(),txtPassword.getText(),txtEmail.getText(),txtNoCelular.getText());
+        //Usuario usuario=new Usuario();
         comunicadorVista.registrarUsuario(usuario);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
