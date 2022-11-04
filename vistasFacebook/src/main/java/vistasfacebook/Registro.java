@@ -18,10 +18,10 @@ import javax.swing.JOptionPane;
  *
  * @author tonyd
  */
-public class Registro extends javax.swing.JFrame implements IVistaObservable{
+public class Registro extends javax.swing.JFrame implements IVistaObservable {
 
     private ComunicadorVista comunicadorVista;
-    
+
     /**
      * Creates new form Registro
      */
@@ -39,165 +39,213 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtNoCelular = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        lblNoCelular = new javax.swing.JLabel();
+        lblPassword = new javax.swing.JLabel();
+        lblFechaNacimiento = new javax.swing.JLabel();
+        lblSexo = new javax.swing.JLabel();
+        lblEmail = new javax.swing.JLabel();
+        lblRegistraCon = new javax.swing.JLabel();
+        lblNombre1 = new javax.swing.JLabel();
+        lblYaTienesCuenta = new javax.swing.JLabel();
+        lblIcoFacebbok = new javax.swing.JLabel();
+        lblIcoGoogle = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        cbSexo = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        btnAgregar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
+        txtNoCelular = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        cbSexo = new javax.swing.JComboBox<>();
+        btnAgregar = new javax.swing.JButton();
+        btnIniciarSesion = new javax.swing.JButton();
+        btnCancelar1 = new javax.swing.JButton();
+        btnEntraFacebook = new javax.swing.JButton();
+        btnEntraGoogle = new javax.swing.JButton();
+        barra1 = new javax.swing.JLabel();
+        barra2 = new javax.swing.JLabel();
+        rectangulo1 = new javax.swing.JLabel();
+        rectangulo2 = new javax.swing.JLabel();
+        rectangulo3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login Faceboot");
 
-        txtNoCelular.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNoCelularActionPerformed(evt);
-            }
-        });
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setForeground(new java.awt.Color(153, 153, 153));
+        jPanel1.setMinimumSize(new java.awt.Dimension(910, 600));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Email");
+        lblNoCelular.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblNoCelular.setForeground(new java.awt.Color(0, 0, 0));
+        lblNoCelular.setText("No. Celular");
+        jPanel1.add(lblNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 270, -1, -1));
 
+        lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
+        lblPassword.setText("Contraseña");
+        jPanel1.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 220, -1, -1));
+
+        lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblFechaNacimiento.setForeground(new java.awt.Color(0, 0, 0));
+        lblFechaNacimiento.setText("Fecha de nacimiento");
+        jPanel1.add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 370, -1, -1));
+
+        lblSexo.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblSexo.setForeground(new java.awt.Color(0, 0, 0));
+        lblSexo.setText("Sexo");
+        jPanel1.add(lblSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 320, -1, -1));
+
+        lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblEmail.setForeground(new java.awt.Color(0, 0, 0));
+        lblEmail.setText("E-mail");
+        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
+
+        lblRegistraCon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblRegistraCon.setForeground(new java.awt.Color(0, 0, 0));
+        lblRegistraCon.setText("Registra con...");
+        jPanel1.add(lblRegistraCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(658, 300, -1, -1));
+
+        lblNombre1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblNombre1.setForeground(new java.awt.Color(0, 0, 0));
+        lblNombre1.setText("Nombre");
+        jPanel1.add(lblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(167, 120, -1, -1));
+
+        lblYaTienesCuenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblYaTienesCuenta.setForeground(new java.awt.Color(0, 0, 0));
+        lblYaTienesCuenta.setText("¿Ya tienes una cuenta?");
+        jPanel1.add(lblYaTienesCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(623, 140, -1, -1));
+
+        lblIcoFacebbok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/facebbokIco.png"))); // NOI18N
+        jPanel1.add(lblIcoFacebbok, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 353, -1, -1));
+
+        lblIcoGoogle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/googleIco.png"))); // NOI18N
+        jPanel1.add(lblIcoGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(605, 424, -1, -1));
+
+        txtEmail.setBackground(new java.awt.Color(255, 255, 255));
+        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtEmail.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, 240, -1));
+
+        txtPassword.setBackground(new java.awt.Color(255, 255, 255));
+        txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtPassword.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 240, -1));
+
+        txtNoCelular.setBackground(new java.awt.Color(255, 255, 255));
+        txtNoCelular.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtNoCelular.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(txtNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 240, -1));
+
+        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
+        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
             }
         });
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 240, -1));
 
-        jLabel2.setText("Nombre");
+        cbSexo.setBackground(new java.awt.Color(255, 255, 255));
+        cbSexo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        cbSexo.setForeground(new java.awt.Color(0, 0, 0));
+        cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elegir Sexo", "Hombre", "Mujer" }));
+        cbSexo.setToolTipText("");
+        jPanel1.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 130, -1));
 
-        jLabel3.setText("No. Celular");
-
-        txtEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtEmailActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("Sexo");
-
-        cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elegir sexo", "Hombre", "Mujer" }));
-
-        jLabel5.setText("Fecha de nacimiento");
-
-        btnAgregar.setText("Agregar");
+        btnAgregar.setBackground(new java.awt.Color(37, 161, 142));
+        btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAgregar.setText("Registrar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 430, 180, 35));
 
-        btnCancelar.setText("Cancelar");
+        btnIniciarSesion.setBackground(new java.awt.Color(37, 161, 142));
+        btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        btnIniciarSesion.setText("Iniciar Sesión");
+        jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 190, 180, 35));
 
-        jLabel6.setText("Contraseña");
+        btnCancelar1.setBackground(new java.awt.Color(37, 161, 142));
+        btnCancelar1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCancelar1.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelar1.setText("Cancelar");
+        jPanel1.add(btnCancelar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 180, 35));
 
-        txtPassword.setText("jPasswordField1");
+        btnEntraFacebook.setBackground(new java.awt.Color(59, 89, 152));
+        btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnEntraFacebook.setForeground(new java.awt.Color(255, 255, 255));
+        btnEntraFacebook.setText("Entra con FaceBook");
+        jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 350, 270, 35));
+
+        btnEntraGoogle.setBackground(new java.awt.Color(219, 74, 57));
+        btnEntraGoogle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnEntraGoogle.setForeground(new java.awt.Color(255, 255, 255));
+        btnEntraGoogle.setText("Entra con Google");
+        jPanel1.add(btnEntraGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 420, 270, 35));
+
+        barra1.setBackground(new java.awt.Color(37, 161, 142));
+        barra1.setOpaque(true);
+        jPanel1.add(barra1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 910, 60));
+
+        barra2.setBackground(new java.awt.Color(37, 161, 142));
+        barra2.setOpaque(true);
+        jPanel1.add(barra2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 60));
+
+        rectangulo1.setBackground(new java.awt.Color(159, 255, 203));
+        rectangulo1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        rectangulo1.setForeground(new java.awt.Color(0, 0, 0));
+        rectangulo1.setOpaque(true);
+        jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 500, 400));
+
+        rectangulo2.setBackground(new java.awt.Color(159, 255, 203));
+        rectangulo2.setOpaque(true);
+        jPanel1.add(rectangulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 275, 320, 220));
+
+        rectangulo3.setBackground(new java.awt.Color(159, 255, 203));
+        rectangulo3.setOpaque(true);
+        jPanel1.add(rectangulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 100, 320, 150));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel1)
-                        .addComponent(jLabel6)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(77, 77, 77)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNoCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(136, 136, 136))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(122, 122, 122)
-                .addComponent(btnCancelar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAgregar)
-                .addGap(160, 160, 160))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNoCelular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(cbSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addComponent(jLabel5)
-                .addGap(90, 90, 90)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAgregar)
-                    .addComponent(btnCancelar))
-                .addGap(46, 46, 46))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNoCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNoCelularActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNoCelularActionPerformed
-
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
 
-    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEmailActionPerformed
-
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         Calendar calendar = Calendar.getInstance();
-        Usuario usuario=new Usuario(txtNombre.getText(),txtPassword.getText(),txtEmail.getText(),txtNoCelular.getText());
+        Usuario usuario = new Usuario(txtNombre.getText(), txtPassword.getText(), txtEmail.getText(), txtNoCelular.getText());
         //Usuario usuario=new Usuario();
         comunicadorVista.registrarUsuario(usuario);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     @Override
-    public void actualizar(String[] info){
+    public void actualizar(String[] info) {
         System.out.println("sis");
         IJsonToObject conversor = new JsonToObject();
         Boolean resultado = conversor.convertirBoolean(info[1]);
-        if(resultado){
+        if (resultado) {
             JOptionPane.showMessageDialog(this, "Se ha registrado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-        } else{
+        } else {
             JOptionPane.showMessageDialog(this, "No se pudo agregar el usuario", "Información", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -234,15 +282,28 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel barra1;
+    private javax.swing.JLabel barra2;
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCancelar1;
+    private javax.swing.JButton btnEntraFacebook;
+    private javax.swing.JButton btnEntraGoogle;
+    private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JComboBox<String> cbSexo;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblFechaNacimiento;
+    private javax.swing.JLabel lblIcoFacebbok;
+    private javax.swing.JLabel lblIcoGoogle;
+    private javax.swing.JLabel lblNoCelular;
+    private javax.swing.JLabel lblNombre1;
+    private javax.swing.JLabel lblPassword;
+    private javax.swing.JLabel lblRegistraCon;
+    private javax.swing.JLabel lblSexo;
+    private javax.swing.JLabel lblYaTienesCuenta;
+    private javax.swing.JLabel rectangulo1;
+    private javax.swing.JLabel rectangulo2;
+    private javax.swing.JLabel rectangulo3;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNoCelular;
     private javax.swing.JTextField txtNombre;
