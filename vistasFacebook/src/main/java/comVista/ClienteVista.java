@@ -6,6 +6,7 @@ package comVista;
 
 import conversors.IJsonToObject;
 import conversors.JsonToObject;
+import peticiones.Peticion;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -22,34 +23,30 @@ public class ClienteVista implements Runnable{
     private BufferedReader in;
     private BufferedWriter out;
     private Socket sc;
-    private String codigo;
     private IVistaObservable vistaObservable;
     private IJsonToObject conversor;
     
-    public ClienteVista(int puerto, IVistaObservable vistaObservable, String codigo){
+    public ClienteVista(int puerto, IVistaObservable vistaObservable){
         this.puerto = puerto;
         this.vistaObservable = vistaObservable;
-        this.codigo = codigo;
         this.conversor = new JsonToObject();
     }
     
     @Override
     public void run() {
         final String HOST = "127.0.0.1";
-
         try{
             sc = new Socket(HOST, puerto);
             in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(sc.getOutputStream()));
-            this.enviarMensaje(codigo);
             while(true){
                 String mensaje = in.readLine();
                 if(mensaje == null) break;
-                System.out.println("sisas");
-                String[] mensajes = conversor.convertirStrings(mensaje);
-                vistaObservable.actualizar(mensajes);
+                Peticion peticion = conversor.convertirPeticion(mensaje);
+                vistaObservable.actualizar(peticion);
             }
         } catch(IOException ie){
+            ie.printStackTrace();
             cerrarTodo(sc, in, out);
         }
     }

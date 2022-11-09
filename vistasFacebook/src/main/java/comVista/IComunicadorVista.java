@@ -10,7 +10,7 @@ import entidades.Usuario;
  *
  * @author jegav
  */
-public interface IFachadaControlador {
+public interface IComunicadorVista {
     
     public void registrarUsuario(Usuario usuario);
     

@@ -8,6 +8,7 @@ import comVista.ComunicadorVista;
 import comVista.IVistaObservable;
 import conversors.IJsonToObject;
 import conversors.JsonToObject;
+import peticiones.Peticion;
 import entidades.Usuario;
 import enumeradores.Sexo;
 import java.util.Calendar;
@@ -27,7 +28,7 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
      */
     public Login() {
         initComponents();
-        this.comunicadorVista = new ComunicadorVista(this, "111");
+        this.comunicadorVista = new ComunicadorVista(this);
     }
 
     /**
@@ -66,22 +67,18 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblLogo.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblLogo.setForeground(new java.awt.Color(0, 0, 0));
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/faceboot.png"))); // NOI18N
         jPanel1.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(315, 25, -1, -1));
 
         lblIcoUser.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblIcoUser.setForeground(new java.awt.Color(0, 0, 0));
         lblIcoUser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/login.png"))); // NOI18N
         jPanel1.add(lblIcoUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(422, 178, -1, -1));
 
         lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword.setText("Contraseña");
         jPanel1.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 310, -1, -1));
 
         lblUsuario.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblUsuario.setForeground(new java.awt.Color(0, 0, 0));
         lblUsuario.setText("Usuario");
         jPanel1.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, -1, -1));
 
@@ -92,13 +89,10 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
         jPanel1.add(lblIcoGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 523, -1, -1));
 
         lblO.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblO.setForeground(new java.awt.Color(0, 0, 0));
         lblO.setText("--------------------------- O ------------------------");
         jPanel1.add(lblO, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 420, 350, 35));
 
-        txtPassword.setBackground(new java.awt.Color(255, 255, 255));
         txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(0, 0, 0));
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordActionPerformed(evt);
@@ -106,9 +100,7 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
         });
         jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 300, 250, 33));
 
-        txtUsuario.setBackground(new java.awt.Color(255, 255, 255));
         txtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtUsuario.setForeground(new java.awt.Color(0, 0, 0));
         txtUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtUsuarioActionPerformed(evt);
@@ -118,7 +110,6 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
 
         btnRegistrate.setBackground(new java.awt.Color(159, 255, 203));
         btnRegistrate.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnRegistrate.setForeground(new java.awt.Color(0, 0, 0));
         btnRegistrate.setText("¿No tienes cuenta? Registrate");
         btnRegistrate.setToolTipText("");
         btnRegistrate.setBorder(null);
@@ -152,7 +143,6 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
 
         rectangulo1.setBackground(new java.awt.Color(159, 255, 203));
         rectangulo1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        rectangulo1.setForeground(new java.awt.Color(0, 0, 0));
         rectangulo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         rectangulo1.setOpaque(true);
         jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(205, 175, 500, 390));
@@ -179,17 +169,6 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
-    @Override
-    public void actualizar(String[] info) {
-        System.out.println("sis");
-        IJsonToObject conversor = new JsonToObject();
-        Boolean resultado = conversor.convertirBoolean(info[1]);
-        if (resultado) {
-            JOptionPane.showMessageDialog(this, "Se ha registrado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo agregar el usuario", "Información", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     /**
      * @param args the command line arguments
@@ -246,4 +225,9 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
     private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actualizar(Peticion peticion) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

@@ -4,10 +4,12 @@
  */
 package comVista;
 
+import peticiones.Peticion;
+
 /**
  *
  * @author jegav
  */
 public interface IVistaObservable {
-    public void actualizar(String[] info);
+    public void actualizar(Peticion peticion);
 }

@@ -6,13 +6,13 @@ package vistasfacebook;
 
 import comVista.ComunicadorVista;
 import comVista.IVistaObservable;
-import conversors.IJsonToObject;
-import conversors.JsonToObject;
+import peticiones.Peticion;
 import entidades.Usuario;
 import enumeradores.Sexo;
 import java.util.Calendar;
-import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import utils.ConversorLocalDateToCalendar;
 
 /**
  *
@@ -27,9 +27,15 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
      */
     public Registro() {
         initComponents();
-        this.comunicadorVista = new ComunicadorVista(this, "111");
+        llenarComboBoxSexo();
+        this.comunicadorVista = new ComunicadorVista(this);
+        
     }
 
+    public void llenarComboBoxSexo(){
+        cbSexo.setModel(new DefaultComboBoxModel(Sexo.values()));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,6 +60,7 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
         txtPassword = new javax.swing.JPasswordField();
         txtNoCelular = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
+        txtFechaNacimiento = new com.github.lgooddatepicker.components.DatePicker();
         cbSexo = new javax.swing.JComboBox<>();
         btnAgregar = new javax.swing.JButton();
         btnIniciarSesion = new javax.swing.JButton();
@@ -75,87 +82,69 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblNoCelular.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblNoCelular.setForeground(new java.awt.Color(0, 0, 0));
         lblNoCelular.setText("No. Celular");
         jPanel1.add(lblNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 270, -1, -1));
 
-        lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblPassword.setForeground(new java.awt.Color(0, 0, 0));
         lblPassword.setText("Contraseña");
+        lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jPanel1.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 220, -1, -1));
 
         lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblFechaNacimiento.setForeground(new java.awt.Color(0, 0, 0));
         lblFechaNacimiento.setText("Fecha de nacimiento");
         jPanel1.add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 370, -1, -1));
 
-        lblSexo.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblSexo.setForeground(new java.awt.Color(0, 0, 0));
         lblSexo.setText("Sexo");
+        lblSexo.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jPanel1.add(lblSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 320, -1, -1));
 
-        lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblEmail.setForeground(new java.awt.Color(0, 0, 0));
         lblEmail.setText("E-mail");
+        lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
 
         lblRegistraCon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblRegistraCon.setForeground(new java.awt.Color(0, 0, 0));
         lblRegistraCon.setText("Registra con...");
         jPanel1.add(lblRegistraCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(658, 300, -1, -1));
 
-        lblNombre1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblNombre1.setForeground(new java.awt.Color(0, 0, 0));
         lblNombre1.setText("Nombre");
+        lblNombre1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jPanel1.add(lblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(167, 120, -1, -1));
 
-        lblYaTienesCuenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblYaTienesCuenta.setForeground(new java.awt.Color(0, 0, 0));
         lblYaTienesCuenta.setText("¿Ya tienes una cuenta?");
+        lblYaTienesCuenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jPanel1.add(lblYaTienesCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(623, 140, -1, -1));
 
-        lblIcoFacebbok.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/facebbokIco.png"))); // NOI18N
+        lblIcoFacebbok.setIcon(new javax.swing.ImageIcon("D:\\Proyecto MVC\\vistasFaceboot\\vistasFacebook\\src\\main\\java\\imagenes\\facebbokIco.png")); // NOI18N
         jPanel1.add(lblIcoFacebbok, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 353, -1, -1));
 
-        lblIcoGoogle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/googleIco.png"))); // NOI18N
+        lblIcoGoogle.setIcon(new javax.swing.ImageIcon("D:\\Proyecto MVC\\vistasFaceboot\\vistasFacebook\\src\\main\\java\\imagenes\\googleIco.png")); // NOI18N
         jPanel1.add(lblIcoGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(605, 424, -1, -1));
 
-        txtEmail.setBackground(new java.awt.Color(255, 255, 255));
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtEmail.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, 240, -1));
 
-        txtPassword.setBackground(new java.awt.Color(255, 255, 255));
         txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtPassword.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 240, -1));
 
-        txtNoCelular.setBackground(new java.awt.Color(255, 255, 255));
         txtNoCelular.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtNoCelular.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.add(txtNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 240, -1));
 
-        txtNombre.setBackground(new java.awt.Color(255, 255, 255));
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
             }
         });
         jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 240, -1));
+        jPanel1.add(txtFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 370, 250, -1));
 
-        cbSexo.setBackground(new java.awt.Color(255, 255, 255));
         cbSexo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cbSexo.setForeground(new java.awt.Color(0, 0, 0));
-        cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elegir Sexo", "Hombre", "Mujer" }));
         cbSexo.setToolTipText("");
         jPanel1.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 130, -1));
 
+        btnAgregar.setText("Registrar");
         btnAgregar.setBackground(new java.awt.Color(37, 161, 142));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregar.setText("Registrar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
@@ -163,28 +152,28 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
         });
         jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 430, 180, 35));
 
+        btnIniciarSesion.setText("Iniciar Sesión");
         btnIniciarSesion.setBackground(new java.awt.Color(37, 161, 142));
         btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        btnIniciarSesion.setText("Iniciar Sesión");
         jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 190, 180, 35));
 
+        btnCancelar1.setText("Cancelar");
         btnCancelar1.setBackground(new java.awt.Color(37, 161, 142));
         btnCancelar1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnCancelar1.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancelar1.setText("Cancelar");
         jPanel1.add(btnCancelar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 180, 35));
 
+        btnEntraFacebook.setText("Entra con FaceBook");
         btnEntraFacebook.setBackground(new java.awt.Color(59, 89, 152));
         btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnEntraFacebook.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntraFacebook.setText("Entra con FaceBook");
         jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 350, 270, 35));
 
+        btnEntraGoogle.setText("Entra con Google");
         btnEntraGoogle.setBackground(new java.awt.Color(219, 74, 57));
         btnEntraGoogle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnEntraGoogle.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntraGoogle.setText("Entra con Google");
         jPanel1.add(btnEntraGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 420, 270, 35));
 
         barra1.setBackground(new java.awt.Color(37, 161, 142));
@@ -197,7 +186,6 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
 
         rectangulo1.setBackground(new java.awt.Color(159, 255, 203));
         rectangulo1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        rectangulo1.setForeground(new java.awt.Color(0, 0, 0));
         rectangulo1.setOpaque(true);
         jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 500, 400));
 
@@ -213,11 +201,11 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -228,21 +216,22 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        Calendar calendar = Calendar.getInstance();
-        Usuario usuario = new Usuario(txtNombre.getText(), txtPassword.getText(), txtEmail.getText(), txtNoCelular.getText());
-        //Usuario usuario=new Usuario();
+        String nombre = this.txtNombre.getText();
+        String password = String.valueOf(this.txtPassword.getPassword());
+        String email = this.txtEmail.getText();
+        String telefono = this.txtNoCelular.getText();
+        Sexo sexo = (Sexo) cbSexo.getSelectedItem();
+        Calendar fechaNacimiento = ConversorLocalDateToCalendar.convertir(this.txtFechaNacimiento.getDate());
+        Usuario usuario = new Usuario(nombre, password, email, telefono, sexo, fechaNacimiento);
         comunicadorVista.registrarUsuario(usuario);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     @Override
-    public void actualizar(String[] info) {
-        System.out.println("sis");
-        IJsonToObject conversor = new JsonToObject();
-        Boolean resultado = conversor.convertirBoolean(info[1]);
-        if (resultado) {
-            JOptionPane.showMessageDialog(this, "Se ha registrado correctamente", "Información", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo agregar el usuario", "Información", JOptionPane.ERROR_MESSAGE);
+    public void actualizar(Peticion peticion) {
+        if(peticion.getStatus() >= 400){
+            JOptionPane.showMessageDialog(this, peticion.getInfo(), "Error", JOptionPane.ERROR_MESSAGE);
+        } else{
+             JOptionPane.showMessageDialog(this, "Se agregó correctamente el Usuario", "Informacion", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -305,6 +294,7 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
     private javax.swing.JLabel rectangulo2;
     private javax.swing.JLabel rectangulo3;
     private javax.swing.JTextField txtEmail;
+    private com.github.lgooddatepicker.components.DatePicker txtFechaNacimiento;
     private javax.swing.JTextField txtNoCelular;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JPasswordField txtPassword;
