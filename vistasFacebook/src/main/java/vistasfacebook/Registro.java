@@ -29,7 +29,8 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
         initComponents();
         llenarComboBoxSexo();
         this.comunicadorVista = new ComunicadorVista(this);
-        
+        //suscribeRegistrarComentario(this);
+        //suscribeRegistrarPublicacion(this);
     }
 
     public void llenarComboBoxSexo(){

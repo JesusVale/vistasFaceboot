@@ -5,6 +5,7 @@
 package vistasfacebook;
 
 import comVista.ComunicadorVista;
+import comVista.IComunicadorVista;
 import comVista.IVistaObservable;
 import conversors.IJsonToObject;
 import conversors.JsonToObject;
@@ -21,7 +22,7 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame implements IVistaObservable {
 
-    private ComunicadorVista comunicadorVista;
+    private IComunicadorVista comunicadorVista;
 
     /**
      * Creates new form Registro
@@ -113,6 +114,11 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
         btnRegistrate.setText("¿No tienes cuenta? Registrate");
         btnRegistrate.setToolTipText("");
         btnRegistrate.setBorder(null);
+        btnRegistrate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrateActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnRegistrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 390, 350, 33));
 
         btnEntraFacebook.setBackground(new java.awt.Color(59, 89, 152));
@@ -169,6 +175,9 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUsuarioActionPerformed
 
+    private void btnRegistrateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRegistrateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,6 +214,7 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barra1;

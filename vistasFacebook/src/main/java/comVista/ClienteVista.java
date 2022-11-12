@@ -6,6 +6,7 @@ package comVista;
 
 import conversors.IJsonToObject;
 import conversors.JsonToObject;
+import events.ManejadorEventos;
 import peticiones.Peticion;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -43,7 +44,8 @@ public class ClienteVista implements Runnable{
                 String mensaje = in.readLine();
                 if(mensaje == null) break;
                 Peticion peticion = conversor.convertirPeticion(mensaje);
-                vistaObservable.actualizar(peticion);
+                vistaObservable.actualizar(peticion); //Respuesta a quien lo envio
+                ManejadorEventos.getInstance().notificarTodos(peticion);
             }
         } catch(IOException ie){
             ie.printStackTrace();
