@@ -4,12 +4,12 @@
  */
 package interfaces;
 
-import peticiones.Peticion;
+import entidades.Publicacion;
 
 /**
  *
  * @author jegav
  */
 public interface IRegistrarPublicacionListener {
-    public void onRegistrarPublicacion(Peticion peticion);
+    public void onRegistrarPublicacion(Publicacion publicacion);
 }

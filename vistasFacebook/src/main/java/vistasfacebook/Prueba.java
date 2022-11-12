@@ -6,7 +6,8 @@ package vistasfacebook;
 
 import comVista.ComunicadorVista;
 import comVista.IVistaObservable;
-import events.ManejadorEventos;
+import entidades.Comentario;
+import entidades.Publicacion;
 import interfaces.IRegistrarComentarioListener;
 import interfaces.IRegistrarPublicacionListener;
 import peticiones.Peticion;
@@ -25,10 +26,11 @@ public class Prueba extends javax.swing.JFrame implements IRegistrarComentarioLi
      */
     public Prueba() {
         initComponents();
-       ManejadorEventos.getInstance().suscribeComentarioPublicacion(this);
-        ManejadorEventos.getInstance().suscribeRegistrarPublicacion(this);
+//       ManejadorEventos.getInstance().suscribeComentarioPublicacion(this);
+//        ManejadorEventos.getInstance().suscribeRegistrarPublicacion(this);
         this.comunicadorVista = new ComunicadorVista(this);
-        
+        comunicadorVista.suscribirseRegistrarComentario();
+        comunicadorVista.suscribirseRegistrarPublicacion();
     }
 
     /**
@@ -142,11 +144,14 @@ public class Prueba extends javax.swing.JFrame implements IRegistrarComentarioLi
             java.util.logging.Logger.getLogger(Prueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
+        Prueba prueba = new Prueba();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            
+            
             public void run() {
-                new Prueba().setVisible(true);
+                prueba.setVisible(true);
             }
         });
     }
@@ -160,14 +165,14 @@ public class Prueba extends javax.swing.JFrame implements IRegistrarComentarioLi
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onRegistrarComentario(Peticion peticion) {
-        this.textArea.append(peticion.getInfo()+"\n");
+    public void onRegistrarComentario(Comentario comentario) {
+        this.textArea.append(comentario.getId()+"\n");
         System.out.println("XD LLEGO EL COMENTARIO");
     }
 
     @Override
-    public void onRegistrarPublicacion(Peticion peticion) {
-        this.textArea.append(peticion.getInfo()+"\n");
+    public void onRegistrarPublicacion(Publicacion publicacion) {
+        this.textArea.append(publicacion.getId()+"\n");
         System.out.println("XD LLEGO LA PUBLICACION");
     }
 

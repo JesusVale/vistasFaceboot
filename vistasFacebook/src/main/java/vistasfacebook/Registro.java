@@ -232,7 +232,7 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
         if(peticion.getStatus() >= 400){
             JOptionPane.showMessageDialog(this, peticion.getInfo(), "Error", JOptionPane.ERROR_MESSAGE);
         } else{
-             JOptionPane.showMessageDialog(this, "Se agregó correctamente el Usuario", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Se agregó correctamente el Usuario", "Informacion", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

@@ -45,4 +45,16 @@ public class ComunicadorVista implements IComunicadorVista {
         clienteVista.enviarMensaje(peticion);
     }
     
+    public void suscribirseRegistrarPublicacion(){
+        Peticion peticionRegistrarComentario = new Peticion(Eventos.suscribirseRegistrarPublicacion, "");
+        String peticion = conversor.convertirObjetoString(peticionRegistrarComentario);
+        clienteVista.enviarMensaje(peticion);
+    }
+    
+    public void suscribirseRegistrarComentario(){
+        Peticion peticionRegistrarComentario = new Peticion(Eventos.suscribirseRegistrarComentario, "");
+        String peticion = conversor.convertirObjetoString(peticionRegistrarComentario);
+        clienteVista.enviarMensaje(peticion);
+    }
+    
 }

@@ -24,14 +24,14 @@ public class RegistrarPublicacionEvent {
     
     public static RegistrarPublicacionEvent getInstance(){
         if(publicacionEvent == null){
-            publicacionEvent= new RegistrarPublicacionEvent();;
+            publicacionEvent= new RegistrarPublicacionEvent();
         }
         return publicacionEvent;
     } 
     
     public void notificarUsuarios(Peticion peticion){
         for(IRegistrarPublicacionListener listener: listeners){
-            listener.onRegistrarPublicacion(peticion);
+            //listener.onRegistrarPublicacion(peticion);
         }
     }
     

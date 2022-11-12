@@ -31,7 +31,7 @@ public class RegistrarComentarioEvent {
     
     public void notificarUsuarios(Peticion peticion){
         for(IRegistrarComentarioListener listener: listeners){
-            listener.onRegistrarComentario(peticion);
+            //listener.onRegistrarComentario(peticion);
         }
     }
     

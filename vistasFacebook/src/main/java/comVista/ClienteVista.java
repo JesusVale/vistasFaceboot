@@ -45,7 +45,7 @@ public class ClienteVista implements Runnable{
                 if(mensaje == null) break;
                 Peticion peticion = conversor.convertirPeticion(mensaje);
                 vistaObservable.actualizar(peticion); //Respuesta a quien lo envio
-                ManejadorEventos.getInstance().notificarTodos(peticion);
+                ManejadorEventos.notificarTodos(peticion, vistaObservable);
             }
         } catch(IOException ie){
             ie.printStackTrace();

@@ -4,6 +4,9 @@
  */
 package events;
 
+import comVista.IVistaObservable;
+import conversors.IJsonToObject;
+import conversors.JsonToObject;
 import eventos.Eventos;
 import interfaces.IRegistrarComentarioListener;
 import interfaces.IRegistrarPublicacionListener;
@@ -14,40 +17,18 @@ import peticiones.Peticion;
  * @author jegav
  */
 public class ManejadorEventos {
-    private RegistrarComentarioEvent registrarComentarioEvent;
-    private RegistrarPublicacionEvent registrarPublicacionEvent;
-    public static ManejadorEventos manejadorEventos;
-
-    private ManejadorEventos() {
-        this.registrarComentarioEvent = RegistrarComentarioEvent.getInstance();
-        this.registrarPublicacionEvent = RegistrarPublicacionEvent.getInstance();
-    }
+   
+    private static IJsonToObject conversor = new JsonToObject();
     
-    public static ManejadorEventos getInstance(){
-        if(manejadorEventos == null){
-            manejadorEventos = new ManejadorEventos();
-            System.out.println("hola");
-        }
-        return manejadorEventos;
-    } 
-    
-    public void notificarTodos(Peticion peticion){
-        switch(peticion.getEvento()){
-            case "Registrar Publicacion":
-                registrarPublicacionEvent.notificarUsuarios(peticion);
-                break;
-            case "Registrar Comentario":
-                registrarComentarioEvent.notificarUsuarios(peticion);
-                break;
+    public static void notificarTodos(Peticion peticion, IVistaObservable vista){
+        if(peticion.getEvento().equals(Eventos.registrarPublicacion)){
+            IRegistrarPublicacionListener irpl = (IRegistrarPublicacionListener) vista;
+            irpl.onRegistrarPublicacion(conversor.convertirPublicacion(peticion.getInfo()));
+        } else{
+            IRegistrarComentarioListener ircl = (IRegistrarComentarioListener) vista;
+            ircl.onRegistrarComentario(conversor.convertirComentario(peticion.getInfo()));
         }
     }
     
-    public void suscribeRegistrarPublicacion(IRegistrarPublicacionListener listener){
-        registrarPublicacionEvent.suscribe(listener);
-    }
-    
-    public void suscribeComentarioPublicacion(IRegistrarComentarioListener listener){
-        registrarComentarioEvent.suscribe(listener);
-    }
     
 }
