@@ -4,6 +4,7 @@
  */
 package comVista;
 
+import entidades.Publicacion;
 import entidades.Usuario;
 
 /**
@@ -11,7 +12,7 @@ import entidades.Usuario;
  * @author jegav
  */
 public interface IComunicadorVista {
-    
+    public void iniciarSesion(Usuario usuario);
     public void registrarUsuario(Usuario usuario);
-    
+    public void registrarPublicacion(Publicacion publicacion);
 }

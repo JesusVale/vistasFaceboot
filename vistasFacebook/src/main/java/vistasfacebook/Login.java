@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
  */
 public class Login extends javax.swing.JFrame implements IVistaObservable {
 
-    private IComunicadorVista comunicadorVista;
+    private ComunicadorVista comunicadorVista;
 
     /**
      * Creates new form Registro
@@ -131,6 +131,11 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
         btnIngresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
         btnIngresar.setText("INGRESAR");
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 350, 350, 33));
 
         btnEntraGoogle.setBackground(new java.awt.Color(219, 74, 57));
@@ -178,6 +183,11 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
     private void btnRegistrateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrateActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRegistrateActionPerformed
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        Usuario usuario = new Usuario(this.txtUsuario.getText(),this.txtPassword.getText());
+        comunicadorVista.iniciarSesion(usuario);
+    }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**
      * @param args the command line arguments

@@ -28,6 +28,17 @@
             <artifactId>LGoodDatePicker</artifactId>
             <version>11.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.mycompany</groupId>
+            <artifactId>dominio</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

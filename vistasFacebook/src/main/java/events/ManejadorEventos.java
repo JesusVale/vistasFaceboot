@@ -24,7 +24,7 @@ public class ManejadorEventos {
         if(peticion.getEvento().equals(Eventos.registrarPublicacion)){
             IRegistrarPublicacionListener irpl = (IRegistrarPublicacionListener) vista;
             irpl.onRegistrarPublicacion(conversor.convertirPublicacion(peticion.getInfo()));
-        } else{
+        } else if(peticion.getEvento().equals(Eventos.registrarComentario)){
             IRegistrarComentarioListener ircl = (IRegistrarComentarioListener) vista;
             ircl.onRegistrarComentario(conversor.convertirComentario(peticion.getInfo()));
         }

@@ -80,7 +80,7 @@ public class Prueba extends javax.swing.JFrame implements IRegistrarComentarioLi
                         .addComponent(jButton1)
                         .addGap(295, 295, 295)
                         .addComponent(jButton2)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -91,7 +91,7 @@ public class Prueba extends javax.swing.JFrame implements IRegistrarComentarioLi
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -109,13 +109,13 @@ public class Prueba extends javax.swing.JFrame implements IRegistrarComentarioLi
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        comentarioCont++;
-        this.comunicadorVista.enviarMensajeComentario("Nueva Publicación "+publicacionCont);
+//        comentarioCont++;
+//        this.comunicadorVista.enviarMensajeComentario("Nueva Publicación "+publicacionCont);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        publicacionCont++;
-        this.comunicadorVista.enviarMensajeComentario("Nuevo Comentario "+comentarioCont);
+//        publicacionCont++;
+//        this.comunicadorVista.enviarMensajeComentario("Nuevo Comentario "+comentarioCont);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

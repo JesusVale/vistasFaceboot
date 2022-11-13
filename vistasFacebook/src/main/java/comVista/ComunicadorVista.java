@@ -6,6 +6,7 @@ package comVista;
 
 import conversors.IJsonToObject;
 import conversors.JsonToObject;
+import entidades.Publicacion;
 import peticiones.Peticion;
 import entidades.Usuario;
 import eventos.Eventos;
@@ -21,8 +22,15 @@ public class ComunicadorVista implements IComunicadorVista {
     
     public ComunicadorVista(IVistaObservable vistaObservable) {
         this.conversor = new JsonToObject();
-        this.clienteVista = new ClienteVista(5000, vistaObservable);
+        this.clienteVista = new ClienteVista(6000, vistaObservable);
         new Thread(clienteVista).start(); /* El cliente(Vista) va a estar constantemente esperando una respuesta por medio del hilo */
+    }
+
+    public void iniciarSesion(Usuario usuario) {
+        String usuarioStr =  conversor.convertirObjetoString(usuario);
+        Peticion peticionIniciarSesion = new Peticion(Eventos.Login, usuarioStr);
+        String peticion = conversor.convertirObjetoString(peticionIniciarSesion);
+        clienteVista.enviarMensaje(peticion);
     }
     
     @Override
@@ -33,15 +41,10 @@ public class ComunicadorVista implements IComunicadorVista {
         clienteVista.enviarMensaje(peticion);
     }
     
-    public void enviarMensajeComentario(String mensaje){
-        Peticion peticionRegistrarComentario = new Peticion(Eventos.registrarPublicacion, mensaje);
-        String peticion = conversor.convertirObjetoString(peticionRegistrarComentario);
-        clienteVista.enviarMensaje(peticion);
-    }
-    
-    public void enviarMensajePublicacion(String mensaje){
-        Peticion peticionRegistrarComentario = new Peticion(Eventos.registrarPublicacion, mensaje);
-        String peticion = conversor.convertirObjetoString(peticionRegistrarComentario);
+    public void registrarPublicacion(Publicacion publicacion) {
+        String publicacionStr = conversor.convertirObjetoString(publicacion);
+        Peticion peticionRegistroPublicacion = new Peticion(Eventos.registrarPublicacion, publicacionStr);
+        String peticion = conversor.convertirObjetoString(peticionRegistroPublicacion);
         clienteVista.enviarMensaje(peticion);
     }
     

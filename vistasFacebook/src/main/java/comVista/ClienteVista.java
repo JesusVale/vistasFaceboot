@@ -35,7 +35,7 @@ public class ClienteVista implements Runnable{
     
     @Override
     public void run() {
-        final String HOST = "127.0.0.1";
+        final String HOST = "192.168.0.25";
         try{
             sc = new Socket(HOST, puerto);
             in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
