@@ -5,26 +5,29 @@
 package vistasfacebook;
 
 import comVista.ComunicadorVista;
-import comVista.IVistaObservable;
+import comVista.EventListener;
+import comVista.IComunicadorVista;
 import entidades.Usuario;
+import events.ManejadorEventos;
+import interfaces.ILoginObserver;
 import javax.swing.JOptionPane;
-import peticiones.Peticion;
+import peticiones.PeticionUsuario;
 
 /**
  *
  * @author tonyd
  */
-public class LoginPrueba extends javax.swing.JFrame implements IVistaObservable {
+public class LoginPrueba extends javax.swing.JFrame implements ILoginObserver {
 
-    private ComunicadorVista comunicadorVista;
     private Usuario usuario;
-
+    private IComunicadorVista comunicadorVista;
     /**
      * Creates new form LoginPrueba
      */
-    public LoginPrueba() {
+    public LoginPrueba(IComunicadorVista comunicadorVista) {
         initComponents();
-        this.comunicadorVista = new ComunicadorVista(this);
+        this.comunicadorVista = comunicadorVista;
+        ManejadorEventos.getInstance().suscribirseLogin(this);
     }
 
     /**
@@ -42,6 +45,7 @@ public class LoginPrueba extends javax.swing.JFrame implements IVistaObservable 
         btnIniciarSesion = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,6 +67,13 @@ public class LoginPrueba extends javax.swing.JFrame implements IVistaObservable 
         jLabel1.setText("Email");
 
         jLabel2.setText("Contraseña");
+
+        jButton1.setText("Registrarse");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,11 +100,17 @@ public class LoginPrueba extends javax.swing.JFrame implements IVistaObservable 
                             .addComponent(txtContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
                             .addComponent(txtEmail))
                         .addGap(157, 157, 157))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(89, 89, 89)
+                .addGap(19, 19, 19)
+                .addComponent(jButton1)
+                .addGap(47, 47, 47)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -119,6 +136,13 @@ public class LoginPrueba extends javax.swing.JFrame implements IVistaObservable 
         usuario = new Usuario(this.txtEmail.getText(), this.txtContraseña.getText());
         comunicadorVista.iniciarSesion(usuario);
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+        ManejadorEventos.getInstance().desuscribirseLogin(this);
+        Registro registro = new Registro(comunicadorVista);
+        registro.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,11 +170,12 @@ public class LoginPrueba extends javax.swing.JFrame implements IVistaObservable 
             java.util.logging.Logger.getLogger(LoginPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        EventListener.getInstance().iniciarListener();
         /* Create and display the form */
+        IComunicadorVista comunicadorVista = new ComunicadorVista();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginPrueba().setVisible(true);
+                new LoginPrueba(comunicadorVista).setVisible(true);
             }
         });
     }
@@ -158,6 +183,7 @@ public class LoginPrueba extends javax.swing.JFrame implements IVistaObservable 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField txtContraseña;
@@ -165,13 +191,16 @@ public class LoginPrueba extends javax.swing.JFrame implements IVistaObservable 
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void actualizar(Peticion peticion) {
-        if(peticion.getStatus() >= 400){
-            JOptionPane.showMessageDialog(this, peticion.getInfo(), "Error", JOptionPane.ERROR_MESSAGE);
-        } else{
+    public void onLogin(PeticionUsuario peticionUsuario) {
+        System.out.println("si");
+        if(peticionUsuario.getStatus() < 400){
             this.dispose();
-            FrmPublicacionPrueba fpp = new FrmPublicacionPrueba(usuario);
-            fpp.setVisible(true);
+            ManejadorEventos.getInstance().desuscribirseLogin(this);
+            Muro muro = new Muro(comunicadorVista, peticionUsuario.getUsuario());
+            muro.setVisible(true);
+        } else{
+            JOptionPane.showMessageDialog(this, peticionUsuario.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
 }

@@ -5,18 +5,17 @@
 package vistasfacebook;
 
 import comVista.ComunicadorVista;
-import comVista.IVistaObservable;
 import entidades.Comentario;
 import entidades.Publicacion;
-import interfaces.IRegistrarComentarioListener;
-import interfaces.IRegistrarPublicacionListener;
-import peticiones.Peticion;
+import java.util.List;
+import interfaces.IRegistrarComentarioObserver;
+import interfaces.IRegistrarPublicacionObserver;
 
 /**
  *
  * @author jegav
  */
-public class Prueba extends javax.swing.JFrame implements IRegistrarComentarioListener, IRegistrarPublicacionListener, IVistaObservable {
+public class Prueba extends javax.swing.JFrame {
 
     private ComunicadorVista comunicadorVista;
     private int comentarioCont = 0;
@@ -28,9 +27,6 @@ public class Prueba extends javax.swing.JFrame implements IRegistrarComentarioLi
         initComponents();
 //       ManejadorEventos.getInstance().suscribeComentarioPublicacion(this);
 //        ManejadorEventos.getInstance().suscribeRegistrarPublicacion(this);
-        this.comunicadorVista = new ComunicadorVista(this);
-        comunicadorVista.suscribirseRegistrarComentario();
-        comunicadorVista.suscribirseRegistrarPublicacion();
     }
 
     /**
@@ -164,20 +160,13 @@ public class Prueba extends javax.swing.JFrame implements IRegistrarComentarioLi
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void onRegistrarComentario(Comentario comentario) {
-        this.textArea.append(comentario.getId()+"\n");
-        System.out.println("XD LLEGO EL COMENTARIO");
-    }
-
-    @Override
-    public void onRegistrarPublicacion(Publicacion publicacion) {
-        this.textArea.append(publicacion.getId()+"\n");
-        System.out.println("XD LLEGO LA PUBLICACION");
-    }
-
-    @Override
-    public void actualizar(Peticion peticion) {
-        System.out.println("Hay un hombre moribundo aqui");
-    }
+//    @Override
+//    public void onRegistrarComentario(List<Comentario> comentarios) {
+//        //this.textArea.append(comentario.getId()+"\n");
+//        System.out.println("XD LLEGO EL COMENTARIO");
+//    }
+//
+//    @Override
+//    public void onRegistrarPublicacion(List<Publicacion> publicaciones) {
+//    }
 }

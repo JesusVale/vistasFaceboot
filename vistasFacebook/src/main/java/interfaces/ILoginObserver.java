@@ -4,12 +4,13 @@
  */
 package interfaces;
 
-import entidades.Publicacion;
+import entidades.Usuario;
+import peticiones.PeticionUsuario;
 
 /**
  *
  * @author jegav
  */
-public interface IRegistrarPublicacionListener {
-    public void onRegistrarPublicacion(Publicacion publicacion);
+public interface ILoginObserver {
+    public void onLogin(PeticionUsuario usuario);
 }

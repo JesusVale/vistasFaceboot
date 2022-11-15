@@ -19,33 +19,43 @@ import java.net.Socket;
  *
  * @author jegav
  */
-public class ClienteVista implements Runnable{
+public class EventListener implements Runnable{
     private int puerto;
     private BufferedReader in;
     private BufferedWriter out;
     private Socket sc;
-    private IVistaObservable vistaObservable;
     private IJsonToObject conversor;
+    private static EventListener eventListener;
     
-    public ClienteVista(int puerto, IVistaObservable vistaObservable){
+    public EventListener(int puerto){
         this.puerto = puerto;
-        this.vistaObservable = vistaObservable;
         this.conversor = new JsonToObject();
+    }
+    
+    public static EventListener getInstance(){
+        if(eventListener == null){
+            eventListener = new EventListener(6000);
+        }
+        System.out.println("Sexo");
+        return eventListener;
+    }
+    
+    public void iniciarListener(){
+        new Thread(eventListener).start();
     }
     
     @Override
     public void run() {
-        final String HOST = "192.168.0.25";
+        final String HOST = "127.0.0.1";
         try{
             sc = new Socket(HOST, puerto);
             in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(sc.getOutputStream()));
+            System.out.println("Hola");
             while(true){
                 String mensaje = in.readLine();
                 if(mensaje == null) break;
-                Peticion peticion = conversor.convertirPeticion(mensaje);
-                vistaObservable.actualizar(peticion); //Respuesta a quien lo envio
-                ManejadorEventos.notificarTodos(peticion, vistaObservable);
+                ManejadorEventos.getInstance().notificarUsuarios(mensaje);
             }
         } catch(IOException ie){
             ie.printStackTrace();

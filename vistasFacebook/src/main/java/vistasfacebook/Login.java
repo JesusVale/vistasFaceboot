@@ -6,30 +6,28 @@ package vistasfacebook;
 
 import comVista.ComunicadorVista;
 import comVista.IComunicadorVista;
-import comVista.IVistaObservable;
-import conversors.IJsonToObject;
-import conversors.JsonToObject;
-import peticiones.Peticion;
 import entidades.Usuario;
-import enumeradores.Sexo;
-import java.util.Calendar;
-import java.util.Date;
+import events.ManejadorEventos;
+import interfaces.ILoginObserver;
 import javax.swing.JOptionPane;
+import peticiones.PeticionUsuario;
 
 /**
  *
  * @author tonyd
  */
-public class Login extends javax.swing.JFrame implements IVistaObservable {
+public class Login extends javax.swing.JFrame implements ILoginObserver  {
 
-    private ComunicadorVista comunicadorVista;
+    private IComunicadorVista comunicadorVista;
 
     /**
      * Creates new form Registro
+     * @param comunicadorVista
      */
-    public Login() {
+    public Login(IComunicadorVista comunicadorVista) {
         initComponents();
-        this.comunicadorVista = new ComunicadorVista(this);
+        this.comunicadorVista = comunicadorVista;
+        ManejadorEventos.getInstance().suscribirseLogin(this);
     }
 
     /**
@@ -216,11 +214,11 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
         }
         //</editor-fold>
         //</editor-fold>
-
         /* Create and display the form */
+        IComunicadorVista comunicadorVista = new ComunicadorVista();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new Login(comunicadorVista).setVisible(true);
             }
         });
     }
@@ -247,7 +245,15 @@ public class Login extends javax.swing.JFrame implements IVistaObservable {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void actualizar(Peticion peticion) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void onLogin(PeticionUsuario peticionUsuario) {
+        if(peticionUsuario.getStatus() < 400){
+            this.dispose();
+            ManejadorEventos.getInstance().desuscribirseLogin(this);
+            Muro muro = new Muro(comunicadorVista, peticionUsuario.getUsuario());
+            muro.setVisible(true);
+        } else{
+            JOptionPane.showMessageDialog(this, peticionUsuario.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
+
 }

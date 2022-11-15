@@ -5,30 +5,36 @@
 package vistasfacebook;
 
 import comVista.ComunicadorVista;
+import comVista.IComunicadorVista;
 import comVista.IVistaObservable;
 import peticiones.Peticion;
 import entidades.Usuario;
 import enumeradores.Sexo;
+import events.ManejadorEventos;
+import interfaces.IRegistrarUsuarioObserver;
 import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import peticiones.PeticionUsuario;
 import utils.ConversorLocalDateToCalendar;
 
 /**
  *
  * @author tonyd
  */
-public class Registro extends javax.swing.JFrame implements IVistaObservable {
+public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObserver {
 
-    private ComunicadorVista comunicadorVista;
+    private IComunicadorVista comunicadorVista;
 
     /**
      * Creates new form Registro
      */
-    public Registro() {
+    public Registro(IComunicadorVista comunicadorVista) {
         initComponents();
         llenarComboBoxSexo();
-        this.comunicadorVista = new ComunicadorVista(this);
+        this.comunicadorVista = comunicadorVista;
+        
+        ManejadorEventos.getInstance().suscribirseRegistrarUsuario(this);
         //suscribeRegistrarComentario(this);
         //suscribeRegistrarPublicacion(this);
     }
@@ -228,48 +234,48 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     @Override
-    public void actualizar(Peticion peticion) {
-        if(peticion.getStatus() >= 400){
-            JOptionPane.showMessageDialog(this, peticion.getInfo(), "Error", JOptionPane.ERROR_MESSAGE);
+    public void onRegistrarUsuario(PeticionUsuario peticionUsuario) {
+        if(peticionUsuario.getStatus() >= 400){
+            JOptionPane.showMessageDialog(this, peticionUsuario.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else{
-            JOptionPane.showMessageDialog(this, "Se agregó correctamente el Usuario", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "El usuario se registro correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Registro().setVisible(true);
-            }
-        });
-    }
+  
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Registro().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barra1;
@@ -300,4 +306,6 @@ public class Registro extends javax.swing.JFrame implements IVistaObservable {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
+
+    
 }

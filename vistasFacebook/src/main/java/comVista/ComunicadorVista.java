@@ -10,54 +10,44 @@ import entidades.Publicacion;
 import peticiones.Peticion;
 import entidades.Usuario;
 import eventos.Eventos;
+import peticiones.PeticionPublicacion;
+import peticiones.PeticionPublicaciones;
+import peticiones.PeticionUsuario;
 
 /**
  * Fachada para Comunicar la vista con el server, Manejo de peticiones de vista
  * @author jegav
  */
 public class ComunicadorVista implements IComunicadorVista {
-
-    private ClienteVista clienteVista; /* Comunicación directa con el server */
     private IJsonToObject conversor;
     
-    public ComunicadorVista(IVistaObservable vistaObservable) {
+    public ComunicadorVista() {
         this.conversor = new JsonToObject();
-        this.clienteVista = new ClienteVista(6000, vistaObservable);
-        new Thread(clienteVista).start(); /* El cliente(Vista) va a estar constantemente esperando una respuesta por medio del hilo */
-    }
-
+    }    
+    
     public void iniciarSesion(Usuario usuario) {
-        String usuarioStr =  conversor.convertirObjetoString(usuario);
-        Peticion peticionIniciarSesion = new Peticion(Eventos.Login, usuarioStr);
+        PeticionUsuario peticionIniciarSesion = new PeticionUsuario(Eventos.Login, usuario);
         String peticion = conversor.convertirObjetoString(peticionIniciarSesion);
-        clienteVista.enviarMensaje(peticion);
+        EventListener.getInstance().enviarMensaje(peticion);
     }
     
     @Override
     public void registrarUsuario(Usuario usuario) {
-        String usuarioStr =  conversor.convertirObjetoString(usuario);
-        Peticion peticionRegistroUsuario = new Peticion(Eventos.registrarUsuario, usuarioStr);
+        PeticionUsuario peticionRegistroUsuario = new PeticionUsuario(Eventos.registrarUsuario, usuario);
         String peticion = conversor.convertirObjetoString(peticionRegistroUsuario);
-        clienteVista.enviarMensaje(peticion);
+        EventListener.getInstance().enviarMensaje(peticion);
     }
     
     public void registrarPublicacion(Publicacion publicacion) {
-        String publicacionStr = conversor.convertirObjetoString(publicacion);
-        Peticion peticionRegistroPublicacion = new Peticion(Eventos.registrarPublicacion, publicacionStr);
+        Peticion peticionRegistroPublicacion = new PeticionPublicacion(Eventos.registrarPublicacion, publicacion);
         String peticion = conversor.convertirObjetoString(peticionRegistroPublicacion);
-        clienteVista.enviarMensaje(peticion);
+        EventListener.getInstance().enviarMensaje(peticion);
     }
     
-    public void suscribirseRegistrarPublicacion(){
-        Peticion peticionRegistrarComentario = new Peticion(Eventos.suscribirseRegistrarPublicacion, "");
-        String peticion = conversor.convertirObjetoString(peticionRegistrarComentario);
-        clienteVista.enviarMensaje(peticion);
-    }
-    
-    public void suscribirseRegistrarComentario(){
-        Peticion peticionRegistrarComentario = new Peticion(Eventos.suscribirseRegistrarComentario, "");
-        String peticion = conversor.convertirObjetoString(peticionRegistrarComentario);
-        clienteVista.enviarMensaje(peticion);
+    public void consultarPublicaciones(){
+        //Peticion peticionConsultarPublicacion = new Peticion(Eventos.consultarPublicaciones);
+        //String peticion = conversor.convertirObjetoString(peticionConsultarPublicacion);
+        //clienteVista.enviarMensaje(peticion);
     }
     
 }

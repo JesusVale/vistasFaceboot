@@ -9,6 +9,8 @@ import comVista.IComunicadorVista;
 import comVista.IVistaObservable;
 import entidades.Publicacion;
 import entidades.Usuario;
+import events.ManejadorEventos;
+import interfaces.IRegistrarPublicacionObserver;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -27,29 +30,33 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.io.IOUtils;
 import peticiones.Peticion;
+import peticiones.PeticionPublicaciones;
 import utils.ConversorLocalDateToCalendar;
 
 /**
  *
  * @author tonyd
  */
-public class FrmPublicacionPrueba extends javax.swing.JFrame implements IVistaObservable{
+public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver{
 
-    private ComunicadorVista comunicadorVista;
+    private IComunicadorVista comunicadorVista;
     private Usuario usuario;
     private byte[] buffer;
     /**
      * Creates new form FrmPublicacionPrueba
+     * @param comunicadorVista
      */
-    public FrmPublicacionPrueba() {
+    public FrmPublicacionPrueba(IComunicadorVista comunicadorVista) {
         initComponents();
-        this.comunicadorVista = new ComunicadorVista(this);
+        this.comunicadorVista = comunicadorVista;
+        ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
     
-    public FrmPublicacionPrueba(Usuario usuario) {
+    public FrmPublicacionPrueba(Usuario usuario,IComunicadorVista comunicadorVista) {
         initComponents();
-        this.comunicadorVista = new ComunicadorVista(this);
         this.usuario = usuario;
+        this.comunicadorVista = comunicadorVista;
+        ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
 
     /**
@@ -121,12 +128,12 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IVistaOb
                 .addGap(65, 65, 65)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnImagen)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNombreImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblNombreImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnImagen))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
@@ -173,40 +180,40 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IVistaOb
         comunicadorVista.registrarPublicacion(nuevaPublicacion);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmPublicacionPrueba().setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new FrmPublicacionPrueba().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -219,11 +226,12 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IVistaOb
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void actualizar(Peticion peticion) {
-        if(peticion.getStatus() >= 400){
-            JOptionPane.showMessageDialog(this, peticion.getInfo(), "Error", JOptionPane.ERROR_MESSAGE);
+    public void onRegistrarPublicacion(PeticionPublicaciones peticionPublicaciones) {
+        if(peticionPublicaciones.getStatus() < 400){
+            JOptionPane.showMessageDialog(this, "Se registro la publicación correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else{
-            JOptionPane.showMessageDialog(this, "Se agregó correctamente la publicación", "Información", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "No se pudo registrar la publicacion", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
 }

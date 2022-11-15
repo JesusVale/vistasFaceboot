@@ -4,38 +4,52 @@
  */
 package events;
 
-import interfaces.IRegistrarComentarioListener;
+import conversors.IJsonToObject;
+import conversors.JsonToObject;
+import entidades.Comentario;
+import eventos.Eventos;
 import java.util.ArrayList;
 import java.util.List;
 import peticiones.Peticion;
+import interfaces.IRegistrarComentarioObserver;
+import peticiones.PeticionUsuario;
 
 /**
  *
  * @author jegav
  */
-public class RegistrarComentarioEvent {
-    private List<IRegistrarComentarioListener> listeners;
-    private static RegistrarComentarioEvent comentarioEvent;
+public class RegistrarComentarioEvent extends ManejadorEvento{
+    private List<IRegistrarComentarioObserver> listeners;
+    private IJsonToObject conversor;
     
-    
-    private RegistrarComentarioEvent() {
+    public RegistrarComentarioEvent() {
         this.listeners = new ArrayList();
+        conversor = new JsonToObject();
+    }
+
+    public void notificarUsuarios(PeticionUsuario peticionUsuario){;
+//        for(IRegistrarComentarioObserver listener: listeners){
+//            listener.onRegistrarComentario(comentarios);
+//        }
     }
     
-    public static RegistrarComentarioEvent getInstance(){
-        if(comentarioEvent == null){
-            comentarioEvent = new RegistrarComentarioEvent();
-        }
-        return comentarioEvent;
-    }
-    
-    public void notificarUsuarios(Peticion peticion){
-        for(IRegistrarComentarioListener listener: listeners){
-            //listener.onRegistrarComentario(peticion);
-        }
-    }
-    
-    public void suscribe(IRegistrarComentarioListener listener){
+    public void suscribirse(IRegistrarComentarioObserver listener){
         listeners.add(listener);
+    }
+    
+    public void desuscribir(IRegistrarComentarioObserver listener){
+        listeners.remove(listener);
+    }
+
+    @Override
+    public boolean manejar(String peticion) {
+        System.out.println("Lo maneja Com");
+//        PeticionUsuario peticionUsuario = conversor.convertirPeticionUsuario(peticion);
+//        if(peticionUsuario != null){
+//            this.notificarUsuarios(peticionUsuario);
+//            return true;
+//        }
+//        return super.manejarSiguiente(peticion);
+        return true;
     }
 }
