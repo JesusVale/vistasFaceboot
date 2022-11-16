@@ -34,9 +34,8 @@ public class EventListener implements Runnable{
     
     public static EventListener getInstance(){
         if(eventListener == null){
-            eventListener = new EventListener(6000);
+            eventListener = new EventListener(7000);
         }
-        System.out.println("Sexo");
         return eventListener;
     }
     

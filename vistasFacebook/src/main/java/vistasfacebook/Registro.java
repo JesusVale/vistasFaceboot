@@ -88,16 +88,16 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         jPanel1.setMinimumSize(new java.awt.Dimension(910, 600));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblNoCelular.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblNoCelular.setText("No. Celular");
+        lblNoCelular.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jPanel1.add(lblNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 270, -1, -1));
 
         lblPassword.setText("Contraseña");
         lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jPanel1.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 220, -1, -1));
 
-        lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblFechaNacimiento.setText("Fecha de nacimiento");
+        lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jPanel1.add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 370, -1, -1));
 
         lblSexo.setText("Sexo");
@@ -108,8 +108,8 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
 
-        lblRegistraCon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblRegistraCon.setText("Registra con...");
+        lblRegistraCon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jPanel1.add(lblRegistraCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(658, 300, -1, -1));
 
         lblNombre1.setText("Nombre");
@@ -119,11 +119,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         lblYaTienesCuenta.setText("¿Ya tienes una cuenta?");
         lblYaTienesCuenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jPanel1.add(lblYaTienesCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(623, 140, -1, -1));
-
-        lblIcoFacebbok.setIcon(new javax.swing.ImageIcon("D:\\Proyecto MVC\\vistasFaceboot\\vistasFacebook\\src\\main\\java\\imagenes\\facebbokIco.png")); // NOI18N
         jPanel1.add(lblIcoFacebbok, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 353, -1, -1));
-
-        lblIcoGoogle.setIcon(new javax.swing.ImageIcon("D:\\Proyecto MVC\\vistasFaceboot\\vistasFacebook\\src\\main\\java\\imagenes\\googleIco.png")); // NOI18N
         jPanel1.add(lblIcoGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(605, 424, -1, -1));
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -169,6 +165,11 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         btnCancelar1.setBackground(new java.awt.Color(37, 161, 142));
         btnCancelar1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnCancelar1.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancelar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelar1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnCancelar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 180, 35));
 
         btnEntraFacebook.setText("Entra con FaceBook");
@@ -216,6 +217,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
@@ -232,6 +234,13 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         Usuario usuario = new Usuario(nombre, password, email, telefono, sexo, fechaNacimiento);
         comunicadorVista.registrarUsuario(usuario);
     }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
+        this.dispose();
+        ManejadorEventos.getInstance().desuscribirseRegistrarUsuario(this);
+        Login login = new Login(comunicadorVista);
+        login.setVisible(true);
+    }//GEN-LAST:event_btnCancelar1ActionPerformed
 
     @Override
     public void onRegistrarUsuario(PeticionUsuario peticionUsuario) {

@@ -90,6 +90,11 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -142,6 +147,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
@@ -179,6 +185,13 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         Publicacion nuevaPublicacion = new Publicacion(usuario.getId(),fecha,txtContenido.getText(),null);
         comunicadorVista.registrarPublicacion(nuevaPublicacion);
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+        ManejadorEventos.getInstance().desuscribirseRegistrarPublicacion(this);
+        Muro m = new Muro(comunicadorVista,usuario);
+        m.setVisible(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
 //    /**
 //     * @param args the command line arguments
