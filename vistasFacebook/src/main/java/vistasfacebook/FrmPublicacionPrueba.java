@@ -176,7 +176,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         Calendar fecha = Calendar.getInstance();
-        Publicacion nuevaPublicacion = new Publicacion(usuario,fecha,txtContenido.getText(),buffer);
+        Publicacion nuevaPublicacion = new Publicacion(usuario.getId(),fecha,txtContenido.getText(),null);
         comunicadorVista.registrarPublicacion(nuevaPublicacion);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
