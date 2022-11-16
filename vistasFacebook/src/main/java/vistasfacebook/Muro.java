@@ -142,7 +142,7 @@ public class Muro extends javax.swing.JFrame implements IRegistrarComentarioObse
     @Override
     public void onRegistrarPublicacion(PeticionPublicaciones peticionPublicaciones) {
         
-        //this.textArea.append(publicaciones.get(publicaciones.size() -1).getTexto());
+        this.textArea.append(peticionPublicaciones.getPublicaciones().get(peticionPublicaciones.getPublicaciones().size() -1).getTexto());
     }
 
     @Override

@@ -40,9 +40,9 @@ public class ManejadorEventos {
     }
     
     public void notificarUsuarios(String peticion){
+        System.out.println("Llego Peticion: "+peticion);
         ManejadorEvento manejadorEvento = loginEvent;
-        manejadorEvento.establecerSiguienteManejador(registrarPublicacionEvent);
-        manejadorEvento.establecerSiguienteManejador(registrarUsuarioEvent);
+        manejadorEvento.establecerSiguienteManejador(registrarPublicacionEvent).establecerSiguienteManejador(registrarUsuarioEvent);
                          //.establecerSiguienteManejador(registrarComentarioEvent);
         System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAA");
         manejadorEvento.manejar(peticion);
