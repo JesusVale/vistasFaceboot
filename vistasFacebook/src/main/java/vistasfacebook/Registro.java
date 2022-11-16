@@ -6,7 +6,6 @@ package vistasfacebook;
 
 import comVista.ComunicadorVista;
 import comVista.IComunicadorVista;
-import comVista.IVistaObservable;
 import peticiones.Peticion;
 import entidades.Usuario;
 import enumeradores.Sexo;

@@ -6,7 +6,6 @@ package vistasfacebook;
 
 import comVista.ComunicadorVista;
 import comVista.IComunicadorVista;
-import comVista.IVistaObservable;
 import entidades.Publicacion;
 import entidades.Usuario;
 import events.ManejadorEventos;

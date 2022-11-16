@@ -90,7 +90,6 @@ public class Muro extends javax.swing.JFrame implements IRegistrarComentarioObse
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
         ManejadorEventos.getInstance().desuscribirseRegistrarPublicacion(this);
         ManejadorEventos.getInstance().desuscribirseRegistrarComentario(this);
         this.dispose();
