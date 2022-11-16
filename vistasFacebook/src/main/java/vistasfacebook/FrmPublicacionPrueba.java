@@ -36,13 +36,15 @@ import utils.ConversorLocalDateToCalendar;
  *
  * @author tonyd
  */
-public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver{
+public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver {
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
     private byte[] buffer;
+
     /**
      * Creates new form FrmPublicacionPrueba
+     *
      * @param comunicadorVista
      */
     public FrmPublicacionPrueba(IComunicadorVista comunicadorVista) {
@@ -50,8 +52,8 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         this.comunicadorVista = comunicadorVista;
         ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
-    
-    public FrmPublicacionPrueba(Usuario usuario,IComunicadorVista comunicadorVista) {
+
+    public FrmPublicacionPrueba(Usuario usuario, IComunicadorVista comunicadorVista) {
         initComponents();
         this.usuario = usuario;
         this.comunicadorVista = comunicadorVista;
@@ -67,87 +69,117 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        lbltitulo = new javax.swing.JLabel();
+        barra1 = new javax.swing.JLabel();
+        barra2 = new javax.swing.JLabel();
+        lblContenido = new javax.swing.JLabel();
+        lblNombreImagen = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtContenido = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
         btnImagen = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
-        btnGuardar = new javax.swing.JButton();
-        lblNombreImagen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Registrar Publicación");
 
-        txtContenido.setColumns(20);
-        txtContenido.setRows(5);
-        jScrollPane1.setViewportView(txtContenido);
+        jPanel1.setBackground(new java.awt.Color(241, 250, 238));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnImagen.setText("Escoge una imagen");
-        btnImagen.addActionListener(new java.awt.event.ActionListener() {
+        lbltitulo.setBackground(new java.awt.Color(255, 255, 255));
+        lbltitulo.setFont(new java.awt.Font("Amarillo", 2, 24)); // NOI18N
+        lbltitulo.setForeground(new java.awt.Color(255, 255, 255));
+        lbltitulo.setText("Registrar Publicación");
+        jPanel1.add(lbltitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 350, 70));
+
+        barra1.setBackground(new java.awt.Color(37, 161, 142));
+        barra1.setOpaque(true);
+        jPanel1.add(barra1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 910, 60));
+
+        barra2.setBackground(new java.awt.Color(37, 161, 142));
+        barra2.setOpaque(true);
+        jPanel1.add(barra2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 60));
+
+        lblContenido.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblContenido.setForeground(new java.awt.Color(0, 0, 0));
+        lblContenido.setText("Contenido:");
+        jPanel1.add(lblContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+
+        lblNombreImagen.setBackground(new java.awt.Color(255, 255, 255));
+        lblNombreImagen.setForeground(new java.awt.Color(0, 0, 0));
+        lblNombreImagen.setOpaque(true);
+        jPanel1.add(lblNombreImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, 620, 35));
+
+        btnGuardar.setBackground(new java.awt.Color(37, 161, 142));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Publicar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImagenActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 470, 180, 35));
 
+        btnCancelar.setBackground(new java.awt.Color(37, 161, 142));
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 470, 180, 35));
 
-        btnGuardar.setText("Guardar");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+
+        txtContenido.setBackground(new java.awt.Color(255, 255, 255));
+        txtContenido.setColumns(20);
+        txtContenido.setRows(5);
+        jScrollPane1.setViewportView(txtContenido);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 830, 220));
+
+        btnImagen.setBackground(new java.awt.Color(37, 161, 142));
+        btnImagen.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnImagen.setForeground(new java.awt.Color(255, 255, 255));
+        btnImagen.setText("Adjuntar Imagen");
+        btnImagen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
+                btnImagenActionPerformed(evt);
             }
         });
+        jPanel1.add(btnImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 180, 35));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnImagen)
-                .addGap(114, 114, 114)
-                .addComponent(lblNombreImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(84, 84, 84))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(211, 211, 211)
-                        .addComponent(btnCancelar)
-                        .addGap(118, 118, 118)
-                        .addComponent(btnGuardar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(155, 155, 155)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNombreImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnImagen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnGuardar))
-                .addGap(39, 39, 39))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        Calendar fecha = Calendar.getInstance();
+        Publicacion nuevaPublicacion = new Publicacion(usuario.getId(), fecha, txtContenido.getText(), null);
+        comunicadorVista.registrarPublicacion(nuevaPublicacion);
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.dispose();
+        ManejadorEventos.getInstance().desuscribirseRegistrarPublicacion(this);
+        Muro m = new Muro(comunicadorVista, usuario);
+        m.setVisible(true);
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -178,19 +210,6 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
             }
         }
     }//GEN-LAST:event_btnImagenActionPerformed
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        Calendar fecha = Calendar.getInstance();
-        Publicacion nuevaPublicacion = new Publicacion(usuario.getId(),fecha,txtContenido.getText(),null);
-        comunicadorVista.registrarPublicacion(nuevaPublicacion);
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.dispose();
-        ManejadorEventos.getInstance().desuscribirseRegistrarPublicacion(this);
-        Muro m = new Muro(comunicadorVista,usuario);
-        m.setVisible(true);
-    }//GEN-LAST:event_btnCancelarActionPerformed
 
 //    /**
 //     * @param args the command line arguments
@@ -228,12 +247,16 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel barra1;
+    private javax.swing.JLabel barra2;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnImagen;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblContenido;
     private javax.swing.JLabel lblNombreImagen;
+    private javax.swing.JLabel lbltitulo;
     private javax.swing.JTextArea txtContenido;
     // End of variables declaration//GEN-END:variables
 
