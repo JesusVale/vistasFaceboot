@@ -239,11 +239,13 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
     @Override
     public void onRegistrarPublicacion(PeticionPublicaciones peticionPublicaciones) {
-        if(peticionPublicaciones.getStatus() < 400){
-            JOptionPane.showMessageDialog(this, "Se registro la publicación correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-        } else{
-            JOptionPane.showMessageDialog(this, "No se pudo registrar la publicacion", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        Long usuarioEnvio = peticionPublicaciones.getPublicaciones().get(peticionPublicaciones.getPublicaciones().size() - 1).getUsuario();
+        if (usuarioEnvio == usuario.getId()) {
+            if (peticionPublicaciones.getStatus() < 400) {
+                JOptionPane.showMessageDialog(this, "Se registro la publicación correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo registrar la publicacion", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
     }
-
 }
