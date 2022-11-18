@@ -6,9 +6,8 @@ package vistasfacebook;
 
 import comVista.IComunicadorVista;
 import entidades.Comentario;
-import entidades.Publicacion;
 import entidades.Usuario;
-import events.ManejadorEventos;
+import events.RegistrarPublicacionEvent;
 import interfaces.IRegistrarComentarioObserver;
 import java.util.List;
 import interfaces.IRegistrarPublicacionObserver;
@@ -31,8 +30,8 @@ public class Muro extends javax.swing.JFrame implements IRegistrarComentarioObse
         initComponents();
         this.comunicadorVista = comunicadorVista;
         this.usuario = usuario;
-        ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
-        ManejadorEventos.getInstance().suscribirseRegistrarComentario(this);
+        RegistrarPublicacionEvent.getInstance().suscribirse(this);
+        //ManejadorEventos.getInstance().suscribirseRegistrarComentario(this);
     }
 
     /**
@@ -90,8 +89,8 @@ public class Muro extends javax.swing.JFrame implements IRegistrarComentarioObse
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ManejadorEventos.getInstance().desuscribirseRegistrarPublicacion(this);
-        ManejadorEventos.getInstance().desuscribirseRegistrarComentario(this);
+        RegistrarPublicacionEvent.getInstance().desuscribirse(this);
+        //ManejadorEventos.getInstance().desuscribirseRegistrarComentario(this);
         this.dispose();
         FrmPublicacionPrueba publicacionPrueba = new FrmPublicacionPrueba(usuario, comunicadorVista);
         publicacionPrueba.setVisible(true);

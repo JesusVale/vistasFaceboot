@@ -18,7 +18,7 @@ import peticiones.PeticionUsuario;
  *
  * @author jegav
  */
-public class RegistrarComentarioEvent extends ManejadorEvento{
+public class RegistrarComentarioEvent {
     private List<IRegistrarComentarioObserver> listeners;
     private IJsonToObject conversor;
     
@@ -27,7 +27,7 @@ public class RegistrarComentarioEvent extends ManejadorEvento{
         conversor = new JsonToObject();
     }
 
-    public void notificarUsuarios(PeticionUsuario peticionUsuario){;
+    public void notificarUsuarios(PeticionUsuario peticionUsuario){
 //        for(IRegistrarComentarioObserver listener: listeners){
 //            listener.onRegistrarComentario(comentarios);
 //        }
@@ -41,15 +41,4 @@ public class RegistrarComentarioEvent extends ManejadorEvento{
         listeners.remove(listener);
     }
 
-    @Override
-    public boolean manejar(String peticion) {
-        System.out.println("Lo maneja Com");
-//        PeticionUsuario peticionUsuario = conversor.convertirPeticionUsuario(peticion);
-//        if(peticionUsuario != null){
-//            this.notificarUsuarios(peticionUsuario);
-//            return true;
-//        }
-//        return super.manejarSiguiente(peticion);
-        return true;
-    }
 }

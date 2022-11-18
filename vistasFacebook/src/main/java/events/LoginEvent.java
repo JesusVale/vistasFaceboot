@@ -16,13 +16,21 @@ import peticiones.PeticionUsuario;
  *
  * @author jegav
  */
-public class LoginEvent extends ManejadorEvento {
+public class LoginEvent implements EventNotifier {
     private List<ILoginObserver> listeners;
     private IJsonToObject conversor;
+    private static LoginEvent loginEvent;
     
     public LoginEvent() {
         this.listeners = new ArrayList();
         conversor = new JsonToObject();
+    }
+    
+    public static LoginEvent getInstance(){
+        if(loginEvent == null){
+            loginEvent = new LoginEvent();
+        }
+        return loginEvent;
     }
 
     public void notificarUsuarios(PeticionUsuario peticion){
@@ -42,13 +50,9 @@ public class LoginEvent extends ManejadorEvento {
     }
 
     @Override
-    public boolean manejar(String peticion) {
-        System.out.println("Lo maneja Login");
+    public void notificar(String peticion) {
         PeticionUsuario peticionUsuario = conversor.convertirPeticionUsuario(peticion);
-        if(peticionUsuario.getEvento().equals(Eventos.Login)){
-            this.notificarUsuarios(peticionUsuario);
-            return true;
-        }
-        return super.manejarSiguiente(peticion);
+        loginEvent.notificarUsuarios(peticionUsuario);
     }
+
 }

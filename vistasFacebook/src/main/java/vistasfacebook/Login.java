@@ -8,6 +8,7 @@ import comVista.ComunicadorVista;
 import comVista.EventListener;
 import comVista.IComunicadorVista;
 import entidades.Usuario;
+import events.LoginEvent;
 import events.ManejadorEventos;
 import interfaces.ILoginObserver;
 import javax.swing.JOptionPane;
@@ -28,7 +29,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
     public Login(IComunicadorVista comunicadorVista) {
         initComponents();
         this.comunicadorVista = comunicadorVista;
-        ManejadorEventos.getInstance().suscribirseLogin(this);
+        LoginEvent.getInstance().suscribirse(this);
     }
 
     /**
@@ -166,7 +167,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
 
     private void btnRegistrateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrateActionPerformed
         this.dispose();
-        ManejadorEventos.getInstance().desuscribirseLogin(this);
+        LoginEvent.getInstance().desuscribir(this);
         Registro registro = new Registro(comunicadorVista);
         registro.setVisible(true);
     }//GEN-LAST:event_btnRegistrateActionPerformed
@@ -234,7 +235,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
     public void onLogin(PeticionUsuario peticionUsuario) {
         if(peticionUsuario.getStatus() < 400){
             this.dispose();
-            ManejadorEventos.getInstance().desuscribirseLogin(this);
+            LoginEvent.getInstance().desuscribir(this);
             Muro muro = new Muro(comunicadorVista, peticionUsuario.getUsuario());
             muro.setVisible(true);
         } else{

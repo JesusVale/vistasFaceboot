@@ -6,32 +6,36 @@ package events;
 
 import conversors.IJsonToObject;
 import conversors.JsonToObject;
-import eventos.Eventos;
-import interfaces.IRegistrarPublicacionObserver;
 import interfaces.IRegistrarUsuarioObserver;
 import java.util.ArrayList;
 import java.util.List;
-import peticiones.PeticionPublicaciones;
 import peticiones.PeticionUsuario;
 
 /**
  *
  * @author jegav
  */
-public class RegistrarUsuarioEvent extends ManejadorEvento {
+public class RegistrarUsuarioEvent implements EventNotifier {
      private List<IRegistrarUsuarioObserver> listeners;
     private IJsonToObject conversor;
+    private static RegistrarUsuarioEvent usuarioEvent;
     
-    public RegistrarUsuarioEvent() {
+    private RegistrarUsuarioEvent() {
         this.listeners = new ArrayList();
         conversor = new JsonToObject();
+    }
+    
+    public static RegistrarUsuarioEvent getInstance(){
+        if(usuarioEvent == null){
+            usuarioEvent = new RegistrarUsuarioEvent();
+        }
+        return usuarioEvent;
     }
     
     public void notificarUsuarios(PeticionUsuario peticion){
         for(IRegistrarUsuarioObserver listener: listeners){
             listener.onRegistrarUsuario(peticion);
         }
-        
     }
     
     public void suscribirse(IRegistrarUsuarioObserver listener){
@@ -43,14 +47,8 @@ public class RegistrarUsuarioEvent extends ManejadorEvento {
     }
 
     @Override
-    public boolean manejar(String peticion) {
-        System.out.println("Lo maneja pub");
+    public void notificar(String peticion) {
         PeticionUsuario peticionUsuario = conversor.convertirPeticionUsuario(peticion);
-        if(peticionUsuario.getEvento().equals(Eventos.registrarUsuario)){
-            System.out.println("Entro");
-            this.notificarUsuarios(peticionUsuario);
-            return true;
-        }
-        return super.manejarSiguiente(peticion);
+        usuarioEvent.notificarUsuarios(peticionUsuario);
     }
 }

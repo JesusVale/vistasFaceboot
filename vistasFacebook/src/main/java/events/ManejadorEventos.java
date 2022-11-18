@@ -4,32 +4,24 @@
  */
 package events;
 
-import conversors.IJsonToObject;
-import conversors.JsonToObject;
-import interfaces.ILoginObserver;
-import interfaces.IRegistrarComentarioObserver;
-import interfaces.IRegistrarPublicacionObserver;
-import interfaces.IRegistrarUsuarioObserver;
-import peticiones.Peticion;
+import eventos.Eventos;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author jegav
  */
 public class ManejadorEventos {
-   
-    private static IJsonToObject conversor = new JsonToObject();
-    private RegistrarComentarioEvent registrarComentarioEvent;
-    private RegistrarPublicacionEvent registrarPublicacionEvent;
-    private RegistrarUsuarioEvent registrarUsuarioEvent;
-    private LoginEvent loginEvent;
-    private static ManejadorEventos manejadorEventos;
 
-    public ManejadorEventos() {
-        registrarComentarioEvent = new RegistrarComentarioEvent();
-        registrarPublicacionEvent = new RegistrarPublicacionEvent();
-        registrarUsuarioEvent = new RegistrarUsuarioEvent();
-        loginEvent = new LoginEvent();
+    private static ManejadorEventos manejadorEventos;
+    private static Map<String, EventNotifier> eventsNotifier;
+
+    private ManejadorEventos() {
+        eventsNotifier = new HashMap();
+        eventsNotifier.put(Eventos.registrarUsuario, RegistrarUsuarioEvent.getInstance());
+        eventsNotifier.put(Eventos.registrarPublicacion, RegistrarPublicacionEvent.getInstance());
+        eventsNotifier.put(Eventos.Login, LoginEvent.getInstance());
     }
     
     public static ManejadorEventos getInstance(){
@@ -39,47 +31,9 @@ public class ManejadorEventos {
         return manejadorEventos;
     }
     
-    public void notificarUsuarios(String peticion){
-        System.out.println("Llego Peticion: "+peticion);
-        ManejadorEvento manejadorEvento = loginEvent;
-        manejadorEvento.establecerSiguienteManejador(registrarPublicacionEvent).establecerSiguienteManejador(registrarUsuarioEvent);
-                         //.establecerSiguienteManejador(registrarComentarioEvent);
-        System.out.println("HOLAAAAAAAAAAAAAAAAAAAAAAAAA");
-        manejadorEvento.manejar(peticion);
-    }
-    
-    public void suscribirseRegistrarPublicacion(IRegistrarPublicacionObserver observer){
-        registrarPublicacionEvent.suscribirse(observer);
+    public EventNotifier get(String evento){
+         return eventsNotifier.get(evento);
     }
     
     
-    public void suscribirseRegistrarComentario(IRegistrarComentarioObserver observer){
-        registrarComentarioEvent.suscribirse(observer);
-    }
-    
-    public void suscribirseRegistrarUsuario(IRegistrarUsuarioObserver observer){
-        registrarUsuarioEvent.suscribirse(observer);
-    }
-    
-    public void desuscribirseRegistrarUsuario(IRegistrarUsuarioObserver observer){
-        registrarUsuarioEvent.desuscribirse(observer);
-    }
-    
-    public void suscribirseLogin(ILoginObserver observer){
-        loginEvent.suscribirse(observer);
-    }
-    
-    public void desuscribirseRegistrarPublicacion(IRegistrarPublicacionObserver observer){
-        registrarPublicacionEvent.suscribirse(observer);
-    }
-    
-    
-    public void desuscribirseRegistrarComentario(IRegistrarComentarioObserver observer){
-        registrarComentarioEvent.desuscribir(observer);
-    }
-    
-    public void desuscribirseLogin(ILoginObserver observer){
-        loginEvent.desuscribir(observer);
-    }
-
 }

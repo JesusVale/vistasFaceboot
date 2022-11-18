@@ -4,12 +4,11 @@
  */
 package vistasfacebook;
 
-import comVista.ComunicadorVista;
 import comVista.IComunicadorVista;
-import peticiones.Peticion;
 import entidades.Usuario;
 import enumeradores.Sexo;
 import events.ManejadorEventos;
+import events.RegistrarUsuarioEvent;
 import interfaces.IRegistrarUsuarioObserver;
 import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
@@ -33,7 +32,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         llenarComboBoxSexo();
         this.comunicadorVista = comunicadorVista;
         
-        ManejadorEventos.getInstance().suscribirseRegistrarUsuario(this);
+        RegistrarUsuarioEvent.getInstance().suscribirse(this);
         //suscribeRegistrarComentario(this);
         //suscribeRegistrarPublicacion(this);
     }
@@ -236,7 +235,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
 
     private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
         this.dispose();
-        ManejadorEventos.getInstance().desuscribirseRegistrarUsuario(this);
+        RegistrarUsuarioEvent.getInstance().desuscribirse(this);
         Login login = new Login(comunicadorVista);
         login.setVisible(true);
     }//GEN-LAST:event_btnCancelar1ActionPerformed

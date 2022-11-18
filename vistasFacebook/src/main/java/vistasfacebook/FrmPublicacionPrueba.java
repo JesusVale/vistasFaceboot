@@ -9,6 +9,7 @@ import comVista.IComunicadorVista;
 import entidades.Publicacion;
 import entidades.Usuario;
 import events.ManejadorEventos;
+import events.RegistrarPublicacionEvent;
 import interfaces.IRegistrarPublicacionObserver;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -50,14 +51,16 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
     public FrmPublicacionPrueba(IComunicadorVista comunicadorVista) {
         initComponents();
         this.comunicadorVista = comunicadorVista;
-        ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
+        RegistrarPublicacionEvent.getInstance().suscribirse(this);
+        //ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
 
     public FrmPublicacionPrueba(Usuario usuario, IComunicadorVista comunicadorVista) {
         initComponents();
         this.usuario = usuario;
         this.comunicadorVista = comunicadorVista;
-        ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
+        RegistrarPublicacionEvent.getInstance().suscribirse(this);
+        //ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
 
     /**
@@ -176,7 +179,8 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
-        ManejadorEventos.getInstance().desuscribirseRegistrarPublicacion(this);
+        //ManejadorEventos.getInstance().desuscribirseRegistrarPublicacion(this);
+        RegistrarPublicacionEvent.getInstance().desuscribirse(this);
         Muro m = new Muro(comunicadorVista, usuario);
         m.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
