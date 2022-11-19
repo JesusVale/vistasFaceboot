@@ -4,6 +4,7 @@
  */
 package comVista;
 
+import entidades.Comentario;
 import entidades.Publicacion;
 import entidades.Usuario;
 
@@ -14,7 +15,15 @@ import entidades.Usuario;
 public interface IComunicadorVista {
     public void iniciarSesion(Usuario usuario);
     public void registrarUsuario(Usuario usuario);
+    public void EditarUsuario(Usuario usuario);
     public void registrarPublicacion(Publicacion publicacion);
     public void consultarPublicaciones();
+<<<<<<< Updated upstream
     public void cosultarUsuarioPorId(Integer id);
+=======
+    public void eliminarUsuario(Usuario usuario);
+    public void eliminarPublicacion(Publicacion publicacion);
+    public void eliminarComentario(Comentario comentario);
+    
+>>>>>>> Stashed changes
 }
