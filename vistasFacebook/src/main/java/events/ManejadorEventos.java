@@ -22,6 +22,7 @@ public class ManejadorEventos {
         eventsNotifier.put(Eventos.registrarUsuario, RegistrarUsuarioEvent.getInstance());
         eventsNotifier.put(Eventos.registrarPublicacion, RegistrarPublicacionEvent.getInstance());
         eventsNotifier.put(Eventos.Login, LoginEvent.getInstance());
+        eventsNotifier.put(Eventos.consultarUsuarioPorId, ConsultarUsuarioEvent.getInstance());
     }
     
     public static ManejadorEventos getInstance(){

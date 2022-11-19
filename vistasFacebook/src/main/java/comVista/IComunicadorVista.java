@@ -16,5 +16,5 @@ public interface IComunicadorVista {
     public void registrarUsuario(Usuario usuario);
     public void registrarPublicacion(Publicacion publicacion);
     public void consultarPublicaciones();
-    
+    public void cosultarUsuarioPorId(Integer id);
 }

@@ -10,6 +10,7 @@ import entidades.Publicacion;
 import peticiones.Peticion;
 import entidades.Usuario;
 import eventos.Eventos;
+import peticiones.PeticionId;
 import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
 import peticiones.PeticionUsuario;
@@ -48,6 +49,13 @@ public class ComunicadorVista implements IComunicadorVista {
         //Peticion peticionConsultarPublicacion = new Peticion(Eventos.consultarPublicaciones);
         //String peticion = conversor.convertirObjetoString(peticionConsultarPublicacion);
         //clienteVista.enviarMensaje(peticion);
+    }
+
+    @Override
+    public void cosultarUsuarioPorId(Integer id) {
+        PeticionId peticionId = new PeticionId(Eventos.consultarUsuarioPorId, id);
+        String peticion = conversor.convertirObjetoString(peticionId);
+        EventListener.getInstance().enviarMensaje(peticion);
     }
     
 }

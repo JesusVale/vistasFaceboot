@@ -6,7 +6,7 @@ package events;
 
 import conversors.IJsonToObject;
 import conversors.JsonToObject;
-import interfaces.IRegistrarUsuarioObserver;
+import interfaces.IConsultarUsuarioObserver;
 import java.util.ArrayList;
 import java.util.List;
 import peticiones.PeticionUsuario;
@@ -15,34 +15,34 @@ import peticiones.PeticionUsuario;
  *
  * @author jegav
  */
-public class RegistrarUsuarioEvent implements EventNotifier {
-    private List<IRegistrarUsuarioObserver> listeners;
+public class ConsultarUsuarioEvent implements EventNotifier {
+    private List<IConsultarUsuarioObserver> listeners;
     private IJsonToObject conversor;
-    private static RegistrarUsuarioEvent usuarioEvent;
+    private static ConsultarUsuarioEvent usuarioEvent;
     
-    private RegistrarUsuarioEvent() {
+    private ConsultarUsuarioEvent() {
         this.listeners = new ArrayList();
         conversor = new JsonToObject();
     }
     
-    public static RegistrarUsuarioEvent getInstance(){
+    public static ConsultarUsuarioEvent getInstance(){
         if(usuarioEvent == null){
-            usuarioEvent = new RegistrarUsuarioEvent();
+            usuarioEvent = new ConsultarUsuarioEvent();
         }
         return usuarioEvent;
     }
     
     public void notificarUsuarios(PeticionUsuario peticion){
-        for(IRegistrarUsuarioObserver listener: listeners){
-            listener.onRegistrarUsuario(peticion);
+        for(IConsultarUsuarioObserver listener: listeners){
+            listener.onConsultarUsuario(peticion);
         }
     }
     
-    public void suscribirse(IRegistrarUsuarioObserver listener){
+    public void suscribirse(IConsultarUsuarioObserver listener){
         listeners.add(listener);
     }
     
-    public void desuscribirse(IRegistrarUsuarioObserver listener){
+    public void desuscribirse(IConsultarUsuarioObserver listener){
         listeners.remove(listener);
     }
 
