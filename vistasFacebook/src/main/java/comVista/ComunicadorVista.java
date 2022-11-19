@@ -60,6 +60,28 @@ public class ComunicadorVista implements IComunicadorVista {
     public void cosultarUsuarioPorId(Integer id) {
         PeticionId peticionId = new PeticionId(Eventos.consultarUsuarioPorId, id);
         String peticion = conversor.convertirObjetoString(peticionId);
+=======
+    public void eliminarUsuario(Usuario usuario) {
+        PeticionUsuario peticionEliminarUsuario = new PeticionUsuario(Eventos.eliminarUsuario, usuario);
+        String peticion = conversor.convertirObjetoString(peticionEliminarUsuario);
+        EventListener.getInstance().enviarMensaje(peticion);
+    }
+
+    @Override
+    public void eliminarPublicacion(Publicacion publicacion) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void eliminarComentario(Comentario comentario) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void EditarUsuario(Usuario usuario) {
+        PeticionUsuario peticionEditarUsuario = new PeticionUsuario(Eventos.editarPerfil, usuario);
+        String peticion = conversor.convertirObjetoString(peticionEditarUsuario);
+>>>>>>> Stashed changes
         EventListener.getInstance().enviarMensaje(peticion);
     }
     
