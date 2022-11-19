@@ -18,12 +18,9 @@ public interface IComunicadorVista {
     public void EditarUsuario(Usuario usuario);
     public void registrarPublicacion(Publicacion publicacion);
     public void consultarPublicaciones();
-<<<<<<< Updated upstream
     public void cosultarUsuarioPorId(Integer id);
-=======
     public void eliminarUsuario(Usuario usuario);
     public void eliminarPublicacion(Publicacion publicacion);
     public void eliminarComentario(Comentario comentario);
     
->>>>>>> Stashed changes
 }
