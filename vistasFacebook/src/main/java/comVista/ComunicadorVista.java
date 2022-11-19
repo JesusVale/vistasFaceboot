@@ -58,7 +58,7 @@ public class ComunicadorVista implements IComunicadorVista {
     }
 
     @Override
-    public void cosultarUsuarioPorId(Integer id) {
+    public void cosultarUsuarioPorId(Long id) {
         PeticionId peticionId = new PeticionId(Eventos.consultarUsuarioPorId, id);
         String peticion = conversor.convertirObjetoString(peticionId);
 
