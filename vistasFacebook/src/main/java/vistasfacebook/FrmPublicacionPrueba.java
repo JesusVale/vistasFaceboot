@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
@@ -41,7 +42,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
-    private byte[] buffer;
+    private String path;
 
     /**
      * Creates new form FrmPublicacionPrueba
@@ -173,7 +174,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         Calendar fecha = Calendar.getInstance();
-        Publicacion nuevaPublicacion = new Publicacion(usuario.getId(), fecha, txtContenido.getText(), null);
+        Publicacion nuevaPublicacion = new Publicacion(usuario.getId(), fecha, txtContenido.getText(), path);
         comunicadorVista.registrarPublicacion(nuevaPublicacion);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -198,20 +199,43 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
             String archivo = fileChooser.getSelectedFile().getAbsolutePath();
             File file = new File(archivo);
-
-            if (file == null) {
-                this.lblNombreImagen.setText("...");
-            } else {
-                try {
-                    FileInputStream is = new FileInputStream(file);
-                    buffer = IOUtils.toByteArray(is);//new byte[(int)fileName.length()];
-                    this.lblNombreImagen.setText(file.getAbsolutePath());
-                    is.close();
-                    IOUtils.write(buffer, new FileOutputStream(archivo));
-                } catch (Exception e) {
-                    Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(Level.SEVERE, null, e);
-                }
+            
+            ImageIcon icon = new ImageIcon(new ImageIcon(archivo).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+            
+            
+            String newPath = "ea/imagenes";
+            File directorio = new File(newPath);
+            if(!directorio.exists()){
+                directorio.mkdirs();
             }
+            
+            File sourceFile = null;
+            File destinoFile= null;
+            
+            String extension = archivo.substring(archivo.lastIndexOf('.')+1);
+            sourceFile = new File(archivo);
+            destinoFile = new File(newPath+"/"+fileChooser.getSelectedFile().getName()+Math.random()+"."+extension);
+            try {
+                Files.copy(sourceFile.toPath(), destinoFile.toPath());
+                path=newPath+"/"+fileChooser.getSelectedFile().getName()+Math.random()+"."+extension;
+                this.lblNombreImagen.setText(path);
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+
+//            if (file == null) {
+//                this.lblNombreImagen.setText("...");
+//            } else {
+//                try {
+//                    FileInputStream is = new FileInputStream(file);
+//                    buffer = IOUtils.toByteArray(is);//new byte[(int)fileName.length()];
+//                    this.lblNombreImagen.setText(file.getAbsolutePath());
+//                    is.close();
+//                    IOUtils.write(buffer, new FileOutputStream(archivo));
+//                } catch (Exception e) {
+//                    Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(Level.SEVERE, null, e);
+//                }
+//            }
         }
     }//GEN-LAST:event_btnImagenActionPerformed
 

@@ -33,7 +33,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         initComponents();
         this.setSize(655, 532);
         this.comunicadorVista = comunicadorVista;
-        comunicadorVista.cosultarUsuarioPorId(publicacion.getId());
+        comunicadorVista.cosultarUsuarioPorId(publicacion.getUsuario());
     }
     
     public PublicacionPanel() {
