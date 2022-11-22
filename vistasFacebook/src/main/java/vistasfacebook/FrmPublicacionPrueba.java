@@ -30,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.io.IOUtils;
 import peticiones.Peticion;
+import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
 import utils.ConversorLocalDateToCalendar;
 
@@ -265,14 +266,12 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onRegistrarPublicacion(PeticionPublicaciones peticionPublicaciones) {
-        Long usuarioEnvio = peticionPublicaciones.getPublicaciones().get(peticionPublicaciones.getPublicaciones().size() - 1).getUsuario();
-        if (usuarioEnvio == usuario.getId()) {
-            if (peticionPublicaciones.getStatus() < 400) {
-                JOptionPane.showMessageDialog(this, "Se registro la publicación correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "No se pudo registrar la publicacion", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            }
+    public void onRegistrarPublicacion(PeticionPublicacion peticionPublicacion) {
+        
+        if (peticionPublicacion.getStatus() < 400) {
+            JOptionPane.showMessageDialog(this, "Se registro la publicación correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "No se pudo registrar la publicacion", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

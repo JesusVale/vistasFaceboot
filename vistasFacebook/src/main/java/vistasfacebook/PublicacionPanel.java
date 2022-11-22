@@ -7,15 +7,10 @@ package vistasfacebook;
 import comVista.IComunicadorVista;
 import entidades.Publicacion;
 import entidades.Usuario;
+import events.ConsultarUsuarioEvent;
 import interfaces.IConsultarUsuarioObserver;
-import java.awt.Image;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+import java.text.SimpleDateFormat;
+
 import peticiones.PeticionUsuario;
 
 /**
@@ -25,6 +20,7 @@ import peticiones.PeticionUsuario;
 public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUsuarioObserver {
 
     private Publicacion publicacion;
+    private Usuario usuario;
     private IComunicadorVista comunicadorVista;
     /**
      * Creates new form PublicacionPanel
@@ -33,27 +29,24 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         initComponents();
         this.setSize(655, 532);
         this.comunicadorVista = comunicadorVista;
-        comunicadorVista.cosultarUsuarioPorId(publicacion.getId());
+        this.publicacion = publicacion;
+        ConsultarUsuarioEvent.getInstance().suscribirse(this);
+        comunicadorVista.cosultarUsuarioPorId(publicacion.getUsuario());
+        
+        
     }
     
     public PublicacionPanel() {
         initComponents();
-        try {
-            URL url = new URL("https://2.bp.blogspot.com/-cnvI4Bg1hQE/UJKPoUQLrwI/AAAAAAAAR70/MUNsYIvooPE/s1600/pinguinos+(5).jpg");
-            Image image =ImageIO.read(url);
-            Image resizedImage = image.getScaledInstance(507, 251, Image.SCALE_SMOOTH);
-            ImageIcon imagen = new ImageIcon(resizedImage);
-            this.imageLbl.setIcon(imagen);
-            
-        } catch (Exception ex) {
-            Logger.getLogger(PublicacionPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
 
-    private void llenarPanel(Usuario usuario){
+    private void llenarPanel(){
         this.nombreLbl.setText(usuario.getNombre());
         this.descripcionLbl.setText(publicacion.getTexto());
-        
+        SimpleDateFormat fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String fecha = fechaFormat.format(publicacion.getFechaCreacion().getTime());
+        this.fechaLbl.setText(fecha);
     }
     
     /**
@@ -68,7 +61,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         jPanel1 = new javax.swing.JPanel();
         nombreLbl = new javax.swing.JLabel();
         descripcionLbl = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        fechaLbl = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -88,8 +81,8 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
 
         descripcionLbl.setText("Hola Soy Una Publicacion");
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        jLabel1.setText("19/11/2022");
+        fechaLbl.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        fechaLbl.setText("19/11/2022");
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Comentarios");
@@ -112,7 +105,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(imageLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1)
+                    .addComponent(fechaLbl)
                     .addComponent(nombreLbl)
                     .addComponent(descripcionLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -132,7 +125,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
                 .addGap(15, 15, 15)
                 .addComponent(nombreLbl)
                 .addGap(4, 4, 4)
-                .addComponent(jLabel1)
+                .addComponent(fechaLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(descripcionLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -172,9 +165,9 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel descripcionLbl;
+    private javax.swing.JLabel fechaLbl;
     private javax.swing.JLabel imageLbl;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -185,6 +178,9 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
 
     @Override
     public void onConsultarUsuario(PeticionUsuario peticionUsuario) {
-        llenarPanel(peticionUsuario.getUsuario());
+        if(publicacion.getUsuario() == peticionUsuario.getUsuario().getId()){
+            this.usuario = peticionUsuario.getUsuario();
+            llenarPanel();
+        }
     }
 }

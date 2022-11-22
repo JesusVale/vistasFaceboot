@@ -52,16 +52,16 @@ public class ComunicadorVista implements IComunicadorVista {
 
     @Override
     public void consultarPublicaciones() {
-        //Peticion peticionConsultarPublicacion = new Peticion(Eventos.consultarPublicaciones);
-        //String peticion = conversor.convertirObjetoString(peticionConsultarPublicacion);
-        //clienteVista.enviarMensaje(peticion);
+        Peticion peticionConsultarPublicacion = new Peticion(Eventos.consultarPublicaciones);
+        String peticion = conversor.convertirObjetoString(peticionConsultarPublicacion);
+        EventListener.getInstance().enviarMensaje(peticion);
     }
 
     @Override
     public void cosultarUsuarioPorId(Long id) {
         PeticionId peticionId = new PeticionId(Eventos.consultarUsuarioPorId, id);
         String peticion = conversor.convertirObjetoString(peticionId);
-
+        EventListener.getInstance().enviarMensaje(peticion);
     }
 
     @Override

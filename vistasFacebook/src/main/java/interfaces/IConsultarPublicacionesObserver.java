@@ -4,12 +4,12 @@
  */
 package interfaces;
 
-import peticiones.PeticionPublicacion;
+import peticiones.PeticionPublicaciones;
 
 /**
  *
  * @author jegav
  */
-public interface IRegistrarPublicacionObserver {
-    public void onRegistrarPublicacion(PeticionPublicacion respuesta);
+public interface IConsultarPublicacionesObserver {
+    public void onConsultarPublicaciones(PeticionPublicaciones peticionPublicaciones);
 }

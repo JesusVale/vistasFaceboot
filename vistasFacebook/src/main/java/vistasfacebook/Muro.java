@@ -17,7 +17,7 @@ import peticiones.PeticionPublicaciones;
  *
  * @author tonyd
  */
-public class Muro extends javax.swing.JFrame implements IRegistrarComentarioObserver,IRegistrarPublicacionObserver{
+public class Muro extends javax.swing.JFrame {
     
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
@@ -30,7 +30,7 @@ public class Muro extends javax.swing.JFrame implements IRegistrarComentarioObse
         initComponents();
         this.comunicadorVista = comunicadorVista;
         this.usuario = usuario;
-        RegistrarPublicacionEvent.getInstance().suscribirse(this);
+//        RegistrarPublicacionEvent.getInstance().suscribirse(this);
         //ManejadorEventos.getInstance().suscribirseRegistrarComentario(this);
     }
 
@@ -89,7 +89,7 @@ public class Muro extends javax.swing.JFrame implements IRegistrarComentarioObse
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        RegistrarPublicacionEvent.getInstance().desuscribirse(this);
+//        RegistrarPublicacionEvent.getInstance().desuscribirse(this);
         //ManejadorEventos.getInstance().desuscribirseRegistrarComentario(this);
         this.dispose();
         FrmPublicacionPrueba publicacionPrueba = new FrmPublicacionPrueba(usuario, comunicadorVista);
@@ -138,14 +138,14 @@ public class Muro extends javax.swing.JFrame implements IRegistrarComentarioObse
     // End of variables declaration//GEN-END:variables
 
 
-    @Override
-    public void onRegistrarPublicacion(PeticionPublicaciones peticionPublicaciones) {
-        
-        this.textArea.append(peticionPublicaciones.getPublicaciones().get(peticionPublicaciones.getPublicaciones().size() -1).getTexto());
-    }
-
-    @Override
-    public void onRegistrarComentario(List<Comentario> comentarios) {
-        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+//    @Override
+//    public void onRegistrarPublicacion(PeticionPublicaciones peticionPublicaciones) {
+//        
+//        this.textArea.append(peticionPublicaciones.getPublicaciones().get(peticionPublicaciones.getPublicaciones().size() -1).getTexto());
+//    }
+//
+//    @Override
+//    public void onRegistrarComentario(List<Comentario> comentarios) {
+//        //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//    }
 }

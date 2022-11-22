@@ -9,6 +9,7 @@ import conversors.JsonToObject;
 import java.util.ArrayList;
 import java.util.List;
 import interfaces.IRegistrarPublicacionObserver;
+import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
 
 /**
@@ -32,7 +33,7 @@ public class RegistrarPublicacionEvent implements EventNotifier{
         return publicacionEvent;
     }
     
-    public void notificarUsuarios(PeticionPublicaciones peticion){
+    public void notificarUsuarios(PeticionPublicacion peticion){
         for(IRegistrarPublicacionObserver listener: listeners){
             listener.onRegistrarPublicacion(peticion);
         }
@@ -49,7 +50,7 @@ public class RegistrarPublicacionEvent implements EventNotifier{
 
     @Override
     public void notificar(String mensaje) {
-        PeticionPublicaciones peticion = conversor.convertirPeticionPublicaciones(mensaje);
+        PeticionPublicacion peticion = conversor.convertirPeticionPublicacion(mensaje);
         publicacionEvent.notificarUsuarios(peticion);
     }
 

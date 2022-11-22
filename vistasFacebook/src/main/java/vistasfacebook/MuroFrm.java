@@ -4,23 +4,39 @@
  */
 package vistasfacebook;
 
-import interfaces.IConsultarUsuarioObserver;
-import java.awt.Dimension;
+import comVista.IComunicadorVista;
+import entidades.Publicacion;
+import entidades.Usuario;
+import events.ConsultarPublicacionesEvent;
+import events.RegistrarPublicacionEvent;
+import interfaces.IConsultarPublicacionesObserver;
+import interfaces.IRegistrarPublicacionObserver;
+import java.util.List;
+import peticiones.PeticionPublicacion;
+import peticiones.PeticionPublicaciones;
 
 /**
  *
  * @author jegav
  */
-public class MuroFrm extends javax.swing.JFrame {
+public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacionObserver, IConsultarPublicacionesObserver {
 
+    private IComunicadorVista comunicadorVista;
+    private Usuario usuario;
     /**
      * Creates new form MuroFrm
      */
-    public MuroFrm() {
+    public MuroFrm(IComunicadorVista comunicadorVista, Usuario usuario) {
         initComponents();
-        llenarMuro();
+        RegistrarPublicacionEvent.getInstance().suscribirse(this);
+        ConsultarPublicacionesEvent.getInstance().suscribirse(this);
+        this.comunicadorVista = comunicadorVista;
+        this.usuario = usuario;
+        comunicadorVista.consultarPublicaciones();
+        publicacionesTxt.setEditable(false);
         jScrollPane1.setSize(655, 504);
         publicacionesTxt.setSize(655, 504);
+        
     }
 
     /**
@@ -132,62 +148,52 @@ public class MuroFrm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void llenarMuro(){
-        publicacionesTxt.setEditable(false);
-        PublicacionPanel publicacion= new PublicacionPanel();
-        PublicacionPanel publicacion2= new PublicacionPanel();
-        System.out.println(publicacion.getSize());
-        System.out.println(publicacionesTxt.getSize());
-//        PublicacionPanel publicacion3= new PublicacionPanel();
-//        publicacion3.setSize(publicacionesTxt.getWidth(), publicacion.getHeight());
-//        System.out.println(publicacion3.getWidth());
-//        System.out.println(publicacionesTxt.getWidth());
-        //publicacionesTxt.setPreferredSize(new Dimension());
-        publicacionesTxt.insertComponent(publicacion);
-        
-//        System.out.println(publicacionesTxt.getSelectionStart());
-//        System.out.println(publicacionesTxt.getSelectionEnd());
-        //publicacion2.setSize(publicacionesTxt.getWidth(), publicacion2.getHeight());
-        publicacionesTxt.insertComponent(publicacion2);
-        
-        
-//        publicacionesTxt.insertComponent(publicacion3);
+    public void actualizarMuro(List<Publicacion> publicaciones){
+        for(Publicacion publicacion: publicaciones){
+            this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, comunicadorVista));
+        }
     }
+    
+    public void actualizarMuro(Publicacion publicacion){
+        this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, comunicadorVista));
+    }
+    
+    
     
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MuroFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MuroFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MuroFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MuroFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MuroFrm().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(MuroFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(MuroFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(MuroFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(MuroFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new MuroFrm().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField buscarEtiquetasTxt;
@@ -199,4 +205,15 @@ public class MuroFrm extends javax.swing.JFrame {
     private javax.swing.JPanel principalPanel;
     private javax.swing.JTextPane publicacionesTxt;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void onRegistrarPublicacion(PeticionPublicacion peticionPublicacion) {
+        actualizarMuro(peticionPublicacion.getPublicacion());
+    }
+
+    @Override
+    public void onConsultarPublicaciones(PeticionPublicaciones peticionPublicaciones) {
+        System.out.println("Total publicaciones: "+peticionPublicaciones.getPublicaciones().size());
+        actualizarMuro(peticionPublicaciones.getPublicaciones());
+    }
 }

@@ -9,7 +9,6 @@ import comVista.EventListener;
 import comVista.IComunicadorVista;
 import entidades.Usuario;
 import events.LoginEvent;
-import events.ManejadorEventos;
 import interfaces.ILoginObserver;
 import javax.swing.JOptionPane;
 import peticiones.PeticionUsuario;
@@ -236,7 +235,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         if(peticionUsuario.getStatus() < 400){
             this.dispose();
             LoginEvent.getInstance().desuscribir(this);
-            Muro muro = new Muro(comunicadorVista, peticionUsuario.getUsuario());
+            MuroFrm muro = new MuroFrm(comunicadorVista, peticionUsuario.getUsuario());
             muro.setVisible(true);
         } else{
             JOptionPane.showMessageDialog(this, peticionUsuario.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
