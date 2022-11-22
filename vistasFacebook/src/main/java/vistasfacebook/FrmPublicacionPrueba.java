@@ -183,7 +183,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         this.dispose();
         //ManejadorEventos.getInstance().desuscribirseRegistrarPublicacion(this);
         RegistrarPublicacionEvent.getInstance().desuscribirse(this);
-        Muro m = new Muro(comunicadorVista, usuario);
+        MuroFrm m = new MuroFrm(comunicadorVista, usuario);
         m.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -204,7 +204,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
             ImageIcon icon = new ImageIcon(new ImageIcon(archivo).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
             
             
-            String newPath = "ea/imagenes";
+            String newPath = "src\\imagenes";
             File directorio = new File(newPath);
             if(!directorio.exists()){
                 directorio.mkdirs();
@@ -212,13 +212,13 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
             
             File sourceFile = null;
             File destinoFile= null;
-            
+            path=newPath+"\\"+Math.random()+fileChooser.getSelectedFile().getName();
             String extension = archivo.substring(archivo.lastIndexOf('.')+1);
             sourceFile = new File(archivo);
-            destinoFile = new File(newPath+"/"+fileChooser.getSelectedFile().getName()+Math.random()+"."+extension);
+            destinoFile = new File(path);
             try {
                 Files.copy(sourceFile.toPath(), destinoFile.toPath());
-                path=newPath+"/"+fileChooser.getSelectedFile().getName()+Math.random()+"."+extension;
+                
                 this.lblNombreImagen.setText(path);
             } catch(Exception e){
                 e.printStackTrace();

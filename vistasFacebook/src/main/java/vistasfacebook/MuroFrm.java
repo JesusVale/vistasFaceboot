@@ -51,7 +51,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         principalPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         buscarEtiquetasTxt = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        botonCrearPublicacion = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -82,7 +82,12 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
-        jButton2.setText("jButton2");
+        botonCrearPublicacion.setText("Publicacion");
+        botonCrearPublicacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCrearPublicacionActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("jButton3");
 
@@ -110,7 +115,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
             .addGroup(principalPanelLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonCrearPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -123,7 +128,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
                 .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(principalPanelLayout.createSequentialGroup()
                         .addGap(103, 103, 103)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botonCrearPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -147,6 +152,14 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonCrearPublicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearPublicacionActionPerformed
+        this.dispose();
+        RegistrarPublicacionEvent.getInstance().desuscribirse(this);
+        ConsultarPublicacionesEvent.getInstance().desuscribirse(this);
+        FrmPublicacionPrueba pantallaCrearPublicacion = new FrmPublicacionPrueba(usuario, comunicadorVista);
+        pantallaCrearPublicacion.setVisible(true);
+    }//GEN-LAST:event_botonCrearPublicacionActionPerformed
 
     public void actualizarMuro(List<Publicacion> publicaciones){
         for(Publicacion publicacion: publicaciones){
@@ -196,8 +209,8 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonCrearPublicacion;
     private javax.swing.JTextField buscarEtiquetasTxt;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JPanel jPanel1;

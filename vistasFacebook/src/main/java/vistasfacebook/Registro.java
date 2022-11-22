@@ -69,7 +69,6 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         cbSexo = new javax.swing.JComboBox<>();
         btnAgregar = new javax.swing.JButton();
         btnIniciarSesion = new javax.swing.JButton();
-        btnCancelar1 = new javax.swing.JButton();
         btnEntraFacebook = new javax.swing.JButton();
         btnEntraGoogle = new javax.swing.JButton();
         barra1 = new javax.swing.JLabel();
@@ -151,24 +150,18 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
                 btnAgregarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 430, 180, 35));
+        jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, 180, 35));
 
         btnIniciarSesion.setText("Iniciar Sesión");
         btnIniciarSesion.setBackground(new java.awt.Color(37, 161, 142));
         btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 190, 180, 35));
-
-        btnCancelar1.setText("Cancelar");
-        btnCancelar1.setBackground(new java.awt.Color(37, 161, 142));
-        btnCancelar1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnCancelar1.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancelar1.addActionListener(new java.awt.event.ActionListener() {
+        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelar1ActionPerformed(evt);
+                btnIniciarSesionActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 180, 35));
+        jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 190, 180, 35));
 
         btnEntraFacebook.setText("Entra con FaceBook");
         btnEntraFacebook.setBackground(new java.awt.Color(59, 89, 152));
@@ -233,12 +226,12 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         comunicadorVista.registrarUsuario(usuario);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
-    private void btnCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelar1ActionPerformed
+    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
         this.dispose();
         RegistrarUsuarioEvent.getInstance().desuscribirse(this);
         Login login = new Login(comunicadorVista);
         login.setVisible(true);
-    }//GEN-LAST:event_btnCancelar1ActionPerformed
+    }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     @Override
     public void onRegistrarUsuario(PeticionUsuario peticionUsuario) {
@@ -288,7 +281,6 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
     private javax.swing.JLabel barra1;
     private javax.swing.JLabel barra2;
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnCancelar1;
     private javax.swing.JButton btnEntraFacebook;
     private javax.swing.JButton btnEntraGoogle;
     private javax.swing.JButton btnIniciarSesion;

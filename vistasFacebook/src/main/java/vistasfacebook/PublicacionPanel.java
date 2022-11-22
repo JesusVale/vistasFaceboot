@@ -9,7 +9,9 @@ import entidades.Publicacion;
 import entidades.Usuario;
 import events.ConsultarUsuarioEvent;
 import interfaces.IConsultarUsuarioObserver;
+import java.awt.Image;
 import java.text.SimpleDateFormat;
+import javax.swing.ImageIcon;
 
 import peticiones.PeticionUsuario;
 
@@ -47,6 +49,12 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         SimpleDateFormat fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
         String fecha = fechaFormat.format(publicacion.getFechaCreacion().getTime());
         this.fechaLbl.setText(fecha);
+
+        Image imagenPublicacion = new ImageIcon(publicacion.getImagen()).getImage();
+        System.out.println(imagenPublicacion);
+        System.out.println(publicacion.getImagen());
+        Image imagenEscalada = imagenPublicacion.getScaledInstance(534, 239, Image.SCALE_SMOOTH);
+        this.imageLbl.setIcon(new ImageIcon(imagenEscalada));
     }
     
     /**
