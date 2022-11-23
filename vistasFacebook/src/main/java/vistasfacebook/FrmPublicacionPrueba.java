@@ -54,6 +54,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         initComponents();
         this.comunicadorVista = comunicadorVista;
         RegistrarPublicacionEvent.getInstance().suscribirse(this);
+        txtContenido.setLineWrap(true);
         //ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
 
@@ -107,12 +108,10 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         jPanel1.add(barra2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 60));
 
         lblContenido.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblContenido.setForeground(new java.awt.Color(0, 0, 0));
         lblContenido.setText("Contenido:");
         jPanel1.add(lblContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
 
         lblNombreImagen.setBackground(new java.awt.Color(255, 255, 255));
-        lblNombreImagen.setForeground(new java.awt.Color(0, 0, 0));
         lblNombreImagen.setOpaque(true);
         jPanel1.add(lblNombreImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 380, 620, 35));
 
@@ -140,9 +139,13 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        txtContenido.setBackground(new java.awt.Color(255, 255, 255));
         txtContenido.setColumns(20);
         txtContenido.setRows(5);
+        txtContenido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtContenidoKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtContenido);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 830, 220));
@@ -239,6 +242,12 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 //            }
         }
     }//GEN-LAST:event_btnImagenActionPerformed
+
+    private void txtContenidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContenidoKeyTyped
+        if(txtContenido.getText().length() == 255){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtContenidoKeyTyped
 
 //    /**
 //     * @param args the command line arguments

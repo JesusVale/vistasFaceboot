@@ -11,7 +11,12 @@ import events.ConsultarPublicacionesEvent;
 import events.RegistrarPublicacionEvent;
 import interfaces.IConsultarPublicacionesObserver;
 import interfaces.IRegistrarPublicacionObserver;
+import java.awt.ComponentOrientation;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
 
@@ -33,10 +38,10 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         this.comunicadorVista = comunicadorVista;
         this.usuario = usuario;
         comunicadorVista.consultarPublicaciones();
+        this.jScrollPane1.setViewportView(this.publicacionesTxt);
         publicacionesTxt.setEditable(false);
         jScrollPane1.setSize(655, 504);
         publicacionesTxt.setSize(655, 504);
-        
     }
 
     /**
@@ -135,8 +140,8 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, principalPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 504, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(7, 7, 7)
+                        .addComponent(jScrollPane1))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -162,13 +167,18 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
     }//GEN-LAST:event_botonCrearPublicacionActionPerformed
 
     public void actualizarMuro(List<Publicacion> publicaciones){
+        
+        
+        
         for(Publicacion publicacion: publicaciones){
-            this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, comunicadorVista));
+            
+            this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
+            
         }
     }
     
     public void actualizarMuro(Publicacion publicacion){
-        this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, comunicadorVista));
+//        this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
     }
     
     
