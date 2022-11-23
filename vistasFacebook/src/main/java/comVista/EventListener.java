@@ -55,6 +55,7 @@ public class EventListener implements Runnable{
                 String mensaje = in.readLine();
                 if(mensaje == null) break;
                 Peticion peticion = conversor.convertirPeticion(mensaje);
+                System.out.println(peticion.getEvento());
                 ManejadorEventos.getInstance().get(peticion.getEvento()).notificar(mensaje);
             }
         } catch(IOException ie){

@@ -73,7 +73,9 @@ public class ComunicadorVista implements IComunicadorVista {
 
     @Override
     public void eliminarPublicacion(Publicacion publicacion) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        PeticionPublicacion peticionEliminarPublicacion = new PeticionPublicacion(Eventos.eliminarPublicacion, publicacion);
+        String peticion = conversor.convertirObjetoString(peticionEliminarPublicacion);
+        EventListener.getInstance().enviarMensaje(peticion);
     }
 
     @Override
