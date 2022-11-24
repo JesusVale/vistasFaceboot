@@ -21,9 +21,11 @@ public class ManejadorEventos {
         eventsNotifier = new HashMap();
         eventsNotifier.put(Eventos.registrarUsuario, RegistrarUsuarioEvent.getInstance());
         eventsNotifier.put(Eventos.registrarPublicacion, RegistrarPublicacionEvent.getInstance());
+        eventsNotifier.put(Eventos.registrarComentario, RegistrarComentarioEvent.getInstance());
         eventsNotifier.put(Eventos.Login, LoginEvent.getInstance());
         eventsNotifier.put(Eventos.consultarUsuarioPorId, ConsultarUsuarioEvent.getInstance());
         eventsNotifier.put(Eventos.consultarPublicaciones, ConsultarPublicacionesEvent.getInstance());
+        eventsNotifier.put(Eventos.consultarComentarios, ConsultarComentariosEvent.getInstance());
         eventsNotifier.put(Eventos.eliminarUsuario, EliminarUsuarioEvent.getInstance());
         eventsNotifier.put(Eventos.eliminarPublicacion, EliminarPublicacionEvent.getInstance());
     }

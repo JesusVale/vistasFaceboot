@@ -34,7 +34,7 @@ public class EventListener implements Runnable{
     
     public static EventListener getInstance(){
         if(eventListener == null){
-            eventListener = new EventListener(7000);
+            eventListener = new EventListener(9000);
         }
         return eventListener;
     }

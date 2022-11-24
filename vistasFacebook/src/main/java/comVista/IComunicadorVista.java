@@ -16,6 +16,7 @@ public interface IComunicadorVista {
     public void iniciarSesion(Usuario usuario);
     public void registrarUsuario(Usuario usuario);
     public void EditarUsuario(Usuario usuario);
+    public void RegistrarComentario(Comentario comentario);
     public void registrarPublicacion(Publicacion publicacion);
     public void consultarPublicaciones();
     public void cosultarUsuarioPorId(Long id);

@@ -7,9 +7,11 @@ package vistasfacebook;
 import comVista.IComunicadorVista;
 import entidades.Publicacion;
 import entidades.Usuario;
+import events.ConsultarComentariosEvent;
 import events.ConsultarPublicacionesEvent;
 import events.EliminarPublicacionEvent;
 import events.RegistrarPublicacionEvent;
+import interfaces.IConsultarComentariosObserver;
 import interfaces.IConsultarPublicacionesObserver;
 import interfaces.IEliminarPublicacionObserver;
 import interfaces.IEliminarUsuarioObserver;
@@ -21,6 +23,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import peticiones.PeticionComentarios;
 import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
 
@@ -196,7 +199,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
 
     public void actualizarMuro(List<Publicacion> publicaciones) {
 
-        this.publicacionesTxt.removeAll();
+        this.publicacionesTxt.setText("");
         for (Publicacion publicacion : publicaciones) {
 
             this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
@@ -261,7 +264,6 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
 
     @Override
     public void onConsultarPublicaciones(PeticionPublicaciones peticionPublicaciones) {
-        System.out.println("Total publicaciones: " + peticionPublicaciones.getPublicaciones().size());
         actualizarMuro(peticionPublicaciones.getPublicaciones());
     }
 
@@ -270,4 +272,5 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         comunicadorVista.consultarPublicaciones();
         System.out.println("waza emotiza insana");
     }
+
 }

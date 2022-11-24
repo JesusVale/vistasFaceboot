@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import interfaces.IRegistrarPublicacionObserver;
 import peticiones.PeticionPublicacion;
-import peticiones.PeticionPublicaciones;
 
 /**
  *

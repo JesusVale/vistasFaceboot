@@ -12,33 +12,49 @@ import java.util.ArrayList;
 import java.util.List;
 import peticiones.Peticion;
 import interfaces.IRegistrarComentarioObserver;
+import peticiones.PeticionComentario;
 import peticiones.PeticionUsuario;
 
 /**
  *
  * @author jegav
  */
-public class RegistrarComentarioEvent {
+public class RegistrarComentarioEvent implements EventNotifier{
     private List<IRegistrarComentarioObserver> listeners;
+    private static RegistrarComentarioEvent comentarioEvent;
     private IJsonToObject conversor;
     
-    public RegistrarComentarioEvent() {
+    private RegistrarComentarioEvent() {
         this.listeners = new ArrayList();
         conversor = new JsonToObject();
     }
-
-    public void notificarUsuarios(PeticionUsuario peticionUsuario){
-//        for(IRegistrarComentarioObserver listener: listeners){
-//            listener.onRegistrarComentario(comentarios);
-//        }
+    
+    public static RegistrarComentarioEvent getInstance(){
+        if(comentarioEvent == null){
+            comentarioEvent = new RegistrarComentarioEvent();
+        }
+        return comentarioEvent;
+    }
+    
+    public void notificarUsuarios(PeticionComentario peticion){
+        for(IRegistrarComentarioObserver listener: listeners){
+            listener.onRegistrarComentario(peticion);
+        }
+        
     }
     
     public void suscribirse(IRegistrarComentarioObserver listener){
         listeners.add(listener);
     }
     
-    public void desuscribir(IRegistrarComentarioObserver listener){
+    public void desuscribirse(IRegistrarComentarioObserver listener){
         listeners.remove(listener);
+    }
+
+    @Override
+    public void notificar(String mensaje) {
+        PeticionComentario peticion = conversor.convertirPeticionComentario(mensaje);
+        comentarioEvent.notificarUsuarios(peticion);
     }
 
 }

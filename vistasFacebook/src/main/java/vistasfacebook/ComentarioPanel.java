@@ -4,17 +4,35 @@
  */
 package vistasfacebook;
 
+import entidades.Comentario;
+import entidades.Usuario;
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author jegav
  */
 public class ComentarioPanel extends javax.swing.JPanel {
 
+    Comentario comentario;
+    Usuario usuario;
+
     /**
      * Creates new form ComentarioPanel
      */
-    public ComentarioPanel() {
+    public ComentarioPanel(Comentario comentario, Usuario usuario) {
         initComponents();
+        this.comentario = comentario;
+        this.usuario = usuario;
+        llenarComentarios();
+    }
+
+    private void llenarComentarios() {
+        this.usuarioTxt.setText(comentario.getUsuario().getNombre());
+        SimpleDateFormat fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String fecha = fechaFormat.format(comentario.getFechaPublicacion().getTime());
+        this.lblFecha.setText(fecha);
+        this.comentarioTxt.setText(comentario.getContenido());
     }
 
     /**
@@ -28,6 +46,7 @@ public class ComentarioPanel extends javax.swing.JPanel {
 
         usuarioTxt = new javax.swing.JLabel();
         comentarioTxt = new javax.swing.JLabel();
+        lblFecha = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(241, 250, 238));
         setPreferredSize(new java.awt.Dimension(599, 124));
@@ -44,27 +63,34 @@ public class ComentarioPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(usuarioTxt))
+                        .addGap(53, 53, 53)
+                        .addComponent(comentarioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(comentarioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(usuarioTxt))))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(13, 13, 13)
                 .addComponent(usuarioTxt)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comentarioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel comentarioTxt;
+    private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel usuarioTxt;
     // End of variables declaration//GEN-END:variables
 }

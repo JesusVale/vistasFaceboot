@@ -4,12 +4,12 @@
  */
 package interfaces;
 
-import peticiones.PeticionComentario;
+import peticiones.PeticionComentarios;
 
 /**
  *
- * @author jegav
+ * @author tonyd
  */
-public interface IRegistrarComentarioObserver {
-    public void onRegistrarComentario(PeticionComentario respuesta);
+public interface IConsultarComentariosObserver {
+    public void onConsultarComentarios(PeticionComentarios peticionComentarios);
 }

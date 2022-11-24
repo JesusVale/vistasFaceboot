@@ -11,6 +11,7 @@ import entidades.Publicacion;
 import peticiones.Peticion;
 import entidades.Usuario;
 import eventos.Eventos;
+import peticiones.PeticionComentario;
 import peticiones.PeticionId;
 import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
@@ -87,6 +88,13 @@ public class ComunicadorVista implements IComunicadorVista {
     public void EditarUsuario(Usuario usuario) {
         PeticionUsuario peticionEditarUsuario = new PeticionUsuario(Eventos.editarPerfil, usuario);
         String peticion = conversor.convertirObjetoString(peticionEditarUsuario);
+        EventListener.getInstance().enviarMensaje(peticion);
+    }
+
+    @Override
+    public void RegistrarComentario(Comentario comentario) {
+        PeticionComentario peticionRegistrarComentario = new PeticionComentario(Eventos.registrarComentario, comentario);
+        String peticion = conversor.convertirObjetoString(peticionRegistrarComentario);
         EventListener.getInstance().enviarMensaje(peticion);
     }
 }

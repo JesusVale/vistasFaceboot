@@ -5,15 +5,23 @@
 package vistasfacebook;
 
 import comVista.IComunicadorVista;
+import entidades.Comentario;
 import entidades.Publicacion;
 import entidades.Usuario;
+import events.ConsultarComentariosEvent;
 import events.ConsultarUsuarioEvent;
+import events.RegistrarComentarioEvent;
+import interfaces.IConsultarComentariosObserver;
 import interfaces.IConsultarUsuarioObserver;
+import interfaces.IRegistrarComentarioObserver;
 import java.awt.Image;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import peticiones.PeticionComentario;
+import peticiones.PeticionComentarios;
 
 import peticiones.PeticionUsuario;
 
@@ -21,55 +29,69 @@ import peticiones.PeticionUsuario;
  *
  * @author jegav
  */
-public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUsuarioObserver {
+public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUsuarioObserver, IRegistrarComentarioObserver, IConsultarComentariosObserver {
 
     private Publicacion publicacion;
     private Usuario usuario;
     private IComunicadorVista comunicadorVista;
+
     /**
      * Creates new form PublicacionPanel
      */
     public PublicacionPanel(Publicacion publicacion, Usuario usuario, IComunicadorVista comunicadorVista) {
         initComponents();
         //this.setSize(655, 532);
-        
+
         this.comunicadorVista = comunicadorVista;
         this.publicacion = publicacion;
         this.usuario = usuario;
-        if(publicacion.getUsuario() != usuario.getId()){
+        if (publicacion.getUsuario() != usuario.getId()) {
             this.editarBtn.setVisible(false);
             this.deleteBtn.setVisible(false);
         }
+        RegistrarComentarioEvent.getInstance().suscribirse(this);
         ConsultarUsuarioEvent.getInstance().suscribirse(this);
+        ConsultarComentariosEvent.getInstance().suscribirse(this);
         comunicadorVista.cosultarUsuarioPorId(publicacion.getUsuario());
-        this.setSize(655, 532);
-        
-    }
-    
-    public PublicacionPanel() {
-        initComponents();
-        
+
     }
 
-    private void llenarPanel(Usuario usuarioPublicacion){
+    public PublicacionPanel() {
+        initComponents();
+
+    }
+
+    private void llenarPanel(Usuario usuarioPublicacion) {
         this.nombreLbl.setText(usuarioPublicacion.getNombre());
         this.descripcionLbl.setText(publicacion.getTexto());
         SimpleDateFormat fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
         String fecha = fechaFormat.format(publicacion.getFechaCreacion().getTime());
         this.fechaLbl.setText(fecha);
 
-        if(publicacion.getImagen() == null){
+        if (publicacion.getImagen() == null) {
             this.imageLbl.setSize(0, 0);
             return;
         }
         Image imagenPublicacion = new ImageIcon(publicacion.getImagen()).getImage();
         Image imagenEscalada = imagenPublicacion.getScaledInstance(534, 239, Image.SCALE_SMOOTH);
         this.imageLbl.setIcon(new ImageIcon(imagenEscalada));
-        this.jPanel1.add(new ComentarioPanel());
-        this.jPanel1.validate();
+
+        llenarComentarios();
 
     }
-    
+
+    private void llenarComentarios() {
+        if(publicacion.getComentarios()==null) return;
+        this.comentarioPane.setText("");
+        for (Comentario comentario : publicacion.getComentarios()) {
+            this.comentarioPane.insertComponent(new ComentarioPanel(comentario, usuario));
+        }
+    }
+
+    private void llenarComentarios(Comentario comentario) {
+        this.comentarioPane.insertComponent(new ComentarioPanel(comentario, usuario));
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -83,19 +105,21 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         nombreLbl = new javax.swing.JLabel();
         descripcionLbl = new javax.swing.JLabel();
         fechaLbl = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtComentario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnRegistrarComentario = new javax.swing.JButton();
         imageLbl = new javax.swing.JLabel();
         editarBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        comentarioPane = new javax.swing.JTextPane();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(655, 532));
+        setPreferredSize(new java.awt.Dimension(620, 625));
 
         jPanel1.setBackground(new java.awt.Color(241, 250, 238));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.setPreferredSize(new java.awt.Dimension(599, 450));
+        jPanel1.setPreferredSize(new java.awt.Dimension(607, 603));
 
         nombreLbl.setFont(new java.awt.Font("Nirmala UI Semilight", 1, 18)); // NOI18N
         nombreLbl.setText("Nombre Usuario");
@@ -108,7 +132,12 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Comentarios");
 
-        jButton1.setText("Enviar");
+        btnRegistrarComentario.setText("Enviar");
+        btnRegistrarComentario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarComentarioActionPerformed(evt);
+            }
+        });
 
         editarBtn.setBackground(new java.awt.Color(37, 161, 142));
         editarBtn.setText("Editar");
@@ -123,24 +152,19 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
             }
         });
 
+        jScrollPane1.setBorder(null);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        comentarioPane.setBackground(new java.awt.Color(241, 250, 238));
+        comentarioPane.setBorder(null);
+        jScrollPane1.setViewportView(comentarioPane);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(fechaLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(nombreLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(246, 246, 246)
-                                .addComponent(editarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(40, 40, 40)
-                                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
                         .addComponent(descripcionLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -152,9 +176,23 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtComentario, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
-                        .addComponent(jButton1)))
+                        .addComponent(btnRegistrarComentario))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGap(1, 1, 1)
+                                    .addComponent(fechaLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(nombreLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(246, 246, 246)
+                                    .addComponent(editarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(40, 40, 40)
+                                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(18, 18, 18))
         );
         jPanel1Layout.setVerticalGroup(
@@ -163,9 +201,8 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(nombreLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(editarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(nombreLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(8, 8, 8)
                 .addComponent(fechaLbl)
                 .addGap(20, 20, 20)
@@ -178,8 +215,11 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1)))
+                        .addComponent(txtComentario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnRegistrarComentario))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -187,46 +227,65 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        int ea = JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar esta publicacion?");
-        if(ea==0){
+        int verificador = JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar esta publicacion?");
+        if (verificador == 0) {
             comunicadorVista.eliminarPublicacion(publicacion);
             File fotoEliminada = new File(publicacion.getImagen());
             fotoEliminada.delete();
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+    private void btnRegistrarComentarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarComentarioActionPerformed
+        Comentario comentario = new Comentario(usuario,publicacion,Calendar.getInstance(),this.txtComentario.getText());
+        comunicadorVista.RegistrarComentario(comentario);
+    }//GEN-LAST:event_btnRegistrarComentarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRegistrarComentario;
+    private javax.swing.JTextPane comentarioPane;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JLabel descripcionLbl;
     private javax.swing.JButton editarBtn;
     private javax.swing.JLabel fechaLbl;
     private javax.swing.JLabel imageLbl;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel nombreLbl;
+    private javax.swing.JTextField txtComentario;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void onConsultarUsuario(PeticionUsuario peticionUsuario) {
-        if(publicacion.getUsuario() == peticionUsuario.getUsuario().getId()){
+        if (publicacion.getUsuario() == peticionUsuario.getUsuario().getId()) {
             llenarPanel(peticionUsuario.getUsuario());
         }
+    }
+
+    @Override
+    public void onRegistrarComentario(PeticionComentario respuesta) {
+        if (publicacion.getId() == respuesta.getComentario().getPublicacion().getId()) {
+            llenarComentarios(respuesta.getComentario());
+        }
+    }
+
+    @Override
+    public void onConsultarComentarios(PeticionComentarios peticionComentarios) {
+
     }
 }
