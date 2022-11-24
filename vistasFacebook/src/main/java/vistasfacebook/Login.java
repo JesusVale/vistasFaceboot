@@ -12,6 +12,7 @@ import events.LoginEvent;
 import interfaces.ILoginObserver;
 import javax.swing.JOptionPane;
 import peticiones.PeticionUsuario;
+import utils.Validaciones;
 
 /**
  *
@@ -45,7 +46,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         lblUsuario = new javax.swing.JLabel();
         lblO = new javax.swing.JLabel();
         txtPassword = new javax.swing.JTextField();
-        txtUsuario = new javax.swing.JTextField();
+        txtCorreoUser = new javax.swing.JTextField();
         btnRegistrate = new javax.swing.JButton();
         btnEntraFacebook = new javax.swing.JButton();
         btnIngresar = new javax.swing.JButton();
@@ -67,7 +68,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         jPanel1.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 210, -1, -1));
 
         lblUsuario.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        lblUsuario.setText("Usuario");
+        lblUsuario.setText("Correo");
         jPanel1.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 170, -1, -1));
 
         lblO.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -82,13 +83,13 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         });
         jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 200, 250, 33));
 
-        txtUsuario.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtUsuario.addActionListener(new java.awt.event.ActionListener() {
+        txtCorreoUser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtCorreoUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtUsuarioActionPerformed(evt);
+                txtCorreoUserActionPerformed(evt);
             }
         });
-        jPanel1.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 160, 250, 33));
+        jPanel1.add(txtCorreoUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 160, 250, 33));
 
         btnRegistrate.setBackground(new java.awt.Color(159, 255, 203));
         btnRegistrate.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -105,7 +106,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         btnEntraFacebook.setBackground(new java.awt.Color(59, 89, 152));
         btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnEntraFacebook.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntraFacebook.setText("Entra con FaceBook");
+        btnEntraFacebook.setText("Entra con Facebook");
         jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 370, 350, 35));
 
         btnIngresar.setBackground(new java.awt.Color(37, 161, 142));
@@ -144,7 +145,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 35, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 875, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
@@ -160,9 +161,9 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordActionPerformed
 
-    private void txtUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsuarioActionPerformed
+    private void txtCorreoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoUserActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtUsuarioActionPerformed
+    }//GEN-LAST:event_txtCorreoUserActionPerformed
 
     private void btnRegistrateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrateActionPerformed
         this.dispose();
@@ -172,7 +173,11 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
     }//GEN-LAST:event_btnRegistrateActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        Usuario usuario = new Usuario(this.txtUsuario.getText(),this.txtPassword.getText());
+        if(!Validaciones.validarCorreo(txtCorreoUser.getText())){
+            JOptionPane.showMessageDialog(this, "El correo no cuenta con un formato correcto", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        Usuario usuario = new Usuario(this.txtCorreoUser.getText(),this.txtPassword.getText());
         comunicadorVista.iniciarSesion(usuario);
     }//GEN-LAST:event_btnIngresarActionPerformed
 
@@ -226,8 +231,8 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
     private javax.swing.JLabel lblPassword;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JLabel rectangulo1;
+    private javax.swing.JTextField txtCorreoUser;
     private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 
     @Override

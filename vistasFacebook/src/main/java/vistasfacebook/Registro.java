@@ -10,11 +10,13 @@ import enumeradores.Sexo;
 import events.ManejadorEventos;
 import events.RegistrarUsuarioEvent;
 import interfaces.IRegistrarUsuarioObserver;
+import java.awt.event.KeyEvent;
 import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import peticiones.PeticionUsuario;
 import utils.ConversorLocalDateToCalendar;
+import utils.Validaciones;
 
 /**
  *
@@ -126,12 +128,22 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 240, -1));
 
         txtNoCelular.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtNoCelular.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNoCelularKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 240, -1));
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNombreActionPerformed(evt);
+            }
+        });
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
             }
         });
         jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 240, -1));
@@ -163,7 +175,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         });
         jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 190, 180, 35));
 
-        btnEntraFacebook.setText("Entra con FaceBook");
+        btnEntraFacebook.setText("Entra con Facebook");
         btnEntraFacebook.setBackground(new java.awt.Color(59, 89, 152));
         btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnEntraFacebook.setForeground(new java.awt.Color(255, 255, 255));
@@ -222,6 +234,15 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         String telefono = this.txtNoCelular.getText();
         Sexo sexo = (Sexo) cbSexo.getSelectedItem();
         Calendar fechaNacimiento = ConversorLocalDateToCalendar.convertir(this.txtFechaNacimiento.getDate());
+        
+        if(!Validaciones.validarCorreo(email)){
+            JOptionPane.showMessageDialog(this, "El correo no cuenta con un formato correcto", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        if(!Validaciones.validarTelefono(nombre)){
+            JOptionPane.showMessageDialog(this, "El Teléfono no cuenta con un formato correcto", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         Usuario usuario = new Usuario(nombre, password, email, telefono, sexo, fechaNacimiento);
         comunicadorVista.registrarUsuario(usuario);
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -233,9 +254,29 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         login.setVisible(true);
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
+    private void txtNoCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoCelularKeyTyped
+        if(txtNoCelular.getText().length() >= 10) {
+            evt.consume();
+        }
+
+        char caracter = evt.getKeyChar();
+        if (((caracter < '0')
+                || (caracter > '9'))
+                && (caracter != '\b')) {
+            evt.consume(); 
+        }
+    }//GEN-LAST:event_txtNoCelularKeyTyped
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        if (!Character.isLetter(evt.getKeyChar()) && !(evt.getKeyChar() == KeyEvent.VK_SPACE)
+                && !(evt.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
+            evt.consume();
+        } 
+    }//GEN-LAST:event_txtNombreKeyTyped
+
     @Override
     public void onRegistrarUsuario(PeticionUsuario peticionUsuario) {
-        if(peticionUsuario.getStatus() >= 400){
+        if (peticionUsuario.getStatus() >= 400){
             JOptionPane.showMessageDialog(this, peticionUsuario.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else{
             JOptionPane.showMessageDialog(this, "El usuario se registro correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
