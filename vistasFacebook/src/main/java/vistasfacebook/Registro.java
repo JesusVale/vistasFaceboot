@@ -9,6 +9,7 @@ import entidades.Usuario;
 import enumeradores.Sexo;
 import events.ManejadorEventos;
 import events.RegistrarUsuarioEvent;
+import interfaces.ILoginFacebookObserver;
 import interfaces.IRegistrarUsuarioObserver;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
@@ -16,6 +17,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import peticiones.PeticionUsuario;
 import utils.ConversorLocalDateToCalendar;
+import utils.FbConexion;
 import utils.Validaciones;
 
 /**
@@ -179,6 +181,11 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         btnEntraFacebook.setBackground(new java.awt.Color(59, 89, 152));
         btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnEntraFacebook.setForeground(new java.awt.Color(255, 255, 255));
+        btnEntraFacebook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntraFacebookActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 350, 270, 35));
 
         btnEntraGoogle.setText("Entra con Google");
@@ -273,6 +280,16 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
             evt.consume();
         } 
     }//GEN-LAST:event_txtNombreKeyTyped
+
+    private void btnEntraFacebookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntraFacebookActionPerformed
+        try {
+            FbConexion fbCon = new FbConexion();
+            Usuario usuario = fbCon.authUser();
+            comunicadorVista.iniciarSesionFacebook(usuario);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnEntraFacebookActionPerformed
 
     @Override
     public void onRegistrarUsuario(PeticionUsuario peticionUsuario) {
