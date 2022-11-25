@@ -19,7 +19,8 @@ public interface IComunicadorVista {
     public void RegistrarComentario(Comentario comentario);
     public void registrarPublicacion(Publicacion publicacion);
     public void consultarPublicaciones();
-    public void cosultarUsuarioPorId(Long id);
+    public void consultarComentariosPorId(Integer idPublicacion);
+    public void cosultarUsuarioPorId(Integer id);
     public void eliminarUsuario(Usuario usuario);
     public void eliminarPublicacion(Publicacion publicacion);
     public void eliminarComentario(Comentario comentario);

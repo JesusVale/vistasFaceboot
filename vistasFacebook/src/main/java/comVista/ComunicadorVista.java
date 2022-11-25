@@ -59,7 +59,7 @@ public class ComunicadorVista implements IComunicadorVista {
     }
 
     @Override
-    public void cosultarUsuarioPorId(Long id) {
+    public void cosultarUsuarioPorId(Integer id) {
         PeticionId peticionId = new PeticionId(Eventos.consultarUsuarioPorId, id);
         String peticion = conversor.convertirObjetoString(peticionId);
         EventListener.getInstance().enviarMensaje(peticion);
@@ -95,6 +95,13 @@ public class ComunicadorVista implements IComunicadorVista {
     public void RegistrarComentario(Comentario comentario) {
         PeticionComentario peticionRegistrarComentario = new PeticionComentario(Eventos.registrarComentario, comentario);
         String peticion = conversor.convertirObjetoString(peticionRegistrarComentario);
+        EventListener.getInstance().enviarMensaje(peticion);
+    }
+
+    @Override
+    public void consultarComentariosPorId(Integer idPublicacion) {
+        PeticionId peticionConsultarComentario = new PeticionId(Eventos.consultarComentarios, idPublicacion);
+        String peticion = conversor.convertirObjetoString(peticionConsultarComentario);
         EventListener.getInstance().enviarMensaje(peticion);
     }
 }

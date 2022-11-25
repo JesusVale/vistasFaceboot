@@ -28,7 +28,7 @@ public class ComentarioPanel extends javax.swing.JPanel {
     }
 
     private void llenarComentarios() {
-        this.usuarioTxt.setText(comentario.getUsuario().getNombre());
+        this.usuarioTxt.setText(usuario.getNombre());
         SimpleDateFormat fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
         String fecha = fechaFormat.format(comentario.getFechaPublicacion().getTime());
         this.lblFecha.setText(fecha);

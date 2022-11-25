@@ -18,6 +18,7 @@ import java.awt.Image;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import peticiones.PeticionComentario;
@@ -52,6 +53,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         RegistrarComentarioEvent.getInstance().suscribirse(this);
         ConsultarUsuarioEvent.getInstance().suscribirse(this);
         ConsultarComentariosEvent.getInstance().suscribirse(this);
+        comunicadorVista.consultarComentariosPorId(publicacion.getId());
         comunicadorVista.cosultarUsuarioPorId(publicacion.getUsuario());
 
     }
@@ -76,14 +78,12 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         Image imagenEscalada = imagenPublicacion.getScaledInstance(534, 239, Image.SCALE_SMOOTH);
         this.imageLbl.setIcon(new ImageIcon(imagenEscalada));
 
-        llenarComentarios();
-
     }
 
-    private void llenarComentarios() {
-        if(publicacion.getComentarios()==null) return;
+    private void llenarComentarios(List<Comentario> comentarios) {
+        if(comentarios==null) return;
         this.comentarioPane.setText("");
-        for (Comentario comentario : publicacion.getComentarios()) {
+        for (Comentario comentario : comentarios) {
             this.comentarioPane.insertComponent(new ComentarioPanel(comentario, usuario));
         }
     }
@@ -250,7 +250,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void btnRegistrarComentarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarComentarioActionPerformed
-        Comentario comentario = new Comentario(usuario,publicacion,Calendar.getInstance(),this.txtComentario.getText());
+        Comentario comentario = new Comentario(usuario.getId(),publicacion.getId(),Calendar.getInstance(),this.txtComentario.getText());
         comunicadorVista.RegistrarComentario(comentario);
     }//GEN-LAST:event_btnRegistrarComentarioActionPerformed
 
@@ -279,13 +279,18 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
 
     @Override
     public void onRegistrarComentario(PeticionComentario respuesta) {
-        if (publicacion.getId() == respuesta.getComentario().getPublicacion().getId()) {
+        if (publicacion.getId() == respuesta.getComentario().getPublicacion()) {
             llenarComentarios(respuesta.getComentario());
         }
     }
 
     @Override
     public void onConsultarComentarios(PeticionComentarios peticionComentarios) {
-
+        if(peticionComentarios.getComentarios().isEmpty()){
+            return;
+        }
+        if(publicacion.getId() == peticionComentarios.getComentarios().get(0).getId()){
+            llenarComentarios(peticionComentarios.getComentarios());
+        }
     }
 }
