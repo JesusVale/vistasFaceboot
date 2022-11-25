@@ -239,7 +239,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
             JOptionPane.showMessageDialog(this, "El correo no cuenta con un formato correcto", "Información", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        if(!Validaciones.validarTelefono(nombre)){
+        if(!Validaciones.validarTelefono(telefono)){
             JOptionPane.showMessageDialog(this, "El Teléfono no cuenta con un formato correcto", "Información", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
