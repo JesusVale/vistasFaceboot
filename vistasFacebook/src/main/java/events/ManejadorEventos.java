@@ -28,6 +28,7 @@ public class ManejadorEventos {
         eventsNotifier.put(Eventos.consultarComentarios, ConsultarComentariosEvent.getInstance());
         eventsNotifier.put(Eventos.eliminarUsuario, EliminarUsuarioEvent.getInstance());
         eventsNotifier.put(Eventos.eliminarPublicacion, EliminarPublicacionEvent.getInstance());
+        eventsNotifier.put(Eventos.iniciarSesionFacebook, IniciarSesionFacebookEvent.getInstance());
     }
     
     public static ManejadorEventos getInstance(){

@@ -9,16 +9,18 @@ import comVista.EventListener;
 import comVista.IComunicadorVista;
 import entidades.Usuario;
 import events.LoginEvent;
+import interfaces.ILoginFacebookObserver;
 import interfaces.ILoginObserver;
 import javax.swing.JOptionPane;
 import peticiones.PeticionUsuario;
+import utils.FbConexion;
 import utils.Validaciones;
 
 /**
  *
  * @author tonyd
  */
-public class Login extends javax.swing.JFrame implements ILoginObserver  {
+public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginFacebookObserver  {
 
     private IComunicadorVista comunicadorVista;
 
@@ -97,6 +99,11 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnEntraFacebook.setForeground(new java.awt.Color(255, 255, 255));
         btnEntraFacebook.setText("Entra con Facebook");
+        btnEntraFacebook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntraFacebookActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 370, 350, 35));
 
         btnIngresar.setBackground(new java.awt.Color(37, 161, 142));
@@ -163,6 +170,17 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         comunicadorVista.iniciarSesion(usuario);
     }//GEN-LAST:event_btnIngresarActionPerformed
 
+    private void btnEntraFacebookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntraFacebookActionPerformed
+        try {
+            FbConexion fbCon = new FbConexion();
+            Usuario usuario = fbCon.authUser();
+            comunicadorVista.iniciarSesionFacebook(usuario);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        
+    }//GEN-LAST:event_btnEntraFacebookActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -219,6 +237,15 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
 
     @Override
     public void onLogin(PeticionUsuario peticionUsuario) {
+        manejarLogin(peticionUsuario);
+    }
+
+    @Override
+    public void onLoginFacebook(PeticionUsuario usuario) {
+        manejarLogin(usuario);
+    }
+    
+    public void manejarLogin(PeticionUsuario peticionUsuario){
         System.out.println("Hola PUM");
         System.out.println("Llego con status "+peticionUsuario.getStatus());
         if(peticionUsuario.getStatus() < 400){

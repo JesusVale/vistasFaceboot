@@ -14,6 +14,7 @@ import entidades.Usuario;
  */
 public interface IComunicadorVista {
     public void iniciarSesion(Usuario usuario);
+    public void iniciarSesionFacebook(Usuario usuario);
     public void registrarUsuario(Usuario usuario);
     public void EditarUsuario(Usuario usuario);
     public void RegistrarComentario(Comentario comentario);

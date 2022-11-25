@@ -38,6 +38,13 @@ public class ComunicadorVista implements IComunicadorVista {
     }
 
     @Override
+    public void iniciarSesionFacebook(Usuario usuario) {
+        PeticionUsuario peticionIniciarSesionFB = new PeticionUsuario(Eventos.iniciarSesionFacebook, usuario);
+        String peticion = conversor.convertirObjetoString(peticionIniciarSesionFB);
+        EventListener.getInstance().enviarMensaje(peticion);
+    }
+    
+    @Override
     public void registrarUsuario(Usuario usuario) {
         PeticionUsuario peticionRegistroUsuario = new PeticionUsuario(Eventos.registrarUsuario, usuario);
         String peticion = conversor.convertirObjetoString(peticionRegistroUsuario);
