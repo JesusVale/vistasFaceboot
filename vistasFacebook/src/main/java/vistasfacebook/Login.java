@@ -219,12 +219,15 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
 
     @Override
     public void onLogin(PeticionUsuario peticionUsuario) {
+        System.out.println("Hola PUM");
+        System.out.println("Llego con status "+peticionUsuario.getStatus());
         if(peticionUsuario.getStatus() < 400){
             this.dispose();
             LoginEvent.getInstance().desuscribir(this);
             MuroFrm muro = new MuroFrm(comunicadorVista, peticionUsuario.getUsuario());
             muro.setVisible(true);
         } else{
+            System.out.println("HOLA XD");
             JOptionPane.showMessageDialog(this, peticionUsuario.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
     }

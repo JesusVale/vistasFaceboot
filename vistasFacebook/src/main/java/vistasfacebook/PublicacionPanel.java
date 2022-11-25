@@ -89,6 +89,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
     }
 
     private void llenarComentarios(Comentario comentario) {
+        System.out.println("Lleno el comentario: "+comentario.getContenido());
         this.comentarioPane.insertComponent(new ComentarioPanel(comentario, usuario));
     }
 
@@ -279,7 +280,10 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
 
     @Override
     public void onRegistrarComentario(PeticionComentario respuesta) {
+        System.out.println("Hola PUM");
+        
         if (publicacion.getId() == respuesta.getComentario().getPublicacion()) {
+            System.out.println("Soy Homelo Chino");
             llenarComentarios(respuesta.getComentario());
         }
     }
