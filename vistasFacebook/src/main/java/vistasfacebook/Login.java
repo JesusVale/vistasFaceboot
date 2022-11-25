@@ -76,19 +76,9 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         jPanel1.add(lblO, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 320, 350, 35));
 
         txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPasswordActionPerformed(evt);
-            }
-        });
         jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 200, 250, 33));
 
         txtCorreoUser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtCorreoUser.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCorreoUserActionPerformed(evt);
-            }
-        });
         jPanel1.add(txtCorreoUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 160, 250, 33));
 
         btnRegistrate.setBackground(new java.awt.Color(159, 255, 203));
@@ -156,14 +146,6 @@ public class Login extends javax.swing.JFrame implements ILoginObserver  {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordActionPerformed
-
-    private void txtCorreoUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoUserActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCorreoUserActionPerformed
 
     private void btnRegistrateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrateActionPerformed
         this.dispose();

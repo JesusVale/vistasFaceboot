@@ -22,14 +22,14 @@ public class Validaciones {
         String email = correo;
         Matcher matcher = pattern.matcher(email);
  
-        return !matcher.find();
+        return matcher.find();
     }
     
     public static boolean validarTelefono(String numero) {
-        String regex = "^\\d{8,11}$";
+        String regex = "^\\d{10}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(numero);
-        return !matcher.find();
+        return matcher.find();
     }
     
 }
