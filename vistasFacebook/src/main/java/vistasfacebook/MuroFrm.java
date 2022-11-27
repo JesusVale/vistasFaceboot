@@ -208,7 +208,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
     }
 
     public void actualizarMuro(Publicacion publicacion) {
-//        this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
+        this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
     }
 
     /**
@@ -259,6 +259,8 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
 
     @Override
     public void onRegistrarPublicacion(PeticionPublicacion peticionPublicacion) {
+        System.out.println("Si llega alv, faaaak");
+        System.out.println(peticionPublicacion.getPublicacion().getTexto());
         actualizarMuro(peticionPublicacion.getPublicacion());
     }
 
