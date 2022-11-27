@@ -30,7 +30,7 @@ import peticiones.PeticionUsuario;
  *
  * @author jegav
  */
-public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUsuarioObserver, IRegistrarComentarioObserver, IConsultarComentariosObserver {
+public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarComentarioObserver{
 
     private Publicacion publicacion;
     private Usuario usuario;
@@ -46,16 +46,13 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         this.comunicadorVista = comunicadorVista;
         this.publicacion = publicacion;
         this.usuario = usuario;
-        if (publicacion.getUsuario() != usuario.getId()) {
+        if (publicacion.getUsuario().getId() != usuario.getId()) {
             this.editarBtn.setVisible(false);
             this.deleteBtn.setVisible(false);
         }
         RegistrarComentarioEvent.getInstance().suscribirse(this);
-        ConsultarUsuarioEvent.getInstance().suscribirse(this);
-        ConsultarComentariosEvent.getInstance().suscribirse(this);
-        comunicadorVista.consultarComentariosPorId(publicacion.getId());
-        comunicadorVista.cosultarUsuarioPorId(publicacion.getUsuario());
-
+        llenarPanel();
+        llenarComentarios(publicacion.getComentarios());
     }
 
     public PublicacionPanel() {
@@ -63,11 +60,11 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
 
     }
 
-    private void llenarPanel(Usuario usuarioPublicacion) {
-        this.nombreLbl.setText(usuarioPublicacion.getNombre());
+    private void llenarPanel() {
+        this.nombreLbl.setText(publicacion.getUsuario().getNombre());
         this.descripcionLbl.setText(publicacion.getTexto());
         SimpleDateFormat fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String fecha = fechaFormat.format(publicacion.getFechaCreacion().getTime());
+        String fecha = fechaFormat.format(publicacion.getFecha().getTime());
         this.fechaLbl.setText(fecha);
 
         if (publicacion.getImagen() == null) {
@@ -88,7 +85,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
         }
     }
 
-    private void llenarComentarios(Comentario comentario) {
+    private void llenarComentario(Comentario comentario) {
         System.out.println("Lleno el comentario: "+comentario.getContenido());
         this.comentarioPane.insertComponent(new ComentarioPanel(comentario, usuario));
     }
@@ -251,7 +248,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void btnRegistrarComentarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarComentarioActionPerformed
-        Comentario comentario = new Comentario(usuario.getId(),publicacion.getId(),Calendar.getInstance(),this.txtComentario.getText());
+        Comentario comentario = new Comentario(usuario,publicacion,Calendar.getInstance(),this.txtComentario.getText());
         comunicadorVista.RegistrarComentario(comentario);
     }//GEN-LAST:event_btnRegistrarComentarioActionPerformed
 
@@ -272,29 +269,12 @@ public class PublicacionPanel extends javax.swing.JPanel implements IConsultarUs
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onConsultarUsuario(PeticionUsuario peticionUsuario) {
-        if (publicacion.getUsuario() == peticionUsuario.getUsuario().getId()) {
-            llenarPanel(peticionUsuario.getUsuario());
-        }
-    }
-
-    @Override
     public void onRegistrarComentario(PeticionComentario respuesta) {
         System.out.println("Hola PUM");
         
-        if (publicacion.getId() == respuesta.getComentario().getPublicacion()) {
+        if (publicacion.getId() == respuesta.getComentario().getPublicacion().getId()) {
             System.out.println("Soy Homelo Chino");
-            llenarComentarios(respuesta.getComentario());
-        }
-    }
-
-    @Override
-    public void onConsultarComentarios(PeticionComentarios peticionComentarios) {
-        if(peticionComentarios.getComentarios().isEmpty()){
-            return;
-        }
-        if(publicacion.getId() == peticionComentarios.getComentarios().get(0).getId()){
-            llenarComentarios(peticionComentarios.getComentarios());
+            llenarComentario(respuesta.getComentario());
         }
     }
 }
