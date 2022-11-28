@@ -6,6 +6,7 @@ package vistasfacebook;
 
 import comVista.ComunicadorVista;
 import comVista.IComunicadorVista;
+import entidades.Hashtag;
 import entidades.Publicacion;
 import entidades.Usuario;
 import events.ManejadorEventos;
@@ -20,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
@@ -178,7 +180,12 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         Calendar fecha = Calendar.getInstance();
-        Publicacion nuevaPublicacion = new Publicacion(usuario, fecha, txtContenido.getText(), path);
+        List<Hashtag> hashtags = new ArrayList<Hashtag>();
+        Hashtag ea = new Hashtag("#viral");
+        Hashtag e2 = new Hashtag("#fpy");
+        hashtags.add(ea);
+        hashtags.add(e2);
+        Publicacion nuevaPublicacion = new Publicacion(usuario, fecha, txtContenido.getText(), path, hashtags);
         comunicadorVista.registrarPublicacion(nuevaPublicacion);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
