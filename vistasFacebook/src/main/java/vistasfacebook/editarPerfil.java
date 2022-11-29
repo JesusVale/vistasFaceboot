@@ -7,40 +7,47 @@ package vistasfacebook;
 import comVista.IComunicadorVista;
 import entidades.Usuario;
 import enumeradores.Sexo;
-import events.ManejadorEventos;
-import events.RegistrarUsuarioEvent;
-import interfaces.ILoginFacebookObserver;
-import interfaces.IRegistrarUsuarioObserver;
+import events.EditarUsuarioEvent;
+import interfaces.IEditarUsuarioObserver;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
+import javax.swing.border.EmptyBorder;
 import peticiones.PeticionUsuario;
 import utils.ConversorFechas;
-import utils.FbConexion;
-import utils.Validaciones;
+
+
 
 /**
  *
  * @author tonyd
  */
-public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObserver {
+public class editarPerfil extends javax.swing.JFrame implements IEditarUsuarioObserver {
 
     private IComunicadorVista comunicadorVista;
 
     /**
      * Creates new form Registro
      */
-    public Registro(IComunicadorVista comunicadorVista) {
+    public editarPerfil(IComunicadorVista comunicadorVista, Usuario usuario) {
         initComponents();
         llenarComboBoxSexo();
         this.comunicadorVista = comunicadorVista;
-        
-        RegistrarUsuarioEvent.getInstance().suscribirse(this);
-        //suscribeRegistrarComentario(this);
-        //suscribeRegistrarPublicacion(this);
+        this.txtEmail.setEditable(false);
+        this.txtNoCelular.setEditable(false);
+        llenarCampos(usuario);
+        EditarUsuarioEvent.getInstance().suscribirse(this);
     }
-
+    
+    public void llenarCampos(Usuario usuario){
+        this.txtNombre.setText(usuario.getNombre());
+        this.txtEmail.setText(usuario.getEmail());
+        this.txtNoCelular.setText(usuario.getTelefono());
+        this.txtFechaNacimiento.setDate(ConversorFechas.toLocalDate(usuario.getFechaNacimiento()));
+        this.cbSexo.setSelectedItem(usuario.getSexo());
+    }
+    
+    
     public void llenarComboBoxSexo(){
         cbSexo.setModel(new DefaultComboBoxModel(Sexo.values()));
     }
@@ -56,30 +63,22 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
 
         jPanel1 = new javax.swing.JPanel();
         lblNoCelular = new javax.swing.JLabel();
-        lblPassword = new javax.swing.JLabel();
         lblFechaNacimiento = new javax.swing.JLabel();
         lblSexo = new javax.swing.JLabel();
         lblEmail = new javax.swing.JLabel();
-        lblRegistraCon = new javax.swing.JLabel();
         lblNombre1 = new javax.swing.JLabel();
-        lblYaTienesCuenta = new javax.swing.JLabel();
         lblIcoFacebbok = new javax.swing.JLabel();
         lblIcoGoogle = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JPasswordField();
         txtNoCelular = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtFechaNacimiento = new com.github.lgooddatepicker.components.DatePicker();
         cbSexo = new javax.swing.JComboBox<>();
-        btnAgregar = new javax.swing.JButton();
-        btnIniciarSesion = new javax.swing.JButton();
-        btnEntraFacebook = new javax.swing.JButton();
-        btnEntraGoogle = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
         barra1 = new javax.swing.JLabel();
         barra2 = new javax.swing.JLabel();
         rectangulo1 = new javax.swing.JLabel();
-        rectangulo2 = new javax.swing.JLabel();
-        rectangulo3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login Faceboot");
@@ -91,43 +90,28 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
 
         lblNoCelular.setText("No. Celular");
         lblNoCelular.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jPanel1.add(lblNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(143, 270, -1, -1));
-
-        lblPassword.setText("Contraseña");
-        lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jPanel1.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 220, -1, -1));
+        jPanel1.add(lblNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, -1, -1));
 
         lblFechaNacimiento.setText("Fecha de nacimiento");
         lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jPanel1.add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(72, 370, -1, -1));
+        jPanel1.add(lblFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 360, -1, -1));
 
         lblSexo.setText("Sexo");
         lblSexo.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jPanel1.add(lblSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(192, 320, -1, -1));
+        jPanel1.add(lblSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, -1, -1));
 
         lblEmail.setText("E-mail");
         lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
-
-        lblRegistraCon.setText("Registra con...");
-        lblRegistraCon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jPanel1.add(lblRegistraCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(658, 300, -1, -1));
+        jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, -1, -1));
 
         lblNombre1.setText("Nombre");
         lblNombre1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jPanel1.add(lblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(167, 120, -1, -1));
-
-        lblYaTienesCuenta.setText("¿Ya tienes una cuenta?");
-        lblYaTienesCuenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jPanel1.add(lblYaTienesCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(623, 140, -1, -1));
+        jPanel1.add(lblNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, -1, -1));
         jPanel1.add(lblIcoFacebbok, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 353, -1, -1));
         jPanel1.add(lblIcoGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(605, 424, -1, -1));
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, 240, -1));
-
-        txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 240, -1));
+        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 210, 530, -1));
 
         txtNoCelular.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtNoCelular.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -135,7 +119,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
                 txtNoCelularKeyTyped(evt);
             }
         });
-        jPanel1.add(txtNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 270, 240, -1));
+        jPanel1.add(txtNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, 260, -1));
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
@@ -148,51 +132,34 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
                 txtNombreKeyTyped(evt);
             }
         });
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 120, 240, -1));
-        jPanel1.add(txtFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 370, 250, -1));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 530, -1));
+        jPanel1.add(txtFechaNacimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 360, 260, -1));
 
         cbSexo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         cbSexo.setToolTipText("");
-        jPanel1.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 130, -1));
+        jPanel1.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 310, 260, -1));
 
-        btnAgregar.setText("Registrar");
-        btnAgregar.setBackground(new java.awt.Color(37, 161, 142));
-        btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setBackground(new java.awt.Color(37, 161, 142));
+        btnCancel.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCancel.setForeground(new java.awt.Color(255, 255, 255));
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, 180, 35));
+        jPanel1.add(btnCancel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 460, 180, 35));
 
-        btnIniciarSesion.setText("Iniciar Sesión");
-        btnIniciarSesion.setBackground(new java.awt.Color(37, 161, 142));
-        btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizar.setText("Guardar Cambios");
+        btnActualizar.setBackground(new java.awt.Color(37, 161, 142));
+        btnActualizar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIniciarSesionActionPerformed(evt);
+                btnActualizarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 190, 180, 35));
-
-        btnEntraFacebook.setText("Entra con Facebook");
-        btnEntraFacebook.setBackground(new java.awt.Color(59, 89, 152));
-        btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnEntraFacebook.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntraFacebook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEntraFacebookActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 350, 270, 35));
-
-        btnEntraGoogle.setText("Entra con Google");
-        btnEntraGoogle.setBackground(new java.awt.Color(219, 74, 57));
-        btnEntraGoogle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnEntraGoogle.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(btnEntraGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 420, 270, 35));
+        jPanel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 460, 180, 35));
 
         barra1.setBackground(new java.awt.Color(37, 161, 142));
         barra1.setOpaque(true);
@@ -202,18 +169,10 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         barra2.setOpaque(true);
         jPanel1.add(barra2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 60));
 
-        rectangulo1.setBackground(new java.awt.Color(159, 255, 203));
+        rectangulo1.setBackground(new java.awt.Color(204, 255, 204));
         rectangulo1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         rectangulo1.setOpaque(true);
-        jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 500, 400));
-
-        rectangulo2.setBackground(new java.awt.Color(159, 255, 203));
-        rectangulo2.setOpaque(true);
-        jPanel1.add(rectangulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 275, 320, 220));
-
-        rectangulo3.setBackground(new java.awt.Color(159, 255, 203));
-        rectangulo3.setOpaque(true);
-        jPanel1.add(rectangulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 100, 320, 150));
+        jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 910, 480));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -234,35 +193,18 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         String nombre = this.txtNombre.getText();
-        String password = String.valueOf(this.txtPassword.getPassword());
         String email = this.txtEmail.getText();
         String telefono = this.txtNoCelular.getText();
         Sexo sexo = (Sexo) cbSexo.getSelectedItem();
         Calendar fechaNacimiento = ConversorFechas.toCalendar(this.txtFechaNacimiento.getDate());
-        
-        if(!Validaciones.validarCorreo(email)){
-            JOptionPane.showMessageDialog(this, "El correo no cuenta con un formato correcto", "Información", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        if(!Validaciones.validarTelefono(telefono)){
-            JOptionPane.showMessageDialog(this, "El Teléfono no cuenta con un formato correcto", "Información", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        Usuario usuario = new Usuario(nombre, password, email, telefono, sexo, fechaNacimiento);
-        comunicadorVista.registrarUsuario(usuario);
-    }//GEN-LAST:event_btnAgregarActionPerformed
-
-    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        this.dispose();
-        RegistrarUsuarioEvent.getInstance().desuscribirse(this);
-        Login login = new Login(comunicadorVista);
-        login.setVisible(true);
-    }//GEN-LAST:event_btnIniciarSesionActionPerformed
+        Usuario usuario = new Usuario(nombre, email, telefono, sexo, fechaNacimiento);
+        comunicadorVista.EditarUsuario(usuario);
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void txtNoCelularKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNoCelularKeyTyped
-        if(txtNoCelular.getText().length() >= 10) {
+        if (txtNoCelular.getText().length() >= 10) {
             evt.consume();
         }
 
@@ -281,32 +223,10 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         } 
     }//GEN-LAST:event_txtNombreKeyTyped
 
-    private void btnEntraFacebookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntraFacebookActionPerformed
-        try {
-            FbConexion fbCon = new FbConexion();
-            Usuario usuario = fbCon.authUser();
-            String telefono ="";
-            do{
-               telefono = JOptionPane.showInputDialog("Inserta tu telefono");
-               if(!Validaciones.validarTelefono(telefono)){
-                   JOptionPane.showMessageDialog(this, "Formato de teléfono erroneo");
-               }
-            }while(!Validaciones.validarTelefono(telefono));
-            usuario.setTelefono(telefono);
-            comunicadorVista.iniciarSesionFacebook(usuario);
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }//GEN-LAST:event_btnEntraFacebookActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelActionPerformed
 
-    @Override
-    public void onRegistrarUsuario(PeticionUsuario peticionUsuario) {
-        if (peticionUsuario.getStatus() >= 400){
-            JOptionPane.showMessageDialog(this, peticionUsuario.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
-        } else{
-            JOptionPane.showMessageDialog(this, "El usuario se registro correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
   
 //    /**
 //     * @param args the command line arguments
@@ -346,10 +266,8 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barra1;
     private javax.swing.JLabel barra2;
-    private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnEntraFacebook;
-    private javax.swing.JButton btnEntraGoogle;
-    private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JComboBox<String> cbSexo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblEmail;
@@ -358,19 +276,17 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
     private javax.swing.JLabel lblIcoGoogle;
     private javax.swing.JLabel lblNoCelular;
     private javax.swing.JLabel lblNombre1;
-    private javax.swing.JLabel lblPassword;
-    private javax.swing.JLabel lblRegistraCon;
     private javax.swing.JLabel lblSexo;
-    private javax.swing.JLabel lblYaTienesCuenta;
     private javax.swing.JLabel rectangulo1;
-    private javax.swing.JLabel rectangulo2;
-    private javax.swing.JLabel rectangulo3;
     private javax.swing.JTextField txtEmail;
     private com.github.lgooddatepicker.components.DatePicker txtFechaNacimiento;
     private javax.swing.JTextField txtNoCelular;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
 
-    
+    @Override
+    public void onEditarUsuario(PeticionUsuario respuesta) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

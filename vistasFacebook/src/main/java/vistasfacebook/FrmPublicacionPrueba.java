@@ -35,7 +35,7 @@ import org.apache.commons.io.IOUtils;
 import peticiones.Peticion;
 import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
-import utils.ConversorLocalDateToCalendar;
+import utils.ConversorFechas;
 
 /**
  *

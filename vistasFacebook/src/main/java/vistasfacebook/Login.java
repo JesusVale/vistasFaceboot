@@ -241,21 +241,36 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
     }
 
     @Override
-    public void onLoginFacebook(PeticionUsuario usuario) {
+    public void onLoginFacebook(PeticionUsuario usuario) {        
         manejarLogin(usuario);
     }
     
     public void manejarLogin(PeticionUsuario peticionUsuario){
         System.out.println("Hola PUM");
-        System.out.println("Llego con status "+peticionUsuario.getStatus());
-        if(peticionUsuario.getStatus() < 400){
+        System.out.println("Llego con status " + peticionUsuario.getStatus());
+        if (peticionUsuario.getStatus() < 400) {
+            verificarTelefono(peticionUsuario.getUsuario());
             this.dispose();
             LoginEvent.getInstance().desuscribir(this);
             MuroFrm muro = new MuroFrm(comunicadorVista, peticionUsuario.getUsuario());
             muro.setVisible(true);
-        } else{
+        } else {
             System.out.println("HOLA XD");
             JOptionPane.showMessageDialog(this, peticionUsuario.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void verificarTelefono(Usuario usuario) {
+        if (usuario.getTelefono() == null) {
+            String telefono = "";
+            do {
+                telefono = JOptionPane.showInputDialog("Inserta tu telefono");
+                if (!Validaciones.validarTelefono(telefono)) {
+                    JOptionPane.showMessageDialog(this, "Formato de teléfono erroneo");
+                }
+            } while (!Validaciones.validarTelefono(telefono));
+            usuario.setTelefono(telefono);
+            comunicadorVista.EditarUsuario(usuario);
         }
     }
 

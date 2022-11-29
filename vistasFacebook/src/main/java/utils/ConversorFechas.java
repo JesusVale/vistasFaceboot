@@ -5,6 +5,7 @@
 package utils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,11 +14,16 @@ import java.util.Date;
  *
  * @author jegav
  */
-public class ConversorLocalDateToCalendar {
-    public static Calendar convertir(LocalDate date){
+public class ConversorFechas {
+    public static Calendar toCalendar(LocalDate date){
         Date fechaDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fechaDate);
         return calendar;
+    }
+    
+    public static LocalDate toLocalDate(Calendar date){
+        LocalDate localDate = LocalDateTime.ofInstant(date.toInstant(), date.getTimeZone().toZoneId()).toLocalDate();
+        return localDate;
     }
 }
