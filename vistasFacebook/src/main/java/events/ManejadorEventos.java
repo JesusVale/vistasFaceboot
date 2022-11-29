@@ -32,6 +32,7 @@ public class ManejadorEventos {
         eventsNotifier.put(Eventos.iniciarSesionFacebook, IniciarSesionFacebookEvent.getInstance());
         eventsNotifier.put(Eventos.registrarNotificacion, RegistrarNotificacionEvent.getInstance());
         eventsNotifier.put(Eventos.registrarHashtags, RegistrarHashtagsEvent.getInstance());
+        eventsNotifier.put(Eventos.consultarUsuarioPorNombre, ConsultarUsuarioPorNombreEvent.getInstance());
     }
 
     public static ManejadorEventos getInstance() {

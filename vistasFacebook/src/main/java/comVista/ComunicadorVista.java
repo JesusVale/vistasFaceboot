@@ -19,6 +19,7 @@ import peticiones.PeticionHashtags;
 import peticiones.PeticionId;
 import peticiones.PeticionNotificacion;
 import peticiones.PeticionPublicacion;
+import peticiones.PeticionString;
 import peticiones.PeticionUsuario;
 
 /**
@@ -127,6 +128,13 @@ public class ComunicadorVista implements IComunicadorVista {
     public void registrarHashtags(List<Hashtag> hashtags) {
         PeticionHashtags peticionRegistrarHashtags = new PeticionHashtags(Eventos.registrarHashtags, hashtags);
         String peticion = conversor.convertirObjetoString(peticionRegistrarHashtags);
+        EventListener.getInstance().enviarMensaje(peticion);
+    }
+
+    @Override
+    public void consultarUsuarioPorNombre(String nombre) {
+        PeticionString peticionString = new PeticionString(Eventos.consultarUsuarioPorNombre, nombre);
+        String peticion = conversor.convertirObjetoString(peticionString);
         EventListener.getInstance().enviarMensaje(peticion);
     }
 }

@@ -30,6 +30,6 @@ public interface IComunicadorVista {
     public void eliminarComentario(Comentario comentario);
     public void registrarNotificacion(Notificacion notificacion);
     public void registrarHashtags(List<Hashtag> hashtags);
-    
+    public void consultarUsuarioPorNombre(String nombre);
     
 }
