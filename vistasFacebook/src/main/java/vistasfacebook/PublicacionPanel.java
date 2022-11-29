@@ -41,13 +41,12 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
      */
     public PublicacionPanel(Publicacion publicacion, Usuario usuario, IComunicadorVista comunicadorVista) {
         initComponents();
-        //this.setSize(655, 532);
-
+        
+        deleteBtn.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\trashIcon.png"));
         this.comunicadorVista = comunicadorVista;
         this.publicacion = publicacion;
         this.usuario = usuario;
         if (publicacion.getUsuario().getId() != usuario.getId()) {
-            this.editarBtn.setVisible(false);
             this.deleteBtn.setVisible(false);
         }
         RegistrarComentarioEvent.getInstance().suscribirse(this);
@@ -67,14 +66,19 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
         String fecha = fechaFormat.format(publicacion.getFecha().getTime());
         this.fechaLbl.setText(fecha);
 
-        if (publicacion.getImagen() == null) {
-            this.imageLbl.setSize(0, 0);
-            return;
+        if (publicacion.getImagen() != null) {
+            Image imagenPublicacion = new ImageIcon(publicacion.getImagen()).getImage();
+            Image imagenEscalada = imagenPublicacion.getScaledInstance(534, 239, Image.SCALE_SMOOTH);
+            this.imageLbl.setIcon(new ImageIcon(imagenEscalada));
+            
+            this.revalidate();
+            this.repaint();
+          
+            this.jPanel1.revalidate();
+            this.jPanel1.repaint();
+            
+            
         }
-        Image imagenPublicacion = new ImageIcon(publicacion.getImagen()).getImage();
-        Image imagenEscalada = imagenPublicacion.getScaledInstance(534, 239, Image.SCALE_SMOOTH);
-        this.imageLbl.setIcon(new ImageIcon(imagenEscalada));
-
     }
 
     private void llenarComentarios(List<Comentario> comentarios) {
@@ -107,17 +111,14 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
         jLabel2 = new javax.swing.JLabel();
         btnRegistrarComentario = new javax.swing.JButton();
         imageLbl = new javax.swing.JLabel();
-        editarBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         comentarioPane = new javax.swing.JTextPane();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(620, 625));
 
         jPanel1.setBackground(new java.awt.Color(241, 250, 238));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.setPreferredSize(new java.awt.Dimension(607, 603));
 
         nombreLbl.setFont(new java.awt.Font("Nirmala UI Semilight", 1, 18)); // NOI18N
         nombreLbl.setText("Nombre Usuario");
@@ -137,12 +138,8 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
             }
         });
 
-        editarBtn.setBackground(new java.awt.Color(37, 161, 142));
-        editarBtn.setText("Editar");
-        editarBtn.setBorder(null);
-
         deleteBtn.setBackground(new java.awt.Color(37, 161, 142));
-        deleteBtn.setText("Borrar");
+        deleteBtn.setIcon(new javax.swing.ImageIcon("D:\\Proyecto MVC\\vistasFaceboot\\vistasFacebook\\src\\main\\java\\imagenes\\trashIcon.png")); // NOI18N
         deleteBtn.setBorder(null);
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,50 +161,52 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(descripcionLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(imageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(37, 37, 37)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(descripcionLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addComponent(fechaLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(nombreLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(deleteBtn))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(txtComentario, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(btnRegistrarComentario))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGap(1, 1, 1)
-                                    .addComponent(fechaLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(nombreLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(246, 246, 246)
-                                    .addComponent(editarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(40, 40, 40)
-                                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(18, 18, 18))
+                        .addGap(14, 14, 14)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(224, 224, 224)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(5, 5, 5)
+                                .addComponent(txtComentario, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(12, 12, 12)
+                                .addComponent(btnRegistrarComentario))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(nombreLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(editarBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(8, 8, 8)
-                .addComponent(fechaLbl)
-                .addGap(20, 20, 20)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(nombreLbl)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fechaLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addComponent(descripcionLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(imageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addComponent(imageLbl)
+                .addGap(28, 28, 28)
                 .addComponent(jLabel2)
                 .addGap(11, 11, 11)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +216,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
                     .addComponent(btnRegistrarComentario))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -226,15 +225,15 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 599, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -258,7 +257,6 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
     private javax.swing.JTextPane comentarioPane;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JLabel descripcionLbl;
-    private javax.swing.JButton editarBtn;
     private javax.swing.JLabel fechaLbl;
     private javax.swing.JLabel imageLbl;
     private javax.swing.JLabel jLabel2;

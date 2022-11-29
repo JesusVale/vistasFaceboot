@@ -33,6 +33,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
      */
     public Registro(IComunicadorVista comunicadorVista) {
         initComponents();
+        faceboolIconBtn.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\facebbokIco.png"));
         llenarComboBoxSexo();
         this.comunicadorVista = comunicadorVista;
         
@@ -55,6 +56,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         lblNoCelular = new javax.swing.JLabel();
         lblPassword = new javax.swing.JLabel();
         lblFechaNacimiento = new javax.swing.JLabel();
@@ -63,19 +65,16 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         lblRegistraCon = new javax.swing.JLabel();
         lblNombre1 = new javax.swing.JLabel();
         lblYaTienesCuenta = new javax.swing.JLabel();
-        lblIcoFacebbok = new javax.swing.JLabel();
-        lblIcoGoogle = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
         txtNoCelular = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtFechaNacimiento = new com.github.lgooddatepicker.components.DatePicker();
         cbSexo = new javax.swing.JComboBox<>();
+        faceboolIconBtn = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         btnIniciarSesion = new javax.swing.JButton();
         btnEntraFacebook = new javax.swing.JButton();
-        btnEntraGoogle = new javax.swing.JButton();
-        barra1 = new javax.swing.JLabel();
         barra2 = new javax.swing.JLabel();
         rectangulo1 = new javax.swing.JLabel();
         rectangulo2 = new javax.swing.JLabel();
@@ -84,10 +83,15 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login Faceboot");
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(241, 250, 238));
         jPanel1.setForeground(new java.awt.Color(153, 153, 153));
         jPanel1.setMinimumSize(new java.awt.Dimension(910, 600));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 3, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Registro");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         lblNoCelular.setText("No. Celular");
         lblNoCelular.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -110,8 +114,8 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         jPanel1.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
 
         lblRegistraCon.setText("Registra con...");
-        lblRegistraCon.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jPanel1.add(lblRegistraCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(658, 300, -1, -1));
+        lblRegistraCon.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jPanel1.add(lblRegistraCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 290, -1, -1));
 
         lblNombre1.setText("Nombre");
         lblNombre1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -120,8 +124,6 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         lblYaTienesCuenta.setText("¿Ya tienes una cuenta?");
         lblYaTienesCuenta.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jPanel1.add(lblYaTienesCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(623, 140, -1, -1));
-        jPanel1.add(lblIcoFacebbok, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 353, -1, -1));
-        jPanel1.add(lblIcoGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(605, 424, -1, -1));
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, 240, -1));
@@ -155,8 +157,12 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         cbSexo.setToolTipText("");
         jPanel1.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 130, -1));
 
+        faceboolIconBtn.setBackground(new java.awt.Color(212, 237, 231));
+        faceboolIconBtn.setBorder(null);
+        jPanel1.add(faceboolIconBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 340, 120, 100));
+
         btnAgregar.setText("Registrar");
-        btnAgregar.setBackground(new java.awt.Color(37, 161, 142));
+        btnAgregar.setBackground(new java.awt.Color(142, 207, 195));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -167,7 +173,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, 180, 35));
 
         btnIniciarSesion.setText("Iniciar Sesión");
-        btnIniciarSesion.setBackground(new java.awt.Color(37, 161, 142));
+        btnIniciarSesion.setBackground(new java.awt.Color(142, 207, 195));
         btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -177,41 +183,31 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         });
         jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 190, 180, 35));
 
-        btnEntraFacebook.setText("Entra con Facebook");
-        btnEntraFacebook.setBackground(new java.awt.Color(59, 89, 152));
-        btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnEntraFacebook.setForeground(new java.awt.Color(255, 255, 255));
+        btnEntraFacebook.setText("Facebook");
+        btnEntraFacebook.setBackground(new java.awt.Color(212, 237, 231));
+        btnEntraFacebook.setBorder(null);
+        btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnEntraFacebook.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEntraFacebookActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 350, 270, 35));
-
-        btnEntraGoogle.setText("Entra con Google");
-        btnEntraGoogle.setBackground(new java.awt.Color(219, 74, 57));
-        btnEntraGoogle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnEntraGoogle.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(btnEntraGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 420, 270, 35));
-
-        barra1.setBackground(new java.awt.Color(37, 161, 142));
-        barra1.setOpaque(true);
-        jPanel1.add(barra1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 910, 60));
+        jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 440, 190, -1));
 
         barra2.setBackground(new java.awt.Color(37, 161, 142));
         barra2.setOpaque(true);
         jPanel1.add(barra2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 60));
 
-        rectangulo1.setBackground(new java.awt.Color(159, 255, 203));
+        rectangulo1.setBackground(new java.awt.Color(212, 237, 231));
         rectangulo1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         rectangulo1.setOpaque(true);
         jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 500, 400));
 
-        rectangulo2.setBackground(new java.awt.Color(159, 255, 203));
+        rectangulo2.setBackground(new java.awt.Color(212, 237, 231));
         rectangulo2.setOpaque(true);
         jPanel1.add(rectangulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 275, 320, 220));
 
-        rectangulo3.setBackground(new java.awt.Color(159, 255, 203));
+        rectangulo3.setBackground(new java.awt.Color(212, 237, 231));
         rectangulo3.setOpaque(true);
         jPanel1.add(rectangulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 100, 320, 150));
 
@@ -223,7 +219,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -344,18 +340,16 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel barra1;
     private javax.swing.JLabel barra2;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnEntraFacebook;
-    private javax.swing.JButton btnEntraGoogle;
     private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JComboBox<String> cbSexo;
+    private javax.swing.JButton faceboolIconBtn;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblFechaNacimiento;
-    private javax.swing.JLabel lblIcoFacebbok;
-    private javax.swing.JLabel lblIcoGoogle;
     private javax.swing.JLabel lblNoCelular;
     private javax.swing.JLabel lblNombre1;
     private javax.swing.JLabel lblPassword;
