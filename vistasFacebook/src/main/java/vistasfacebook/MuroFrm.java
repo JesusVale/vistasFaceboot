@@ -31,7 +31,7 @@ import peticiones.PeticionPublicaciones;
  *
  * @author jegav
  */
-public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacionObserver, IConsultarPublicacionesObserver, IEliminarPublicacionObserver{
+public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacionObserver, IConsultarPublicacionesObserver, IEliminarPublicacionObserver {
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
@@ -66,7 +66,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         jPanel1 = new javax.swing.JPanel();
         buscarEtiquetasTxt = new javax.swing.JTextField();
         botonCrearPublicacion = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnNotificar = new javax.swing.JButton();
         btnEliminarPerfil = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         publicacionesTxt = new javax.swing.JTextPane();
@@ -86,7 +86,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(78, 78, 78)
                 .addComponent(buscarEtiquetasTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(563, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,7 +103,12 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
             }
         });
 
-        jButton3.setText("jButton3");
+        btnNotificar.setText("Notificacion");
+        btnNotificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNotificarActionPerformed(evt);
+            }
+        });
 
         btnEliminarPerfil.setText("Eliminar Perfil");
         btnEliminarPerfil.addActionListener(new java.awt.event.ActionListener() {
@@ -133,11 +138,12 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(principalPanelLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botonCrearPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(botonCrearPublicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNotificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnEliminarPerfil))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49))
         );
@@ -147,13 +153,13 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(principalPanelLayout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(botonCrearPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 135, Short.MAX_VALUE))
+                        .addGap(129, 129, 129)
+                        .addComponent(botonCrearPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addComponent(btnNotificar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(btnEliminarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, principalPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
@@ -185,8 +191,8 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
     }//GEN-LAST:event_botonCrearPublicacionActionPerformed
 
     private void btnEliminarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarPerfilActionPerformed
-        int ea = JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar tu cuenta de forma permanente?");
-        if(ea==0){
+        int eliminarUsuario = JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar tu cuenta de forma permanente?");
+        if (eliminarUsuario == 0) {
             comunicadorVista.eliminarUsuario(usuario);
             RegistrarPublicacionEvent.getInstance().desuscribirse(this);
             ConsultarPublicacionesEvent.getInstance().desuscribirse(this);
@@ -196,6 +202,15 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
             this.dispose();
         }
     }//GEN-LAST:event_btnEliminarPerfilActionPerformed
+
+    private void btnNotificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificarActionPerformed
+        this.dispose();
+        RegistrarPublicacionEvent.getInstance().desuscribirse(this);
+        ConsultarPublicacionesEvent.getInstance().desuscribirse(this);
+        EliminarPublicacionEvent.getInstance().desuscribirse(this);
+        MensajePrivado mensajePrivado = new MensajePrivado(usuario, comunicadorVista);
+        mensajePrivado.setVisible(true);
+    }//GEN-LAST:event_btnNotificarActionPerformed
 
     public void actualizarMuro(List<Publicacion> publicaciones) {
 
@@ -249,8 +264,8 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCrearPublicacion;
     private javax.swing.JButton btnEliminarPerfil;
+    private javax.swing.JButton btnNotificar;
     private javax.swing.JTextField buscarEtiquetasTxt;
-    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel principalPanel;

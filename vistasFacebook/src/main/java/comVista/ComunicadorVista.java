@@ -7,14 +7,18 @@ package comVista;
 import conversors.IJsonToObject;
 import conversors.JsonToObject;
 import entidades.Comentario;
+import entidades.Hashtag;
+import entidades.Notificacion;
 import entidades.Publicacion;
 import peticiones.Peticion;
 import entidades.Usuario;
 import eventos.Eventos;
+import java.util.List;
 import peticiones.PeticionComentario;
+import peticiones.PeticionHashtags;
 import peticiones.PeticionId;
+import peticiones.PeticionNotificacion;
 import peticiones.PeticionPublicacion;
-import peticiones.PeticionPublicaciones;
 import peticiones.PeticionUsuario;
 
 /**
@@ -109,6 +113,20 @@ public class ComunicadorVista implements IComunicadorVista {
     public void consultarComentariosPorId(Integer idPublicacion) {
         PeticionId peticionConsultarComentario = new PeticionId(Eventos.consultarComentarios, idPublicacion);
         String peticion = conversor.convertirObjetoString(peticionConsultarComentario);
+        EventListener.getInstance().enviarMensaje(peticion);
+    }
+
+    @Override
+    public void registrarNotificacion(Notificacion notificacion) {
+        PeticionNotificacion peticionRegistrarNotificacion = new PeticionNotificacion(Eventos.registrarNotificacion, notificacion);
+        String peticion = conversor.convertirObjetoString(peticionRegistrarNotificacion);
+        EventListener.getInstance().enviarMensaje(peticion);
+    }
+
+    @Override
+    public void registrarHashtags(List<Hashtag> hashtags) {
+        PeticionHashtags peticionRegistrarHashtags = new PeticionHashtags(Eventos.registrarHashtags, hashtags);
+        String peticion = conversor.convertirObjetoString(peticionRegistrarHashtags);
         EventListener.getInstance().enviarMensaje(peticion);
     }
 }

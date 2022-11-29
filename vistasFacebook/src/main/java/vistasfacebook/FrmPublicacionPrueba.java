@@ -233,20 +233,6 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
             } catch(Exception e){
                 e.printStackTrace();
             }
-
-//            if (file == null) {
-//                this.lblNombreImagen.setText("...");
-//            } else {
-//                try {
-//                    FileInputStream is = new FileInputStream(file);
-//                    buffer = IOUtils.toByteArray(is);//new byte[(int)fileName.length()];
-//                    this.lblNombreImagen.setText(file.getAbsolutePath());
-//                    is.close();
-//                    IOUtils.write(buffer, new FileOutputStream(archivo));
-//                } catch (Exception e) {
-//                    Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(Level.SEVERE, null, e);
-//                }
-//            }
         }
     }//GEN-LAST:event_btnImagenActionPerformed
 

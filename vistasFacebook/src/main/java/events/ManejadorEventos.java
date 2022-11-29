@@ -30,18 +30,19 @@ public class ManejadorEventos {
         eventsNotifier.put(Eventos.editarPerfil, EditarUsuarioEvent.getInstance());
         eventsNotifier.put(Eventos.eliminarPublicacion, EliminarPublicacionEvent.getInstance());
         eventsNotifier.put(Eventos.iniciarSesionFacebook, IniciarSesionFacebookEvent.getInstance());
+        eventsNotifier.put(Eventos.registrarNotificacion, RegistrarNotificacionEvent.getInstance());
+        eventsNotifier.put(Eventos.registrarHashtags, RegistrarHashtagsEvent.getInstance());
     }
-    
-    public static ManejadorEventos getInstance(){
-        if(manejadorEventos == null){
+
+    public static ManejadorEventos getInstance() {
+        if (manejadorEventos == null) {
             manejadorEventos = new ManejadorEventos();
         }
         return manejadorEventos;
     }
-    
-    public EventNotifier get(String evento){
-         return eventsNotifier.get(evento);
+
+    public EventNotifier get(String evento) {
+        return eventsNotifier.get(evento);
     }
-    
-    
+
 }

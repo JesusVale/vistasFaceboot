@@ -5,14 +5,19 @@
 package vistasfacebook;
 
 import comVista.IComunicadorVista;
+import entidades.Notificacion;
 import entidades.Usuario;
+import enumeradores.MotorEnvio;
+import interfaces.IRegistrarNotificacionObserver;
 import java.util.Calendar;
+import javax.swing.JOptionPane;
+import peticiones.PeticionNotificacion;
 
 /**
  *
  * @author tonyd
  */
-public class MensajePrivado extends javax.swing.JFrame  {
+public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNotificacionObserver{
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
@@ -155,7 +160,11 @@ public class MensajePrivado extends javax.swing.JFrame  {
 
     private void btnEnviarMensajePrivadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarMensajePrivadoActionPerformed
         Calendar fecha = Calendar.getInstance();
-        // logica para mandar mensaje
+        Usuario u = new Usuario();
+        u.setTelefono("6441715444");
+        u.setEmail("jegavale@gmail.com");
+        Notificacion notificacion = new Notificacion(usuario, u, fecha, MotorEnvio.TwilioSMS, this.txtContenido.getText());
+        comunicadorVista.registrarNotificacion(notificacion);
     }//GEN-LAST:event_btnEnviarMensajePrivadoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -222,5 +231,14 @@ public class MensajePrivado extends javax.swing.JFrame  {
     private javax.swing.JTextArea txtContenido;
     private javax.swing.JLabel txtNombreUser;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void onRegistrarNotificacion(PeticionNotificacion respuesta) {          
+        if (respuesta.getStatus() < 400) {
+            JOptionPane.showMessageDialog(this, "Se registro la notificacion correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, respuesta.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
 
 }

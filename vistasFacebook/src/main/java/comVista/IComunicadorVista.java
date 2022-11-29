@@ -5,8 +5,11 @@
 package comVista;
 
 import entidades.Comentario;
+import entidades.Hashtag;
+import entidades.Notificacion;
 import entidades.Publicacion;
 import entidades.Usuario;
+import java.util.List;
 
 /**
  *
@@ -25,5 +28,8 @@ public interface IComunicadorVista {
     public void eliminarUsuario(Usuario usuario);
     public void eliminarPublicacion(Publicacion publicacion);
     public void eliminarComentario(Comentario comentario);
+    public void registrarNotificacion(Notificacion notificacion);
+    public void registrarHashtags(List<Hashtag> hashtags);
+    
     
 }
