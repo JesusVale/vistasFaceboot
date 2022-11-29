@@ -10,7 +10,9 @@ import entidades.Hashtag;
 import entidades.Publicacion;
 import entidades.Usuario;
 import events.ManejadorEventos;
+import events.RegistrarHashtagsEvent;
 import events.RegistrarPublicacionEvent;
+import interfaces.IRegistrarHashtagsObserver;
 import interfaces.IRegistrarPublicacionObserver;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -33,6 +35,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.commons.io.IOUtils;
 import peticiones.Peticion;
+import peticiones.PeticionHashtags;
 import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
 import utils.ConversorFechas;
@@ -41,11 +44,12 @@ import utils.ConversorFechas;
  *
  * @author tonyd
  */
-public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver {
+public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver, IRegistrarHashtagsObserver {
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
     private String path;
+    List<Hashtag> hashtags;
 
     /**
      * Creates new form FrmPublicacionPrueba
@@ -56,6 +60,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         initComponents();
         this.comunicadorVista = comunicadorVista;
         RegistrarPublicacionEvent.getInstance().suscribirse(this);
+        RegistrarHashtagsEvent.getInstance().suscribirse(this);
         txtContenido.setLineWrap(true);
         //ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
@@ -63,8 +68,10 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
     public FrmPublicacionPrueba(Usuario usuario, IComunicadorVista comunicadorVista) {
         initComponents();
         this.usuario = usuario;
+        this.hashtags = new ArrayList<Hashtag>();
         this.comunicadorVista = comunicadorVista;
         RegistrarPublicacionEvent.getInstance().suscribirse(this);
+        RegistrarHashtagsEvent.getInstance().suscribirse(this);
         //ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
 
@@ -179,15 +186,16 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        Calendar fecha = Calendar.getInstance();
-        List<Hashtag> hashtags = new ArrayList<Hashtag>();
+        guardarHashtags();
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
+    public void guardarHashtags() {
         Hashtag ea = new Hashtag("#viral");
         Hashtag e2 = new Hashtag("#fpy");
         hashtags.add(ea);
         hashtags.add(e2);
-        Publicacion nuevaPublicacion = new Publicacion(usuario, fecha, txtContenido.getText(), path, hashtags);
-        comunicadorVista.registrarPublicacion(nuevaPublicacion);
-    }//GEN-LAST:event_btnGuardarActionPerformed
+        comunicadorVista.registrarHashtags(hashtags);
+    }
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
@@ -210,34 +218,33 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
             String archivo = fileChooser.getSelectedFile().getAbsolutePath();
             File file = new File(archivo);
-            
+
             ImageIcon icon = new ImageIcon(new ImageIcon(archivo).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
-            
-            
+
             String newPath = "src\\imagenes";
             File directorio = new File(newPath);
-            if(!directorio.exists()){
+            if (!directorio.exists()) {
                 directorio.mkdirs();
             }
-            
+
             File sourceFile = null;
-            File destinoFile= null;
-            path=newPath+"\\"+Math.random()+fileChooser.getSelectedFile().getName();
-            String extension = archivo.substring(archivo.lastIndexOf('.')+1);
+            File destinoFile = null;
+            path = newPath + "\\" + Math.random() + fileChooser.getSelectedFile().getName();
+            String extension = archivo.substring(archivo.lastIndexOf('.') + 1);
             sourceFile = new File(archivo);
             destinoFile = new File(path);
             try {
                 Files.copy(sourceFile.toPath(), destinoFile.toPath());
-                
+
                 this.lblNombreImagen.setText(path);
-            } catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }//GEN-LAST:event_btnImagenActionPerformed
 
     private void txtContenidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContenidoKeyTyped
-        if(txtContenido.getText().length() == 255){
+        if (txtContenido.getText().length() == 255) {
             evt.consume();
         }
     }//GEN-LAST:event_txtContenidoKeyTyped
@@ -293,11 +300,17 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
     @Override
     public void onRegistrarPublicacion(PeticionPublicacion peticionPublicacion) {
-        
         if (peticionPublicacion.getStatus() < 400) {
             JOptionPane.showMessageDialog(this, "Se registro la publicación correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "No se pudo registrar la publicacion", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    @Override
+    public void onRegistrarHashtags(PeticionHashtags peticionHashtags) {
+        Calendar fecha = Calendar.getInstance();
+        Publicacion nuevaPublicacion = new Publicacion(usuario, fecha, txtContenido.getText(), path, peticionHashtags.getHashtags());
+        comunicadorVista.registrarPublicacion(nuevaPublicacion);
     }
 }

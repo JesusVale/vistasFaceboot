@@ -43,6 +43,8 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
         initComponents();
         this.usuario = usuario;
         this.comunicadorVista = comunicadorVista;
+        RegistrarNotificacionEvent.getInstance().suscribirse(this);
+        ConsultarUsuarioPorNombreEvent.getInstance().suscribirse(this);
     }
 
     /**
@@ -160,7 +162,7 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
 
     private void btnEnviarMensajePrivadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarMensajePrivadoActionPerformed
         comunicadorVista.consultarUsuarioPorNombre(this.txtDestinatario.getText());
-        
+
     }//GEN-LAST:event_btnEnviarMensajePrivadoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -246,7 +248,6 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
     public void onConsultarUsuarioPorNombre(PeticionUsuario peticion) {
         if (peticion.getStatus() < 400) {
             this.enviarNotificacionPrivada(peticion.getUsuario());
-            System.out.println(peticion.getUsuario().getNombre());
         } else {
             JOptionPane.showMessageDialog(this, peticion.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }

@@ -33,8 +33,6 @@ public class ConsultarUsuarioPorNombreEvent implements EventNotifier {
     }
 
     public void notificarUsuarios(PeticionUsuario peticion){
-        System.out.println("xD?");
-        //System.out.println(peticion.getUsuario().getNombre());
         List<IConsultarUsuarioPorNombreObserver> copiaListeners = new ArrayList(listeners);
         for(IConsultarUsuarioPorNombreObserver listener: copiaListeners){
             
