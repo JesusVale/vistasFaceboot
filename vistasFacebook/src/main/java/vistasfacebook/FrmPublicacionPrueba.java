@@ -4,47 +4,32 @@
  */
 package vistasfacebook;
 
-import comVista.ComunicadorVista;
 import comVista.IComunicadorVista;
 import entidades.Hashtag;
 import entidades.Publicacion;
 import entidades.Usuario;
-import events.ManejadorEventos;
 import events.RegistrarHashtagsEvent;
 import events.RegistrarPublicacionEvent;
 import interfaces.IRegistrarHashtagsObserver;
 import interfaces.IRegistrarPublicacionObserver;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import org.apache.commons.io.IOUtils;
-import peticiones.Peticion;
 import peticiones.PeticionHashtags;
 import peticiones.PeticionPublicacion;
-import peticiones.PeticionPublicaciones;
-import utils.ConversorFechas;
 
 /**
  *
  * @author tonyd
  */
-public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver, IRegistrarHashtagsObserver {
+public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver {
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
@@ -60,7 +45,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         initComponents();
         this.comunicadorVista = comunicadorVista;
         RegistrarPublicacionEvent.getInstance().suscribirse(this);
-        RegistrarHashtagsEvent.getInstance().suscribirse(this);
+        //RegistrarHashtagsEvent.getInstance().suscribirse(this);
         txtContenido.setLineWrap(true);
         //ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
@@ -71,7 +56,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         this.hashtags = new ArrayList<Hashtag>();
         this.comunicadorVista = comunicadorVista;
         RegistrarPublicacionEvent.getInstance().suscribirse(this);
-        RegistrarHashtagsEvent.getInstance().suscribirse(this);
+        //RegistrarHashtagsEvent.getInstance().suscribirse(this);
         //ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
 
@@ -308,10 +293,5 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         } else {
             JOptionPane.showMessageDialog(this, "No se pudo registrar la publicacion", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
-    }
-
-    @Override
-    public void onRegistrarHashtags(PeticionHashtags peticionHashtags) {
-
     }
 }
