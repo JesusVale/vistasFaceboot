@@ -11,5 +11,5 @@ import peticiones.PeticionUsuario;
  * @author jegav
  */
 public interface IConsultarUsuarioPorNombreObserver {
-    public void onConsultarUsuarioPorNombre(PeticionUsuario peticionComentarios);
+    public void onConsultarUsuarioPorNombre(PeticionUsuario peticionConsultarUsuarioPorNombre);
 }

@@ -8,20 +8,21 @@ import comVista.IComunicadorVista;
 import entidades.Notificacion;
 import entidades.Usuario;
 import enumeradores.MotorEnvio;
+import interfaces.IConsultarUsuarioPorNombreObserver;
 import interfaces.IRegistrarNotificacionObserver;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import peticiones.PeticionNotificacion;
+import peticiones.PeticionUsuario;
 
 /**
  *
  * @author tonyd
  */
-public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNotificacionObserver{
+public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNotificacionObserver, IConsultarUsuarioPorNombreObserver {
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
-    private String path;
 
     /**
      * Creates new form FrmPublicacionPrueba
@@ -55,7 +56,6 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
         barra1 = new javax.swing.JLabel();
         barra2 = new javax.swing.JLabel();
         lblContenido = new javax.swing.JLabel();
-        txtNombreUser = new javax.swing.JLabel();
         btnEnviarMensajePrivado = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -64,6 +64,7 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
         cbNotificarCorreo = new javax.swing.JCheckBox();
         cbNotificarSMS = new javax.swing.JCheckBox();
         lblContenido2 = new javax.swing.JLabel();
+        txtDestinatario = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registrar Publicación");
@@ -88,11 +89,6 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
         lblContenido.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblContenido.setText("Para:");
         jPanel1.add(lblContenido, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, -1, -1));
-
-        txtNombreUser.setBackground(new java.awt.Color(255, 255, 255));
-        txtNombreUser.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtNombreUser.setOpaque(true);
-        jPanel1.add(txtNombreUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 100, 770, 35));
 
         btnEnviarMensajePrivado.setBackground(new java.awt.Color(37, 161, 142));
         btnEnviarMensajePrivado.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -142,6 +138,7 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
         lblContenido2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblContenido2.setText("Contenido:");
         jPanel1.add(lblContenido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
+        jPanel1.add(txtDestinatario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 700, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,27 +156,28 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEnviarMensajePrivadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarMensajePrivadoActionPerformed
-        Calendar fecha = Calendar.getInstance();
-        Usuario u = new Usuario();
-        u.setTelefono("6441715444");
-        u.setEmail("jegavale@gmail.com");
-        Notificacion notificacion = new Notificacion(usuario, u, fecha, MotorEnvio.TwilioSMS, this.txtContenido.getText());
-        comunicadorVista.registrarNotificacion(notificacion);
+        comunicadorVista.consultarUsuarioPorNombre(this.txtDestinatario.getText());
+        
     }//GEN-LAST:event_btnEnviarMensajePrivadoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
-        
+
         MuroFrm m = new MuroFrm(comunicadorVista, usuario);
         m.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtContenidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtContenidoKeyTyped
-        if(txtContenido.getText().length() == 255){
+        if (txtContenido.getText().length() == 255) {
             evt.consume();
         }
     }//GEN-LAST:event_txtContenidoKeyTyped
 
+    public void enviarNotificacionPrivada(Usuario destinatario) {
+        Calendar fecha = Calendar.getInstance();
+        Notificacion notificacion = new Notificacion(usuario, destinatario, fecha, MotorEnvio.TwilioSMS, this.txtContenido.getText());
+        comunicadorVista.registrarNotificacion(notificacion);
+    }
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -229,15 +227,25 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
     private javax.swing.JLabel lblContenido2;
     private javax.swing.JLabel lbltitulo;
     private javax.swing.JTextArea txtContenido;
-    private javax.swing.JLabel txtNombreUser;
+    private javax.swing.JTextField txtDestinatario;
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void onRegistrarNotificacion(PeticionNotificacion respuesta) {          
+    public void onRegistrarNotificacion(PeticionNotificacion respuesta) {
         if (respuesta.getStatus() < 400) {
             JOptionPane.showMessageDialog(this, "Se registro la notificacion correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, respuesta.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    @Override
+    public void onConsultarUsuarioPorNombre(PeticionUsuario peticion) {
+        if (peticion.getStatus() < 400) {
+            this.enviarNotificacionPrivada(peticion.getUsuario());
+            System.out.println(peticion.getUsuario().getNombre());
+        } else {
+            JOptionPane.showMessageDialog(this, peticion.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
