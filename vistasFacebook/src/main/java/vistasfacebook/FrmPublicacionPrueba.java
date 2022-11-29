@@ -187,14 +187,17 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         guardarHashtags();
+        Calendar fecha = Calendar.getInstance();
+        Publicacion nuevaPublicacion = new Publicacion(usuario, fecha, txtContenido.getText(), path, hashtags);
+        comunicadorVista.registrarPublicacion(nuevaPublicacion);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     public void guardarHashtags() {
-        Hashtag ea = new Hashtag("#viral");
-        Hashtag e2 = new Hashtag("#fpy");
+        Hashtag ea = new Hashtag("#nomames");
+        Hashtag e2 = new Hashtag("#posadael3D");
         hashtags.add(ea);
         hashtags.add(e2);
-        comunicadorVista.registrarHashtags(hashtags);
+        //comunicadorVista.registrarHashtags(hashtags);
     }
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -309,8 +312,6 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
 
     @Override
     public void onRegistrarHashtags(PeticionHashtags peticionHashtags) {
-        Calendar fecha = Calendar.getInstance();
-        Publicacion nuevaPublicacion = new Publicacion(usuario, fecha, txtContenido.getText(), path, peticionHashtags.getHashtags());
-        comunicadorVista.registrarPublicacion(nuevaPublicacion);
+
     }
 }
