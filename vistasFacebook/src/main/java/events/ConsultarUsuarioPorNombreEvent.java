@@ -33,14 +33,17 @@ public class ConsultarUsuarioPorNombreEvent implements EventNotifier {
     }
 
     public void notificarUsuarios(PeticionUsuario peticion){
-
-        List<ILoginObserver> copiaListeners = new ArrayList(listeners);
-        for(ILoginObserver listener: copiaListeners){
-            listener.onLogin(peticion);
+        System.out.println("xD?");
+        //System.out.println(peticion.getUsuario().getNombre());
+        List<IConsultarUsuarioPorNombreObserver> copiaListeners = new ArrayList(listeners);
+        for(IConsultarUsuarioPorNombreObserver listener: copiaListeners){
+            
+            listener.onConsultarUsuarioPorNombre(peticion);
         }
     }
     
     public void suscribirse(IConsultarUsuarioPorNombreObserver listener){
+        System.out.println("Hola");
         listeners.add(listener);
     }
     
@@ -51,6 +54,7 @@ public class ConsultarUsuarioPorNombreEvent implements EventNotifier {
     @Override
     public void notificar(String peticion) {
         PeticionUsuario peticionUsuario = conversor.convertirPeticionUsuario(peticion);
+        System.out.println("AAAAAAAAAA");
         consultarEvent.notificarUsuarios(peticionUsuario);
     }
 }

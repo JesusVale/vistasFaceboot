@@ -8,6 +8,8 @@ import comVista.IComunicadorVista;
 import entidades.Notificacion;
 import entidades.Usuario;
 import enumeradores.MotorEnvio;
+import events.ConsultarUsuarioPorNombreEvent;
+import events.RegistrarNotificacionEvent;
 import interfaces.IConsultarUsuarioPorNombreObserver;
 import interfaces.IRegistrarNotificacionObserver;
 import java.util.Calendar;
@@ -33,7 +35,8 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
         initComponents();
         this.comunicadorVista = comunicadorVista;
         txtContenido.setLineWrap(true);
-
+        RegistrarNotificacionEvent.getInstance().suscribirse(this);
+        ConsultarUsuarioPorNombreEvent.getInstance().suscribirse(this);
     }
 
     public MensajePrivado(Usuario usuario, IComunicadorVista comunicadorVista) {
