@@ -72,6 +72,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         btnEditarPerfil = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         publicacionesTxt = new javax.swing.JTextPane();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -160,18 +161,32 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         publicacionesTxt.setPreferredSize(new java.awt.Dimension(655, 504));
         jScrollPane1.setViewportView(publicacionesTxt);
 
+        jButton1.setText("Historial Notificaciones");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout principalPanelLayout = new javax.swing.GroupLayout(principalPanel);
         principalPanel.setLayout(principalPanelLayout);
         principalPanelLayout.setHorizontalGroup(
             principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(principalPanelLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(botonCrearPublicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNotificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEditarPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(principalPanelLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(botonCrearPublicacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnNotificar, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, principalPanelLayout.createSequentialGroup()
+                        .addGap(0, 36, Short.MAX_VALUE)
+                        .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEditarPerfil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49))
         );
@@ -185,8 +200,10 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
                         .addComponent(botonCrearPublicacion, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(47, 47, 47)
                         .addComponent(btnNotificar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(45, 45, 45)
+                        .addGap(47, 47, 47)
                         .addComponent(btnEditarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, principalPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -258,11 +275,23 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         comunicadorVista.consultarPublicacionesPorEtiqueta(this.buscarEtiquetasTxt.getText());
     }//GEN-LAST:event_buscarEtiquetaBtnActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+        RegistrarPublicacionEvent.getInstance().desuscribirse(this);
+        ConsultarPublicacionesEvent.getInstance().desuscribirse(this);
+        EliminarPublicacionEvent.getInstance().desuscribirse(this);
+        ConsultarPublicacionesPorHashtagEvent.getInstance().desuscribirse(this);
+        HistorialNotificacionesFrm historialNotificaciones = new HistorialNotificacionesFrm(usuario, comunicadorVista);
+        historialNotificaciones.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void actualizarMuro(List<Publicacion> publicaciones) {
 
         this.publicacionesTxt.setText("");
         for (Publicacion publicacion : publicaciones) {
-
+//            this.publicacionesTxt.add(new PublicacionPanel(publicacion, usuario, comunicadorVista), 0);
+//            this.publicacionesTxt.repaint();
+//            this.publicacionesTxt.revalidate();
             this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
 
         }
@@ -281,6 +310,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
     private javax.swing.JButton buscarEtiquetaBtn;
     private javax.swing.JTextField buscarEtiquetasTxt;
     private javax.swing.JButton cancelarBusquedaBtn;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel principalPanel;
