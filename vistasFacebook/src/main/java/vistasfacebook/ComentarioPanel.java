@@ -20,15 +20,14 @@ public class ComentarioPanel extends javax.swing.JPanel {
     /**
      * Creates new form ComentarioPanel
      */
-    public ComentarioPanel(Comentario comentario, Usuario usuario) {
+    public ComentarioPanel(Comentario comentario) {
         initComponents();
         this.comentario = comentario;
-        this.usuario = usuario;
         llenarComentarios();
     }
 
     private void llenarComentarios() {
-        this.usuarioTxt.setText(usuario.getNombre());
+        this.usuarioTxt.setText(comentario.getUsuario().getNombre());
         SimpleDateFormat fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
         String fecha = fechaFormat.format(comentario.getFechaPublicacion().getTime());
         this.lblFecha.setText(fecha);

@@ -85,13 +85,13 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
         if(comentarios==null) return;
         this.comentarioPane.setText("");
         for (Comentario comentario : comentarios) {
-            this.comentarioPane.insertComponent(new ComentarioPanel(comentario, usuario));
+            this.comentarioPane.insertComponent(new ComentarioPanel(comentario));
         }
     }
 
     private void llenarComentario(Comentario comentario) {
         System.out.println("Lleno el comentario: "+comentario.getContenido());
-        this.comentarioPane.insertComponent(new ComentarioPanel(comentario, usuario));
+        this.comentarioPane.insertComponent(new ComentarioPanel(comentario));
     }
 
     /**
@@ -204,7 +204,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
                 .addComponent(descripcionLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addComponent(imageLbl)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -212,7 +212,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
                     .addComponent(btnRegistrarComentario))
                 .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

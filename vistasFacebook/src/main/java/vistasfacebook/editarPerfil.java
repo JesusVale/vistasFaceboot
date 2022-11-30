@@ -46,7 +46,9 @@ public class EditarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
         this.txtNombre.setText(usuario.getNombre());
         this.txtEmail.setText(usuario.getEmail());
         this.txtNoCelular.setText(usuario.getTelefono());
-        this.txtFechaNacimiento.setDate(ConversorFechas.toLocalDate(usuario.getFechaNacimiento()));
+        if(usuario.getFechaNacimiento()!=null){
+            this.txtFechaNacimiento.setDate(ConversorFechas.toLocalDate(usuario.getFechaNacimiento()));
+        }
         this.cbSexo.setSelectedItem(usuario.getSexo());
     }
     
