@@ -41,7 +41,7 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
 
     public MensajePrivado(Usuario usuario, IComunicadorVista comunicadorVista) {
         initComponents();
-        this.usuario = usuario;
+        this.usuario = usuario;    
         this.comunicadorVista = comunicadorVista;
         RegistrarNotificacionEvent.getInstance().suscribirse(this);
         ConsultarUsuarioPorNombreEvent.getInstance().suscribirse(this);
@@ -167,7 +167,6 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
-
         MuroFrm m = new MuroFrm(comunicadorVista, usuario);
         m.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
@@ -183,40 +182,6 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
         Notificacion notificacion = new Notificacion(usuario, destinatario, fecha, MotorEnvio.TwilioSMS, this.txtContenido.getText());
         comunicadorVista.registrarNotificacion(notificacion);
     }
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(FrmPublicacionPrueba.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//        
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new FrmPublicacionPrueba().setVisible(true);
-//            }
-//        });
-//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barra1;
@@ -247,6 +212,7 @@ public class MensajePrivado extends javax.swing.JFrame implements IRegistrarNoti
     @Override
     public void onConsultarUsuarioPorNombre(PeticionUsuario peticion) {
         if (peticion.getStatus() < 400) {
+            System.out.println(peticion.getUsuario().getId());
             this.enviarNotificacionPrivada(peticion.getUsuario());
         } else {
             JOptionPane.showMessageDialog(this, peticion.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
