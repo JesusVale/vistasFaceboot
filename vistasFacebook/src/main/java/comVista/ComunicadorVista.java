@@ -144,4 +144,11 @@ public class ComunicadorVista implements IComunicadorVista {
         String peticion = conversor.convertirObjetoString(peticionString);
         EventListener.getInstance().enviarMensaje(peticion);
     }
+
+    @Override
+    public void consultarPublicacionesPorEtiqueta(String tema) {
+        PeticionString peticionString = new PeticionString(Eventos.consultarPublicacionesPorHashtag, tema);
+        String peticion = conversor.convertirObjetoString(peticionString);
+        EventListener.getInstance().enviarMensaje(peticion);
+    }
 }

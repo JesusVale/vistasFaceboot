@@ -7,17 +7,16 @@ package vistasfacebook;
 import comVista.IComunicadorVista;
 import entidades.Publicacion;
 import entidades.Usuario;
-import events.ConsultarHashtagPorTemaEvent;
 import events.ConsultarPublicacionesEvent;
+import events.ConsultarPublicacionesPorHashtagEvent;
 import events.EliminarPublicacionEvent;
 import events.RegistrarPublicacionEvent;
-import interfaces.IConsultarHashtagPorTemaObserver;
 import interfaces.IConsultarPublicacionesObserver;
+import interfaces.IConsultarPublicacionesPorHashtagObserver;
 import interfaces.IEliminarPublicacionObserver;
 import interfaces.IRegistrarPublicacionObserver;
 import java.util.List;
 import javax.swing.JOptionPane;
-import peticiones.PeticionHashtag;
 import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
 
@@ -28,7 +27,7 @@ import peticiones.PeticionPublicaciones;
 public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacionObserver,
                                                            IConsultarPublicacionesObserver,
                                                            IEliminarPublicacionObserver, 
-                                                           IConsultarHashtagPorTemaObserver {
+                                                           IConsultarPublicacionesPorHashtagObserver {
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
@@ -43,7 +42,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         RegistrarPublicacionEvent.getInstance().suscribirse(this);
         ConsultarPublicacionesEvent.getInstance().suscribirse(this);
         EliminarPublicacionEvent.getInstance().suscribirse(this);
-        ConsultarHashtagPorTemaEvent.getInstance().suscribirse(this);
+        ConsultarPublicacionesPorHashtagEvent.getInstance().suscribirse(this);
         this.publicacionesTxt.setAlignmentX(CENTER_ALIGNMENT);
         this.comunicadorVista = comunicadorVista;
         this.usuario = usuario;
@@ -248,7 +247,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
     }//GEN-LAST:event_cancelarBusquedaBtnActionPerformed
 
     private void buscarEtiquetaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarEtiquetaBtnActionPerformed
-        comunicadorVista.consultarEtiquetaPorTema(this.buscarEtiquetasTxt.getText());
+        comunicadorVista.consultarPublicacionesPorEtiqueta(this.buscarEtiquetasTxt.getText());
     }//GEN-LAST:event_buscarEtiquetaBtnActionPerformed
 
     public void actualizarMuro(List<Publicacion> publicaciones) {
@@ -317,8 +316,6 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
 
     @Override
     public void onRegistrarPublicacion(PeticionPublicacion peticionPublicacion) {
-        System.out.println("Si llega alv, faaaak");
-        System.out.println(peticionPublicacion.getPublicacion().getTexto());
         actualizarMuro(peticionPublicacion.getPublicacion());
     }
 
@@ -333,13 +330,23 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         System.out.println("waza emotiza insana");
     }
 
+//    @Override
+//    public void onConsultarHashtagPorTema(PeticionHashtag respuesta) {
+//        if(respuesta.getStatus()>=400){
+//            JOptionPane.showMessageDialog(this, respuesta.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
+//        }else{
+//            System.out.println("Lista Hashtags: "+respuesta.getHashtag().getHashtags());
+//            this.actualizarMuro(respuesta.getHashtag().getHashtags());
+//            this.cancelarBusquedaBtn.setVisible(true);
+//        }
+//    }
+
     @Override
-    public void onConsultarHashtagPorTema(PeticionHashtag respuesta) {
+    public void onConsultarPublicacionesPorHashtag(PeticionPublicaciones respuesta) {
         if(respuesta.getStatus()>=400){
             JOptionPane.showMessageDialog(this, respuesta.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }else{
-            System.out.println("Lista Hashtags: "+respuesta.getHashtag().getHashtags());
-            this.actualizarMuro(respuesta.getHashtag().getHashtags());
+            this.actualizarMuro(respuesta.getPublicaciones());
             this.cancelarBusquedaBtn.setVisible(true);
         }
     }

@@ -34,6 +34,7 @@ public class ManejadorEventos {
         eventsNotifier.put(Eventos.registrarHashtags, RegistrarHashtagsEvent.getInstance());
         eventsNotifier.put(Eventos.consultarUsuarioPorNombre, ConsultarUsuarioPorNombreEvent.getInstance());
         eventsNotifier.put(Eventos.consultarHashtagPorTema, ConsultarHashtagPorTemaEvent.getInstance());
+        eventsNotifier.put(Eventos.consultarPublicacionesPorHashtag, ConsultarPublicacionesPorHashtagEvent.getInstance());
     }
 
     public static ManejadorEventos getInstance() {
