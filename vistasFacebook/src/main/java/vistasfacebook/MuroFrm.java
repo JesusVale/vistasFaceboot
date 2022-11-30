@@ -7,23 +7,17 @@ package vistasfacebook;
 import comVista.IComunicadorVista;
 import entidades.Publicacion;
 import entidades.Usuario;
-import events.ConsultarComentariosEvent;
+import events.ConsultarHashtagPorTemaEvent;
 import events.ConsultarPublicacionesEvent;
 import events.EliminarPublicacionEvent;
 import events.RegistrarPublicacionEvent;
-import interfaces.IConsultarComentariosObserver;
+import interfaces.IConsultarHashtagPorTemaObserver;
 import interfaces.IConsultarPublicacionesObserver;
 import interfaces.IEliminarPublicacionObserver;
-import interfaces.IEliminarUsuarioObserver;
 import interfaces.IRegistrarPublicacionObserver;
-import java.awt.ComponentOrientation;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import peticiones.PeticionComentarios;
+import peticiones.PeticionHashtag;
 import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
 
@@ -31,7 +25,10 @@ import peticiones.PeticionPublicaciones;
  *
  * @author jegav
  */
-public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacionObserver, IConsultarPublicacionesObserver, IEliminarPublicacionObserver {
+public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacionObserver,
+                                                           IConsultarPublicacionesObserver,
+                                                           IEliminarPublicacionObserver, 
+                                                           IConsultarHashtagPorTemaObserver {
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
@@ -41,9 +38,13 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
      */
     public MuroFrm(IComunicadorVista comunicadorVista, Usuario usuario) {
         initComponents();
+        this.cancelarBusquedaBtn.setVisible(false);
+         //buscarEtiquetaBtn.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\buscarPorEtiqueta.png")));
         RegistrarPublicacionEvent.getInstance().suscribirse(this);
         ConsultarPublicacionesEvent.getInstance().suscribirse(this);
         EliminarPublicacionEvent.getInstance().suscribirse(this);
+        ConsultarHashtagPorTemaEvent.getInstance().suscribirse(this);
+        this.publicacionesTxt.setAlignmentX(CENTER_ALIGNMENT);
         this.comunicadorVista = comunicadorVista;
         this.usuario = usuario;
         comunicadorVista.consultarPublicaciones();
@@ -65,6 +66,8 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         principalPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         buscarEtiquetasTxt = new javax.swing.JTextField();
+        buscarEtiquetaBtn = new javax.swing.JButton();
+        cancelarBusquedaBtn = new javax.swing.JButton();
         botonCrearPublicacion = new javax.swing.JButton();
         btnNotificar = new javax.swing.JButton();
         btnEliminarPerfil = new javax.swing.JButton();
@@ -72,6 +75,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         publicacionesTxt = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         principalPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -79,21 +83,47 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
 
         buscarEtiquetasTxt.setPreferredSize(new java.awt.Dimension(80, 22));
 
+        buscarEtiquetaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarEtiquetaBtnActionPerformed(evt);
+            }
+        });
+
+        cancelarBusquedaBtn.setBackground(new java.awt.Color(255, 153, 153));
+        cancelarBusquedaBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cancelarBusquedaBtn.setForeground(new java.awt.Color(255, 255, 255));
+        cancelarBusquedaBtn.setText("Cancelar");
+        cancelarBusquedaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarBusquedaBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addComponent(buscarEtiquetasTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(29, 29, 29)
+                .addComponent(buscarEtiquetasTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buscarEtiquetaBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cancelarBusquedaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(buscarEtiquetasTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(buscarEtiquetasTxt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(2, 2, 2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(buscarEtiquetaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cancelarBusquedaBtn)))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         botonCrearPublicacion.setText("Publicacion");
@@ -162,7 +192,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, principalPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                         .addContainerGap())))
         );
 
@@ -212,6 +242,15 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         mensajePrivado.setVisible(true);
     }//GEN-LAST:event_btnNotificarActionPerformed
 
+    private void cancelarBusquedaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBusquedaBtnActionPerformed
+        comunicadorVista.consultarPublicaciones();
+        this.cancelarBusquedaBtn.setVisible(false);
+    }//GEN-LAST:event_cancelarBusquedaBtnActionPerformed
+
+    private void buscarEtiquetaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarEtiquetaBtnActionPerformed
+        comunicadorVista.consultarEtiquetaPorTema(this.buscarEtiquetasTxt.getText());
+    }//GEN-LAST:event_buscarEtiquetaBtnActionPerformed
+
     public void actualizarMuro(List<Publicacion> publicaciones) {
 
         this.publicacionesTxt.setText("");
@@ -220,9 +259,11 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
             this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
 
         }
+        
     }
 
     public void actualizarMuro(Publicacion publicacion) {
+        
         this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
     }
 
@@ -265,7 +306,9 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
     private javax.swing.JButton botonCrearPublicacion;
     private javax.swing.JButton btnEliminarPerfil;
     private javax.swing.JButton btnNotificar;
+    private javax.swing.JButton buscarEtiquetaBtn;
     private javax.swing.JTextField buscarEtiquetasTxt;
+    private javax.swing.JButton cancelarBusquedaBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel principalPanel;
@@ -288,6 +331,17 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
     public void onEliminarPublicacion(PeticionPublicaciones respuesta) {
         comunicadorVista.consultarPublicaciones();
         System.out.println("waza emotiza insana");
+    }
+
+    @Override
+    public void onConsultarHashtagPorTema(PeticionHashtag respuesta) {
+        if(respuesta.getStatus()>=400){
+            JOptionPane.showMessageDialog(this, respuesta.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            System.out.println("Lista Hashtags: "+respuesta.getHashtag().getHashtags());
+            this.actualizarMuro(respuesta.getHashtag().getHashtags());
+            this.cancelarBusquedaBtn.setVisible(true);
+        }
     }
 
 }

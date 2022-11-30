@@ -67,65 +67,65 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
         jPanel1.setBackground(new java.awt.Color(243, 250, 242));
         jPanel1.setMinimumSize(new java.awt.Dimension(910, 600));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(lblImgUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 160, 70, 80));
+        jPanel1.add(lblImgUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 160, 70, 80));
 
         lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblPassword.setText("Contraseña");
-        jPanel1.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 300, -1, -1));
+        jPanel1.add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, -1, -1));
 
         lblUsuario.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblUsuario.setText("Correo");
-        jPanel1.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 260, -1, -1));
+        jPanel1.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 260, -1, -1));
 
         lblO.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblO.setText("--------------------------- O ------------------------");
-        jPanel1.add(lblO, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 410, 350, 35));
+        jPanel1.add(lblO, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 410, 350, 35));
 
         txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 290, 250, 33));
+        jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, 250, 33));
 
         txtCorreoUser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jPanel1.add(txtCorreoUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 250, 250, 33));
+        jPanel1.add(txtCorreoUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 250, 250, 33));
 
-        btnRegistrate.setBackground(new java.awt.Color(159, 255, 203));
-        btnRegistrate.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnRegistrate.setText("¿No tienes cuenta? Registrate");
-        btnRegistrate.setToolTipText("");
+        btnRegistrate.setBackground(new java.awt.Color(159, 255, 203));
         btnRegistrate.setBorder(null);
+        btnRegistrate.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        btnRegistrate.setToolTipText("");
         btnRegistrate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegistrateActionPerformed(evt);
             }
         });
-        jPanel1.add(btnRegistrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 380, 350, 33));
+        jPanel1.add(btnRegistrate, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 380, 350, 33));
 
+        btnEntraFacebook.setText("Entra con Facebook");
         btnEntraFacebook.setBackground(new java.awt.Color(59, 89, 152));
         btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnEntraFacebook.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntraFacebook.setText("Entra con Facebook");
         btnEntraFacebook.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEntraFacebookActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 460, 350, 35));
+        jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 460, 350, 35));
 
+        btnIngresar.setText("INGRESAR");
         btnIngresar.setBackground(new java.awt.Color(37, 161, 142));
         btnIngresar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
-        btnIngresar.setText("INGRESAR");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIngresarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 340, 350, 33));
+        jPanel1.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 340, 350, 33));
 
+        btnEntraGoogle.setText("Entra con Google");
         btnEntraGoogle.setBackground(new java.awt.Color(219, 74, 57));
         btnEntraGoogle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         btnEntraGoogle.setForeground(new java.awt.Color(255, 255, 255));
-        btnEntraGoogle.setText("Entra con Google");
-        jPanel1.add(btnEntraGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 510, 350, 35));
+        jPanel1.add(btnEntraGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 510, 350, 35));
 
         barra1.setBackground(new java.awt.Color(37, 161, 142));
         barra1.setOpaque(true);
@@ -140,8 +140,8 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
         rectangulo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         rectangulo1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         rectangulo1.setOpaque(true);
-        jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, 500, 400));
-        jPanel1.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 230, -1));
+        jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 500, 400));
+        jPanel1.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, 230, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

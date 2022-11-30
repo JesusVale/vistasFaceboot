@@ -59,7 +59,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         //RegistrarHashtagsEvent.getInstance().suscribirse(this);
         //ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -171,17 +171,23 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        guardarHashtags();
+        
         Calendar fecha = Calendar.getInstance();
-        Publicacion nuevaPublicacion = new Publicacion(usuario, fecha, txtContenido.getText(), path, hashtags);
+        guardarHashtags(txtContenido.getText());
+        Publicacion nuevaPublicacion = new Publicacion(usuario, fecha, txtContenido.getText(), path);
+        if(!hashtags.isEmpty()){
+            nuevaPublicacion.setHashtagPublicacion(hashtags);
+        }
         comunicadorVista.registrarPublicacion(nuevaPublicacion);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    public void guardarHashtags() {
-        Hashtag ea = new Hashtag("#nomames");
-        Hashtag e2 = new Hashtag("#posadael3D");
-        hashtags.add(ea);
-        hashtags.add(e2);
+    public void guardarHashtags(String contenido) {
+        String[] palabrasContenido = contenido.split(" ");
+        for (String palabra: palabrasContenido) {
+            if(palabra.startsWith("#")){
+                hashtags.add(new Hashtag(palabra));
+            }
+        }
         //comunicadorVista.registrarHashtags(hashtags);
     }
 
@@ -290,6 +296,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
     public void onRegistrarPublicacion(PeticionPublicacion peticionPublicacion) {
         if (peticionPublicacion.getStatus() < 400) {
             JOptionPane.showMessageDialog(this, "Se registro la publicación correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            this.hashtags.clear();
         } else {
             JOptionPane.showMessageDialog(this, "No se pudo registrar la publicacion", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }

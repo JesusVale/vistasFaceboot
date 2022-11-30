@@ -162,7 +162,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         jPanel1.add(faceboolIconBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 340, 120, 100));
 
         btnAgregar.setText("Registrar");
-        btnAgregar.setBackground(new java.awt.Color(142, 207, 195));
+        btnAgregar.setBackground(new java.awt.Color(133, 190, 188));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -173,7 +173,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, 180, 35));
 
         btnIniciarSesion.setText("Iniciar Sesión");
-        btnIniciarSesion.setBackground(new java.awt.Color(142, 207, 195));
+        btnIniciarSesion.setBackground(new java.awt.Color(133, 190, 188));
         btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {

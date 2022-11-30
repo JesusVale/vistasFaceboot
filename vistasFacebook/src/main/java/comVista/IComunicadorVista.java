@@ -31,5 +31,6 @@ public interface IComunicadorVista {
     public void registrarNotificacion(Notificacion notificacion);
     public void registrarHashtags(List<Hashtag> hashtags);
     public void consultarUsuarioPorNombre(String nombre);
+    public void consultarEtiquetaPorTema(String tema);
     
 }
