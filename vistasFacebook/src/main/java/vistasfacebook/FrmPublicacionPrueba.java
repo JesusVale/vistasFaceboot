@@ -10,6 +10,7 @@ import entidades.Publicacion;
 import entidades.Usuario;
 import events.RegistrarHashtagsEvent;
 import events.RegistrarPublicacionEvent;
+import interfaces.IConsultarUsuarioPorNombreObserver;
 import interfaces.IRegistrarHashtagsObserver;
 import interfaces.IRegistrarPublicacionObserver;
 import java.awt.Image;
@@ -24,16 +25,18 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import peticiones.PeticionHashtags;
 import peticiones.PeticionPublicacion;
+import peticiones.PeticionUsuario;
 
 /**
  *
  * @author tonyd
  */
-public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver {
+public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver, IConsultarUsuarioPorNombreObserver{
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
     private String path;
+    List<Usuario> etiquetados;
     List<Hashtag> hashtags;
 
     /**
@@ -45,9 +48,7 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         initComponents();
         this.comunicadorVista = comunicadorVista;
         RegistrarPublicacionEvent.getInstance().suscribirse(this);
-        //RegistrarHashtagsEvent.getInstance().suscribirse(this);
         txtContenido.setLineWrap(true);
-        //ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
 
     public FrmPublicacionPrueba(Usuario usuario, IComunicadorVista comunicadorVista) {
@@ -188,7 +189,6 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
                 hashtags.add(new Hashtag(palabra));
             }
         }
-        //comunicadorVista.registrarHashtags(hashtags);
     }
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -300,5 +300,10 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         } else {
             JOptionPane.showMessageDialog(this, "No se pudo registrar la publicacion", "Aviso", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    @Override
+    public void onConsultarUsuarioPorNombre(PeticionUsuario peticionConsultarUsuarioPorNombre) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
