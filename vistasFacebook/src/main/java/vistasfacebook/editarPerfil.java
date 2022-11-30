@@ -12,6 +12,7 @@ import interfaces.IEditarUsuarioObserver;
 import java.awt.event.KeyEvent;
 import java.util.Calendar;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
 import peticiones.PeticionUsuario;
 import utils.ConversorFechas;
@@ -22,16 +23,18 @@ import utils.ConversorFechas;
  *
  * @author tonyd
  */
-public class editarPerfil extends javax.swing.JFrame implements IEditarUsuarioObserver {
+public class EditarPerfil extends javax.swing.JFrame implements IEditarUsuarioObserver {
 
     private IComunicadorVista comunicadorVista;
+    private Usuario usuario;
 
     /**
      * Creates new form Registro
      */
-    public editarPerfil(IComunicadorVista comunicadorVista, Usuario usuario) {
+    public EditarPerfil(IComunicadorVista comunicadorVista, Usuario usuario) {
         initComponents();
         llenarComboBoxSexo();
+        this.usuario = usuario;
         this.comunicadorVista = comunicadorVista;
         this.txtEmail.setEditable(false);
         this.txtNoCelular.setEditable(false);
@@ -122,11 +125,6 @@ public class editarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
         jPanel1.add(txtNoCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, 260, -1));
 
         txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        txtNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreActionPerformed(evt);
-            }
-        });
         txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtNombreKeyTyped(evt);
@@ -189,17 +187,13 @@ public class editarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreActionPerformed
-
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         String nombre = this.txtNombre.getText();
-        String email = this.txtEmail.getText();
-        String telefono = this.txtNoCelular.getText();
         Sexo sexo = (Sexo) cbSexo.getSelectedItem();
         Calendar fechaNacimiento = ConversorFechas.toCalendar(this.txtFechaNacimiento.getDate());
-        Usuario usuario = new Usuario(nombre, email, telefono, sexo, fechaNacimiento);
+        usuario.setNombre(nombre);
+        usuario.setSexo(sexo);
+        usuario.setFechaNacimiento(fechaNacimiento);
         comunicadorVista.EditarUsuario(usuario);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
@@ -224,7 +218,10 @@ public class editarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
     }//GEN-LAST:event_txtNombreKeyTyped
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        EditarUsuarioEvent.getInstance().desuscribirse(this);
+        MuroFrm muro = new MuroFrm(comunicadorVista, usuario);
+        muro.setVisible(true);
     }//GEN-LAST:event_btnCancelActionPerformed
 
   
@@ -286,7 +283,11 @@ public class editarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
 
     @Override
     public void onEditarUsuario(PeticionUsuario respuesta) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (respuesta.getStatus() >= 400){
+            JOptionPane.showMessageDialog(this, respuesta.getMensajeError(), "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        } else{
+            JOptionPane.showMessageDialog(this, "El usuario se actualizó correctamente", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
 }

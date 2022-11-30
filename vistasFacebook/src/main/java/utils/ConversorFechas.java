@@ -9,21 +9,25 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  *
  * @author jegav
  */
 public class ConversorFechas {
-    public static Calendar toCalendar(LocalDate date){
+
+    public static Calendar toCalendar(LocalDate date) {
         Date fechaDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fechaDate);
         return calendar;
     }
-    
-    public static LocalDate toLocalDate(Calendar date){
-        LocalDate localDate = LocalDateTime.ofInstant(date.toInstant(), date.getTimeZone().toZoneId()).toLocalDate();
+
+    public static LocalDate toLocalDate(Calendar date) {
+        TimeZone tz = date.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+        LocalDate localDate = LocalDateTime.ofInstant(date.toInstant(), zid).toLocalDate();
         return localDate;
     }
 }
