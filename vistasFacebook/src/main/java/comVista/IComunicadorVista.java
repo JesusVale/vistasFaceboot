@@ -33,4 +33,5 @@ public interface IComunicadorVista {
     public void consultarUsuarioPorNombre(String nombre);
     public void consultarEtiquetaPorTema(String tema);
     public void consultarPublicacionesPorEtiqueta(String tema);
+    public void consultarNotificacionesPorRemitente(Usuario usuario);
 }

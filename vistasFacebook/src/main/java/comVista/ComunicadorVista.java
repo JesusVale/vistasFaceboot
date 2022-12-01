@@ -151,4 +151,11 @@ public class ComunicadorVista implements IComunicadorVista {
         String peticion = conversor.convertirObjetoString(peticionString);
         EventListener.getInstance().enviarMensaje(peticion);
     }
+
+    @Override
+    public void consultarNotificacionesPorRemitente(Usuario usuario) {
+        PeticionUsuario peticion = new PeticionUsuario(Eventos.consultarNotificacionesPorRemitente, usuario);
+        String peticionEnviar = conversor.convertirObjetoString(peticion);
+        EventListener.getInstance().enviarMensaje(peticionEnviar);
+    }
 }

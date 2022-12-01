@@ -21,10 +21,11 @@ public class NotificacionPanel extends javax.swing.JPanel {
     public NotificacionPanel(Notificacion notificacion) {
         initComponents();
         this.notificacion = notificacion;
+        llenarPanelNotificacion();
     }
     
     public void llenarPanelNotificacion(){
-        this.remitenteLbl.setText("Enviado a: "+notificacion.getRemitente().getNombre());
+        this.remitenteLbl.setText("Enviado a: "+notificacion.getDestinatario().getNombre());
         SimpleDateFormat fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
         String fecha = fechaFormat.format(notificacion.getFechaCreacion().getTime());
         this.fechaLbl.setText(fecha);

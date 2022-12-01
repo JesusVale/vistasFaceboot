@@ -19,6 +19,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import peticiones.PeticionPublicacion;
 import peticiones.PeticionPublicaciones;
+import utils.CustomScrollbar;
 
 /**
  *
@@ -38,7 +39,9 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
     public MuroFrm(IComunicadorVista comunicadorVista, Usuario usuario) {
         initComponents();
         this.cancelarBusquedaBtn.setVisible(false);
-         //buscarEtiquetaBtn.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\buscarPorEtiqueta.png")));
+        scrollPublicaciones.setVerticalScrollBar(new CustomScrollbar());
+        this.scrollPublicaciones.getVerticalScrollBar().setUnitIncrement(25);
+        buscarEtiquetaBtn.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\buscarPorEtiqueta.png"));
         RegistrarPublicacionEvent.getInstance().suscribirse(this);
         ConsultarPublicacionesEvent.getInstance().suscribirse(this);
         EliminarPublicacionEvent.getInstance().suscribirse(this);
@@ -47,9 +50,9 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         this.comunicadorVista = comunicadorVista;
         this.usuario = usuario;
         comunicadorVista.consultarPublicaciones();
-        this.jScrollPane1.setViewportView(this.publicacionesTxt);
-        publicacionesTxt.setEditable(false);
-        jScrollPane1.setSize(655, 504);
+        this.scrollPublicaciones.setViewportView(this.publicacionesTxt);
+        //publicacionesTxt.setEditable(false);
+        scrollPublicaciones.setSize(655, 504);
         publicacionesTxt.setSize(655, 504);
     }
 
@@ -70,9 +73,9 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         botonCrearPublicacion = new javax.swing.JButton();
         btnNotificar = new javax.swing.JButton();
         btnEditarPerfil = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        publicacionesTxt = new javax.swing.JTextPane();
         jButton1 = new javax.swing.JButton();
+        scrollPublicaciones = new javax.swing.JScrollPane();
+        publicacionesTxt = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -147,26 +150,22 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
             }
         });
 
-        jScrollPane1.setBorder(null);
-        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setViewportView(publicacionesTxt);
-
-        publicacionesTxt.setEditable(false);
-        publicacionesTxt.setBackground(new java.awt.Color(255, 255, 255));
-        publicacionesTxt.setBorder(null);
-        publicacionesTxt.setAutoscrolls(false);
-        publicacionesTxt.setDropMode(javax.swing.DropMode.INSERT);
-        publicacionesTxt.setMaximumSize(new java.awt.Dimension(655, 504));
-        publicacionesTxt.setMinimumSize(new java.awt.Dimension(655, 504));
-        publicacionesTxt.setPreferredSize(new java.awt.Dimension(655, 504));
-        jScrollPane1.setViewportView(publicacionesTxt);
-
         jButton1.setText("Historial Notificaciones");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        scrollPublicaciones.setBackground(new java.awt.Color(255, 255, 255));
+        scrollPublicaciones.setBorder(null);
+        scrollPublicaciones.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        scrollPublicaciones.setViewportView(publicacionesTxt);
+
+        publicacionesTxt.setBackground(new java.awt.Color(255, 255, 255));
+        publicacionesTxt.setForeground(new java.awt.Color(255, 255, 255));
+        publicacionesTxt.setLayout(new javax.swing.BoxLayout(publicacionesTxt, javax.swing.BoxLayout.Y_AXIS));
+        scrollPublicaciones.setViewportView(publicacionesTxt);
 
         javax.swing.GroupLayout principalPanelLayout = new javax.swing.GroupLayout(principalPanel);
         principalPanel.setLayout(principalPanelLayout);
@@ -186,9 +185,9 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
                         .addGroup(principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnEditarPerfil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49))
+                .addGap(71, 71, 71)
+                .addComponent(scrollPublicaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
         );
         principalPanelLayout.setVerticalGroup(
             principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,10 +203,10 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
                         .addComponent(btnEditarPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, principalPanelLayout.createSequentialGroup()
+                        .addGap(0, 85, Short.MAX_VALUE))
+                    .addGroup(principalPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
+                        .addComponent(scrollPublicaciones)
                         .addContainerGap())))
         );
 
@@ -287,20 +286,23 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
 
     public void actualizarMuro(List<Publicacion> publicaciones) {
 
-        this.publicacionesTxt.setText("");
+        //this.publicacionesTxt.setText("");
+        this.publicacionesTxt.removeAll();
         for (Publicacion publicacion : publicaciones) {
-//            this.publicacionesTxt.add(new PublicacionPanel(publicacion, usuario, comunicadorVista), 0);
-//            this.publicacionesTxt.repaint();
-//            this.publicacionesTxt.revalidate();
-            this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
+            this.publicacionesTxt.add(new PublicacionPanel(publicacion, usuario, comunicadorVista), 0);
+            this.publicacionesTxt.repaint();
+            this.publicacionesTxt.revalidate();
+//            this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
 
         }
         
     }
 
     public void actualizarMuro(Publicacion publicacion) {
-        
-        this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
+        this.publicacionesTxt.add(new PublicacionPanel(publicacion, usuario, comunicadorVista), 0);
+        this.publicacionesTxt.repaint();
+        this.publicacionesTxt.revalidate();
+        //this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -312,9 +314,9 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
     private javax.swing.JButton cancelarBusquedaBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel principalPanel;
-    private javax.swing.JTextPane publicacionesTxt;
+    private javax.swing.JPanel publicacionesTxt;
+    private javax.swing.JScrollPane scrollPublicaciones;
     // End of variables declaration//GEN-END:variables
 
     @Override
