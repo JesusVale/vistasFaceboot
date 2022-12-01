@@ -10,9 +10,11 @@ import entidades.Publicacion;
 import entidades.Usuario;
 import events.ConsultarComentariosEvent;
 import events.ConsultarUsuarioEvent;
+import events.EliminarComentarioEvent;
 import events.RegistrarComentarioEvent;
 import interfaces.IConsultarComentariosObserver;
 import interfaces.IConsultarUsuarioObserver;
+import interfaces.IEliminarComentarioObserver;
 import interfaces.IRegistrarComentarioObserver;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,6 +26,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import peticiones.PeticionComentario;
+import peticiones.PeticionComentarios;
 import utils.BorderRadius;
 import utils.CustomScrollbar;
 
@@ -31,7 +34,9 @@ import utils.CustomScrollbar;
  *
  * @author jegav
  */
-public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarComentarioObserver{
+public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarComentarioObserver, 
+                                                                    IEliminarComentarioObserver,
+                                                                    IConsultarComentariosObserver{
 
     private Publicacion publicacion;
     private Usuario usuario;
@@ -39,12 +44,18 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
 
     /**
      * Creates new form PublicacionPanel
+     * @param publicacion
+     * @param usuario
+     * @param comunicadorVista
      */
     public PublicacionPanel(Publicacion publicacion, Usuario usuario, IComunicadorVista comunicadorVista) {
         initComponents();
+        RegistrarComentarioEvent.getInstance().suscribirse(this);
+        EliminarComentarioEvent.getInstance().suscribirse(this);
+        ConsultarComentariosEvent.getInstance().suscribirse(this);
         this.scrollComentarios.setVerticalScrollBar(new CustomScrollbar(new Color(231,240,228), new Color(187, 255, 164)));
         this.scrollComentarios.getVerticalScrollBar().setUnitIncrement(19);
-        this.setPreferredSize(new Dimension(574, 630));
+        this.setPreferredSize(new Dimension(584, 645));
         this.jPanel1.setBorder(new BorderRadius(13));
         deleteBtn.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\trashIcon.png"));
         this.comunicadorVista = comunicadorVista;
@@ -53,13 +64,11 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
         if (publicacion.getUsuario().getId() != usuario.getId()) {
             this.deleteBtn.setVisible(false);
         }
-        if(publicacion.getComentarios() != null){
-            this.scrollComentarios.setPreferredSize(new Dimension(534, 134)); 
+        if(publicacion.getComentarios() == null){
+            this.jPanel1.remove(this.scrollComentarios);
+            this.jPanel1.revalidate();
+            this.jPanel1.repaint();
         }
-        if(publicacion.getComentarios().size()>0){
-            this.scrollComentarios.setPreferredSize(new Dimension(534, 134));
-        }
-        RegistrarComentarioEvent.getInstance().suscribirse(this);
         llenarPanel();
         llenarComentarios(publicacion.getComentarios());
     }
@@ -96,17 +105,21 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
 //        this.comentarioPane.setText("");
         for (Comentario comentario : comentarios) {
             System.out.println("HOLA "+comentario.getContenido());
-            this.comentariosPane.add(new ComentarioPanel(comentario), 0);
+            this.comentariosPane.add(new ComentarioPanel(comentario, usuario, comunicadorVista), 0);
             this.comentariosPane.repaint();
             this.comentariosPane.revalidate();
+            this.jPanel1.repaint();
+            this.jPanel1.revalidate();
         }
     }
 
     private void llenarComentario(Comentario comentario) {
         
-        this.comentariosPane.add(new ComentarioPanel(comentario),0);
+        this.comentariosPane.add(new ComentarioPanel(comentario, usuario, comunicadorVista),0);
         this.comentariosPane.repaint();
         this.comentariosPane.revalidate();
+        this.jPanel1.repaint();
+        this.jPanel1.revalidate();
 //        System.out.println("Lleno el comentario: "+comentario.getContenido());
 //        this.comentarioPane.insertComponent(new ComentarioPanel(comentario));
     }
@@ -179,7 +192,7 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -192,15 +205,15 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
                                     .addComponent(nombreLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(deleteBtn))))
-                    .addComponent(imageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(imageLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(201, 201, 201)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(scrollComentarios, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtComentario, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnRegistrarComentario)))
+                        .addComponent(btnRegistrarComentario))
+                    .addComponent(scrollComentarios))
                 .addGap(23, 23, 23))
         );
         jPanel1Layout.setVerticalGroup(
@@ -226,8 +239,8 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtComentario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrarComentario))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrollComentarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollComentarios, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -271,5 +284,22 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
             System.out.println("Soy Homelo Chino");
             llenarComentario(respuesta.getComentario());
         }
+    }
+
+    @Override
+    public void onEliminarComentario(PeticionComentario respuesta) {
+        System.out.println("Si trato de Eliminarlo eh");
+        comunicadorVista.consultarComentariosPorId(publicacion.getId());
+    }
+
+    @Override
+    public void onConsultarComentarios(PeticionComentarios peticionComentarios) {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        if(!peticionComentarios.getComentarios().isEmpty()){
+            if (publicacion.getId() == peticionComentarios.getComentarios().get(0).getId()) {
+                llenarComentarios(peticionComentarios.getComentarios());
+            }
+        }
+        
     }
 }

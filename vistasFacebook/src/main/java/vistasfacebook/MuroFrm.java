@@ -15,6 +15,7 @@ import interfaces.IConsultarPublicacionesObserver;
 import interfaces.IConsultarPublicacionesPorHashtagObserver;
 import interfaces.IEliminarPublicacionObserver;
 import interfaces.IRegistrarPublicacionObserver;
+import java.awt.Dimension;
 import java.util.List;
 import javax.swing.JOptionPane;
 import peticiones.PeticionPublicacion;
@@ -52,8 +53,8 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         comunicadorVista.consultarPublicaciones();
         this.scrollPublicaciones.setViewportView(this.publicacionesTxt);
         //publicacionesTxt.setEditable(false);
-        scrollPublicaciones.setSize(655, 504);
-        publicacionesTxt.setSize(655, 504);
+        scrollPublicaciones.setSize(new Dimension(700, 504));
+        publicacionesTxt.setSize(new Dimension(700, 504));
     }
 
     /**
@@ -186,8 +187,8 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
                             .addComponent(btnEditarPerfil, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addGap(71, 71, 71)
-                .addComponent(scrollPublicaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35))
+                .addComponent(scrollPublicaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         principalPanelLayout.setVerticalGroup(
             principalPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

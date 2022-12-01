@@ -6,11 +6,12 @@ package interfaces;
 
 import entidades.Comentario;
 import java.util.List;
+import peticiones.PeticionComentario;
 
 /**
  *
  * @author tonyd
  */
 public interface IEliminarComentarioObserver {
-    public void onEliminarComentario(List<Comentario> comentarios);
+    public void onEliminarComentario(PeticionComentario respuesta);
 }

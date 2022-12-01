@@ -9,25 +9,33 @@ import conversors.JsonToObject;
 import interfaces.IEliminarComentarioObserver;
 import java.util.ArrayList;
 import java.util.List;
-import peticiones.PeticionUsuario;
+import peticiones.PeticionComentario;
 
 /**
  *
  * @author tonyd
  */
-public class EliminarComentarioEvent {
+public class EliminarComentarioEvent implements EventNotifier {
     private List<IEliminarComentarioObserver> listeners;
     private IJsonToObject conversor;
-
+    private static EliminarComentarioEvent eliminarComentarioEvent;
+    
     public EliminarComentarioEvent() {
         this.listeners = new ArrayList();
         conversor = new JsonToObject();
     }
 
-    public void notificarUsuarios(PeticionUsuario peticionUsuario) {
-//        for(IEliminarComentarioObserver listener: listeners){
-//            listener.onEliminarComentario(comentarios);
-//        }
+    public static EliminarComentarioEvent getInstance(){
+        if(eliminarComentarioEvent == null){
+            eliminarComentarioEvent = new EliminarComentarioEvent();
+        }
+        return eliminarComentarioEvent;
+    }
+    
+    public void notificarUsuarios(PeticionComentario peticionComentario) {
+        for(IEliminarComentarioObserver listener: listeners){
+            listener.onEliminarComentario(peticionComentario);
+        }
     }
 
     public void suscribirse(IEliminarComentarioObserver listener) {
@@ -36,5 +44,11 @@ public class EliminarComentarioEvent {
 
     public void desuscribir(IEliminarComentarioObserver listener) {
         listeners.remove(listener);
+    }
+
+    @Override
+    public void notificar(String peticion) {
+        PeticionComentario peticionComentario = conversor.convertirPeticionComentario(peticion);
+        eliminarComentarioEvent.notificarUsuarios(peticionComentario);
     }
 }

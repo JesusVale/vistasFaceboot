@@ -4,9 +4,11 @@
  */
 package vistasfacebook;
 
+import comVista.IComunicadorVista;
 import entidades.Comentario;
 import entidades.Usuario;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,13 +18,23 @@ public class ComentarioPanel extends javax.swing.JPanel {
 
     Comentario comentario;
     Usuario usuario;
-
+    IComunicadorVista comunicadorVista;
+    
     /**
      * Creates new form ComentarioPanel
+     * @param comentario
+     * @param usuario
+     * @param comunicadorVista
      */
-    public ComentarioPanel(Comentario comentario) {
+    public ComentarioPanel(Comentario comentario, Usuario usuario, IComunicadorVista comunicadorVista) {
         initComponents();
         this.comentario = comentario;
+        this.usuario = usuario;
+        this.comunicadorVista = comunicadorVista;
+        if(!usuario.equals(comentario.getUsuario())){
+            this.eliminarComentarioBtn.setVisible(false);
+        }
+        this.comunicadorVista = comunicadorVista;
         llenarComentarios();
     }
 
@@ -46,6 +58,7 @@ public class ComentarioPanel extends javax.swing.JPanel {
         usuarioTxt = new javax.swing.JLabel();
         comentarioTxt = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
+        eliminarComentarioBtn = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(241, 250, 238));
         setPreferredSize(new java.awt.Dimension(599, 124));
@@ -57,6 +70,13 @@ public class ComentarioPanel extends javax.swing.JPanel {
 
         lblFecha.setText("22/13/22");
 
+        eliminarComentarioBtn.setText("Eliminar");
+        eliminarComentarioBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarComentarioBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -66,7 +86,10 @@ public class ComentarioPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(usuarioTxt)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(usuarioTxt)
+                                .addGap(35, 35, 35)
+                                .addComponent(eliminarComentarioBtn))
                             .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(61, 61, 61)
@@ -77,18 +100,28 @@ public class ComentarioPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(usuarioTxt)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(usuarioTxt)
+                    .addComponent(eliminarComentarioBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comentarioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void eliminarComentarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarComentarioBtnActionPerformed
+        int opcionSeleccionada = JOptionPane.showConfirmDialog(this, "¿Esta seguro de que desea eliminar el Comentario?");
+        if(opcionSeleccionada == JOptionPane.YES_OPTION){
+            comunicadorVista.eliminarComentario(comentario);
+        }
+    }//GEN-LAST:event_eliminarComentarioBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel comentarioTxt;
+    private javax.swing.JButton eliminarComentarioBtn;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel usuarioTxt;
     // End of variables declaration//GEN-END:variables
