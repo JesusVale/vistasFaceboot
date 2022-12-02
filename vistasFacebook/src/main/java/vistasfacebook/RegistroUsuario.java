@@ -25,14 +25,14 @@ import utils.Validaciones;
  *
  * @author tonyd
  */
-public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObserver {
+public class RegistroUsuario extends javax.swing.JFrame implements IRegistrarUsuarioObserver {
 
     private IComunicadorVista comunicadorVista;
 
     /**
      * Creates new form Registro
      */
-    public Registro(IComunicadorVista comunicadorVista) {
+    public RegistroUsuario(IComunicadorVista comunicadorVista) {
         initComponents();
         this.btnAgregar.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\registrarBtn.png"));
         llenarComboBoxSexo();
@@ -81,7 +81,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         rectangulo3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Login Faceboot");
+        setTitle("Registrar Usuario");
 
         jPanel1.setBackground(new java.awt.Color(241, 250, 238));
         jPanel1.setForeground(new java.awt.Color(153, 153, 153));
@@ -133,6 +133,11 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 170, 240, -1));
 
         txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 240, -1));
 
         txtNoCelular.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -222,12 +227,22 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         IConversorFechas conversorFechas = new ConversorFechas();
+        if(!validarVacios()){
+            JOptionPane.showMessageDialog(this, "Cuenta con algun campo vacio", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
         String nombre = this.txtNombre.getText();
         String password = String.valueOf(this.txtPassword.getPassword());
         String email = this.txtEmail.getText();
         String telefono = this.txtNoCelular.getText();
         Sexo sexo = (Sexo) cbSexo.getSelectedItem();
         Calendar fechaNacimiento = conversorFechas.toCalendar(this.txtFechaNacimiento.getDate());
+        
+        if(!validarPassword(password)){
+            JOptionPane.showMessageDialog(this, "La contraseña debe tener un minimo de 8 digitos", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
         
         if(!Validaciones.validarCorreo(email)){
             JOptionPane.showMessageDialog(this, "El correo no cuenta con un formato correcto", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -268,6 +283,57 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         } 
     }//GEN-LAST:event_txtNombreKeyTyped
 
+    private void btnEntraFacebookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntraFacebookActionPerformed
+        try {
+            FbConexion fbCon = new FbConexion();
+            Usuario usuario = fbCon.authUser();
+            String telefono ="";
+            do{
+               telefono = JOptionPane.showInputDialog("Inserta tu telefono");
+               if(!Validaciones.validarTelefono(telefono)){
+                   JOptionPane.showMessageDialog(this, "Formato de teléfono erroneo");
+               }
+            }while(!Validaciones.validarTelefono(telefono));
+            usuario.setTelefono(telefono);
+            comunicadorVista.iniciarSesionFacebook(usuario);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_btnEntraFacebookActionPerformed
+
+    private void txtPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyTyped
+        if(txtPassword.getText().length() >= 20) {
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "La contraseña debe tener 10 caracteres o menos");
+        }
+    }//GEN-LAST:event_txtPasswordKeyTyped
+
+    private boolean validarPassword(String password){
+        if(txtPassword.getText().length()<8){
+            return false;
+        }
+        return true;
+    }
+    
+    private boolean validarVacios(){
+        if(txtNombre.getText().isEmpty()){
+            return false;
+        }
+        if(txtEmail.getText().isEmpty()){
+            return false;
+        }
+        if(txtFechaNacimiento.getText().isEmpty()){
+            return false;
+        }
+        if(txtNoCelular.getText().isEmpty()){
+            return false;
+        }if(txtPassword.getText().isEmpty()){
+            return false;
+        }
+        return true;
+    
+    }
+    
     @Override
     public void onRegistrarUsuario(PeticionUsuario peticionUsuario) {
         if (peticionUsuario.getStatus() >= 400){
