@@ -37,7 +37,7 @@ public class ComentarioPanel extends javax.swing.JPanel {
         this.comunicadorVista = comunicadorVista;
         llenarComentarios();
     }
-
+    
     private void llenarComentarios() {
         this.usuarioTxt.setText(comentario.getUsuario().getNombre());
         SimpleDateFormat fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -107,7 +107,7 @@ public class ComentarioPanel extends javax.swing.JPanel {
                 .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(comentarioTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

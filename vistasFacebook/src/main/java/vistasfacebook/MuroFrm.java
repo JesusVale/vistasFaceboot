@@ -29,7 +29,7 @@ import utils.CustomScrollbar;
 public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacionObserver,
                                                            IConsultarPublicacionesObserver,
                                                            IEliminarPublicacionObserver, 
-                                                           IConsultarPublicacionesPorHashtagObserver {
+                                                           IConsultarPublicacionesPorHashtagObserver{
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
@@ -42,11 +42,8 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         this.cancelarBusquedaBtn.setVisible(false);
         scrollPublicaciones.setVerticalScrollBar(new CustomScrollbar());
         this.scrollPublicaciones.getVerticalScrollBar().setUnitIncrement(25);
-        buscarEtiquetaBtn.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\buscarPorEtiqueta.png"));
-        RegistrarPublicacionEvent.getInstance().suscribirse(this);
-        ConsultarPublicacionesEvent.getInstance().suscribirse(this);
-        EliminarPublicacionEvent.getInstance().suscribirse(this);
-        ConsultarPublicacionesPorHashtagEvent.getInstance().suscribirse(this);
+        suscribirseEventos();
+       
         this.publicacionesTxt.setAlignmentX(CENTER_ALIGNMENT);
         this.comunicadorVista = comunicadorVista;
         this.usuario = usuario;
@@ -57,6 +54,17 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         publicacionesTxt.setSize(new Dimension(700, 504));
     }
 
+    public void cargarImagenes(){
+        buscarEtiquetaBtn.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\buscarPorEtiqueta.png"));
+    }
+    
+    public void suscribirseEventos(){
+         RegistrarPublicacionEvent.getInstance().suscribirse(this);
+        ConsultarPublicacionesEvent.getInstance().suscribirse(this);
+        EliminarPublicacionEvent.getInstance().suscribirse(this);
+        ConsultarPublicacionesPorHashtagEvent.getInstance().suscribirse(this);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -244,17 +252,6 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
         ConsultarPublicacionesPorHashtagEvent.getInstance().desuscribirse(this);
         EditarPerfil editarPerfil = new EditarPerfil(comunicadorVista, usuario);
         editarPerfil.setVisible(true);
-
-//        int eliminarUsuario = JOptionPane.showConfirmDialog(null, "¿Estas seguro de eliminar tu cuenta de forma permanente?");
-//        if (eliminarUsuario == 0) {
-//            comunicadorVista.eliminarUsuario(usuario);
-//            RegistrarPublicacionEvent.getInstance().desuscribirse(this);
-//            ConsultarPublicacionesEvent.getInstance().desuscribirse(this);
-//            EliminarPublicacionEvent.getInstance().desuscribirse(this);
-//            Login login = new Login(comunicadorVista);
-//            login.setVisible(true);
-//            this.dispose();
-//        }
     }//GEN-LAST:event_btnEditarPerfilActionPerformed
 
     private void btnNotificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNotificarActionPerformed
@@ -268,6 +265,7 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
 
     private void cancelarBusquedaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBusquedaBtnActionPerformed
         comunicadorVista.consultarPublicaciones();
+        this.buscarEtiquetasTxt.setText("");
         this.cancelarBusquedaBtn.setVisible(false);
     }//GEN-LAST:event_cancelarBusquedaBtnActionPerformed
 
@@ -287,14 +285,13 @@ public class MuroFrm extends javax.swing.JFrame implements IRegistrarPublicacion
 
     public void actualizarMuro(List<Publicacion> publicaciones) {
 
-        //this.publicacionesTxt.setText("");
         this.publicacionesTxt.removeAll();
+        this.publicacionesTxt.repaint();
+        this.publicacionesTxt.revalidate();
         for (Publicacion publicacion : publicaciones) {
             this.publicacionesTxt.add(new PublicacionPanel(publicacion, usuario, comunicadorVista), 0);
             this.publicacionesTxt.repaint();
             this.publicacionesTxt.revalidate();
-//            this.publicacionesTxt.insertComponent(new PublicacionPanel(publicacion, usuario, comunicadorVista));
-
         }
         
     }

@@ -12,8 +12,10 @@ import events.LoginEvent;
 import interfaces.ILoginFacebookObserver;
 import interfaces.ILoginObserver;
 import javax.swing.JOptionPane;
+import logins.FacebookStrategy;
+import logins.FacebootStrategy;
+import logins.LoginContext;
 import peticiones.PeticionUsuario;
-import utils.FbConexion;
 import utils.Validaciones;
 
 /**
@@ -23,6 +25,7 @@ import utils.Validaciones;
 public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginFacebookObserver  {
 
     private IComunicadorVista comunicadorVista;
+    private LoginContext loginContext;
 
     /**
      * Creates new form Registro
@@ -30,6 +33,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
      */
     public Login(IComunicadorVista comunicadorVista) {
         initComponents();
+        this.loginContext = new LoginContext();
         lblLogo.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\faceboot.png"));
         lblImgUser.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\login.png"));
         this.comunicadorVista = comunicadorVista;
@@ -55,7 +59,6 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
         btnRegistrate = new javax.swing.JButton();
         btnEntraFacebook = new javax.swing.JButton();
         btnIngresar = new javax.swing.JButton();
-        btnEntraGoogle = new javax.swing.JButton();
         barra1 = new javax.swing.JLabel();
         barra2 = new javax.swing.JLabel();
         rectangulo1 = new javax.swing.JLabel();
@@ -119,12 +122,6 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
         });
         jPanel1.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 340, 350, 33));
 
-        btnEntraGoogle.setText("Entra con Google");
-        btnEntraGoogle.setBackground(new java.awt.Color(219, 74, 57));
-        btnEntraGoogle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        btnEntraGoogle.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(btnEntraGoogle, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 510, 350, 35));
-
         barra1.setBackground(new java.awt.Color(37, 161, 142));
         barra1.setOpaque(true);
         jPanel1.add(barra1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 575, 910, 25));
@@ -138,7 +135,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
         rectangulo1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
         rectangulo1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         rectangulo1.setOpaque(true);
-        jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 500, 400));
+        jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 500, 360));
         jPanel1.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, 230, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -171,18 +168,13 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
             return;
         }
         Usuario usuario = new Usuario(this.txtCorreoUser.getText(),this.txtPassword.getText());
-        comunicadorVista.iniciarSesion(usuario);
+        loginContext.setLoginStrategy(new FacebootStrategy(comunicadorVista));
+        loginContext.realizarLogin(usuario);
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnEntraFacebookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntraFacebookActionPerformed
-        try {
-            FbConexion fbCon = new FbConexion();
-            Usuario usuario = fbCon.authUser();
-            comunicadorVista.iniciarSesionFacebook(usuario);
-        }catch(Exception e){
-            System.out.println(e);
-        }
-        
+        loginContext.setLoginStrategy(new FacebookStrategy(comunicadorVista));
+        loginContext.realizarLogin(null);
     }//GEN-LAST:event_btnEntraFacebookActionPerformed
 
     /**
@@ -227,7 +219,6 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
     private javax.swing.JLabel barra1;
     private javax.swing.JLabel barra2;
     private javax.swing.JButton btnEntraFacebook;
-    private javax.swing.JButton btnEntraGoogle;
     private javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnRegistrate;
     private javax.swing.JPanel jPanel1;

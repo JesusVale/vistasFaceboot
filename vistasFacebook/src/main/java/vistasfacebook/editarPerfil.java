@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
 import peticiones.PeticionUsuario;
 import utils.ConversorFechas;
+import utils.IConversorFechas;
 
 
 
@@ -43,11 +44,12 @@ public class EditarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
     }
     
     public void llenarCampos(Usuario usuario){
+        IConversorFechas conversorFechas = new ConversorFechas();
         this.txtNombre.setText(usuario.getNombre());
         this.txtEmail.setText(usuario.getEmail());
         this.txtNoCelular.setText(usuario.getTelefono());
         if(usuario.getFechaNacimiento()!=null){
-            this.txtFechaNacimiento.setDate(ConversorFechas.toLocalDate(usuario.getFechaNacimiento()));
+            this.txtFechaNacimiento.setDate(conversorFechas.toLocalDate(usuario.getFechaNacimiento()));
         }
         this.cbSexo.setSelectedItem(usuario.getSexo());
     }
@@ -190,6 +192,7 @@ public class EditarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        IConversorFechas conversorFechas = new ConversorFechas();
         if(validarVacios()){
             JOptionPane.showMessageDialog(this, "Algún campo se encuentra vacio", "Información", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -197,7 +200,7 @@ public class EditarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
         
         String nombre = this.txtNombre.getText();
         Sexo sexo = (Sexo) cbSexo.getSelectedItem();
-        Calendar fechaNacimiento = ConversorFechas.toCalendar(this.txtFechaNacimiento.getDate());
+        Calendar fechaNacimiento = conversorFechas.toCalendar(this.txtFechaNacimiento.getDate());
         usuario.setNombre(nombre);
         usuario.setSexo(sexo);
         usuario.setFechaNacimiento(fechaNacimiento);

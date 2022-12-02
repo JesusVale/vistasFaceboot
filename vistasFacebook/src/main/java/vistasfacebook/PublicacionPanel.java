@@ -9,11 +9,9 @@ import entidades.Comentario;
 import entidades.Publicacion;
 import entidades.Usuario;
 import events.ConsultarComentariosEvent;
-import events.ConsultarUsuarioEvent;
 import events.EliminarComentarioEvent;
 import events.RegistrarComentarioEvent;
 import interfaces.IConsultarComentariosObserver;
-import interfaces.IConsultarUsuarioObserver;
 import interfaces.IEliminarComentarioObserver;
 import interfaces.IRegistrarComentarioObserver;
 import java.awt.Color;
@@ -34,14 +32,15 @@ import utils.CustomScrollbar;
  *
  * @author jegav
  */
-public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarComentarioObserver, 
-                                                                    IEliminarComentarioObserver,
-                                                                    IConsultarComentariosObserver{
+public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarComentarioObserver,
+                                                                    IConsultarComentariosObserver,
+                                                                    IEliminarComentarioObserver{
 
     private Publicacion publicacion;
     private Usuario usuario;
     private IComunicadorVista comunicadorVista;
-
+    private Integer comentarioEliminado;
+    
     /**
      * Creates new form PublicacionPanel
      * @param publicacion
@@ -51,8 +50,8 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
     public PublicacionPanel(Publicacion publicacion, Usuario usuario, IComunicadorVista comunicadorVista) {
         initComponents();
         RegistrarComentarioEvent.getInstance().suscribirse(this);
-        EliminarComentarioEvent.getInstance().suscribirse(this);
         ConsultarComentariosEvent.getInstance().suscribirse(this);
+        EliminarComentarioEvent.getInstance().suscribirse(this);
         this.scrollComentarios.setVerticalScrollBar(new CustomScrollbar(new Color(231,240,228), new Color(187, 255, 164)));
         this.scrollComentarios.getVerticalScrollBar().setUnitIncrement(19);
         this.setPreferredSize(new Dimension(584, 645));
@@ -64,13 +63,8 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
         if (publicacion.getUsuario().getId() != usuario.getId()) {
             this.deleteBtn.setVisible(false);
         }
-        if(publicacion.getComentarios() == null){
-            this.jPanel1.remove(this.scrollComentarios);
-            this.jPanel1.revalidate();
-            this.jPanel1.repaint();
-        }
         llenarPanel();
-        llenarComentarios(publicacion.getComentarios());
+        comunicadorVista.consultarComentariosPorId(publicacion.getId());
     }
 
     public PublicacionPanel() {
@@ -95,16 +89,29 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
           
             this.jPanel1.revalidate();
             this.jPanel1.repaint();
-            
-            
         }
     }
 
+    public Integer getComentarioEliminado() {
+        return comentarioEliminado;
+    }
+
+    public void setComentarioEliminado(Integer comentarioEliminado) {
+        this.comentarioEliminado = comentarioEliminado;
+    }
+
     private void llenarComentarios(List<Comentario> comentarios) {
-        if(comentarios==null) return;
-//        this.comentarioPane.setText("");
+//        if(publicacion.getComentarios() == null) {System.out.println("??????"); return;}
+//        if(publicacion.getComentarios().isEmpty()){
+//            this.comentariosPane.removeAll();
+//            System.out.println("AA NMMS");
+//            this.comentariosPane.repaint();
+//            this.comentariosPane.revalidate();
+//        }
+        this.comentariosPane.removeAll();
+        this.comentariosPane.repaint();
+        this.comentariosPane.revalidate();
         for (Comentario comentario : comentarios) {
-            System.out.println("HOLA "+comentario.getContenido());
             this.comentariosPane.add(new ComentarioPanel(comentario, usuario, comunicadorVista), 0);
             this.comentariosPane.repaint();
             this.comentariosPane.revalidate();
@@ -287,19 +294,36 @@ public class PublicacionPanel extends javax.swing.JPanel implements IRegistrarCo
     }
 
     @Override
-    public void onEliminarComentario(PeticionComentario respuesta) {
-        System.out.println("Si trato de Eliminarlo eh");
-        comunicadorVista.consultarComentariosPorId(publicacion.getId());
-    }
-
-    @Override
     public void onConsultarComentarios(PeticionComentarios peticionComentarios) {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        if(!peticionComentarios.getComentarios().isEmpty()){
-            if (publicacion.getId() == peticionComentarios.getComentarios().get(0).getId()) {
-                llenarComentarios(peticionComentarios.getComentarios());
-            }
+        if(comentarioEliminado == publicacion.getId()){
+            this.llenarComentarios(peticionComentarios.getComentarios());
+            return;
+        }
+        if(peticionComentarios.getComentarios() == null) return;
+        if(peticionComentarios.getComentarios().isEmpty()){
+            return;
+        }
+ 
+        if(peticionComentarios.getComentarios().get(0).getPublicacion().getId() == publicacion.getId()){
+            this.llenarComentarios(peticionComentarios.getComentarios());
         }
         
     }
+
+    @Override
+    public void onEliminarComentario(PeticionComentario respuesta) {
+        this.comentarioEliminado= respuesta.getComentario().getPublicacion().getId();
+        System.out.println("Se eliminar");
+        if(respuesta.getComentario().getPublicacion().getId() == publicacion.getId()){
+            System.out.println("AAAAAAAAAA");
+            this.comunicadorVista.consultarComentariosPorId(publicacion.getId());
+        }
+    }
+
+    public void eliminarComentario(Comentario comentario){
+        this.comentariosPane.remove(new ComentarioPanel(comentario, usuario, comunicadorVista));
+        this.comentariosPane.repaint();
+        this.comentariosPane.revalidate();
+    }
+    
 }
