@@ -7,11 +7,11 @@ package vistasfacebook;
 import comVista.IComunicadorVista;
 import entidades.Hashtag;
 import entidades.Publicacion;
+import entidades.EtiquetaUsuario;
 import entidades.Usuario;
-import events.RegistrarHashtagsEvent;
+import events.ConsultarUsuarioPorNombreEvent;
 import events.RegistrarPublicacionEvent;
 import interfaces.IConsultarUsuarioPorNombreObserver;
-import interfaces.IRegistrarHashtagsObserver;
 import interfaces.IRegistrarPublicacionObserver;
 import java.awt.Image;
 import java.io.File;
@@ -23,7 +23,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import peticiones.PeticionHashtags;
 import peticiones.PeticionPublicacion;
 import peticiones.PeticionUsuario;
 
@@ -31,12 +30,12 @@ import peticiones.PeticionUsuario;
  *
  * @author tonyd
  */
-public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver, IConsultarUsuarioPorNombreObserver{
+public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistrarPublicacionObserver {
 
     private IComunicadorVista comunicadorVista;
     private Usuario usuario;
     private String path;
-    List<Usuario> etiquetados;
+    List<EtiquetaUsuario> etiquetados;
     List<Hashtag> hashtags;
 
     /**
@@ -55,12 +54,13 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         initComponents();
         this.usuario = usuario;
         this.hashtags = new ArrayList<Hashtag>();
+        this.etiquetados = new ArrayList<EtiquetaUsuario>();
         this.comunicadorVista = comunicadorVista;
         RegistrarPublicacionEvent.getInstance().suscribirse(this);
         //RegistrarHashtagsEvent.getInstance().suscribirse(this);
         //ManejadorEventos.getInstance().suscribirseRegistrarPublicacion(this);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -172,21 +172,36 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
         Calendar fecha = Calendar.getInstance();
         guardarHashtags(txtContenido.getText());
+        guardarEtiquetas(txtContenido.getText());
         Publicacion nuevaPublicacion = new Publicacion(usuario, fecha, txtContenido.getText(), path);
-        if(!hashtags.isEmpty()){
+        if (!hashtags.isEmpty()) {
             nuevaPublicacion.setHashtagPublicacion(hashtags);
+        }
+        if (!etiquetados.isEmpty()) {
+            nuevaPublicacion.setEtiquetasPublicacion(etiquetados);
         }
         comunicadorVista.registrarPublicacion(nuevaPublicacion);
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     public void guardarHashtags(String contenido) {
         String[] palabrasContenido = contenido.split(" ");
-        for (String palabra: palabrasContenido) {
-            if(palabra.startsWith("#")){
+        for (String palabra : palabrasContenido) {
+            if (palabra.startsWith("#")) {
                 hashtags.add(new Hashtag(palabra));
+            }
+        }
+    }
+
+    public void guardarEtiquetas(String contenido) {
+        String[] palabrasContenido = contenido.split(" ");
+        for (String palabra : palabrasContenido) {
+            if (palabra.startsWith("@")) {
+                String etiqueta = palabra.replace("@", "");
+                System.out.println(etiqueta);
+                EtiquetaUsuario e = new EtiquetaUsuario(palabra.replace("@", ""));
+                etiquetados.add(e);
             }
         }
     }
@@ -302,8 +317,4 @@ public class FrmPublicacionPrueba extends javax.swing.JFrame implements IRegistr
         }
     }
 
-    @Override
-    public void onConsultarUsuarioPorNombre(PeticionUsuario peticionConsultarUsuarioPorNombre) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
