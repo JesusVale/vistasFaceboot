@@ -50,7 +50,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
         lblPassword = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
         lblO = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JPasswordField();
         txtCorreoUser = new javax.swing.JTextField();
         btnRegistrate = new javax.swing.JButton();
         btnEntraFacebook = new javax.swing.JButton();
@@ -80,9 +80,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
         lblO.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblO.setText("--------------------------- O ------------------------");
         jPanel1.add(lblO, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 410, 350, 35));
-
-        txtPassword.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, 250, 33));
+        jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, 250, 30));
 
         txtCorreoUser.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         jPanel1.add(txtCorreoUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 250, 250, 33));
@@ -135,10 +133,10 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
         barra2.setOpaque(true);
         jPanel1.add(barra2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 25));
 
-        rectangulo1.setBackground(new java.awt.Color(159, 255, 203));
-        rectangulo1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         rectangulo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rectangulo1.setBackground(new java.awt.Color(159, 255, 203));
         rectangulo1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        rectangulo1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         rectangulo1.setOpaque(true);
         jPanel1.add(rectangulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, 500, 400));
         jPanel1.add(lblLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, 230, -1));
@@ -163,7 +161,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
     private void btnRegistrateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrateActionPerformed
         this.dispose();
         LoginEvent.getInstance().desuscribir(this);
-        Registro registro = new Registro(comunicadorVista);
+        RegistroUsuario registro = new RegistroUsuario(comunicadorVista);
         registro.setVisible(true);
     }//GEN-LAST:event_btnRegistrateActionPerformed
 
@@ -240,7 +238,7 @@ public class Login extends javax.swing.JFrame implements ILoginObserver, ILoginF
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JLabel rectangulo1;
     private javax.swing.JTextField txtCorreoUser;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
 
     @Override

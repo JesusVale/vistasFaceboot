@@ -86,7 +86,7 @@ public class EditarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
         rectangulo1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Login Faceboot");
+        setTitle("Editar Perfil");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(153, 153, 153));
@@ -190,6 +190,11 @@ public class EditarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        if(validarVacios()){
+            JOptionPane.showMessageDialog(this, "Algún campo se encuentra vacio", "Información", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
         String nombre = this.txtNombre.getText();
         Sexo sexo = (Sexo) cbSexo.getSelectedItem();
         Calendar fechaNacimiento = ConversorFechas.toCalendar(this.txtFechaNacimiento.getDate());
@@ -227,6 +232,15 @@ public class EditarPerfil extends javax.swing.JFrame implements IEditarUsuarioOb
     }//GEN-LAST:event_btnCancelActionPerformed
 
   
+    private boolean validarVacios(){
+        if(txtNombre.getText().isEmpty()){
+            return false;
+        }
+        if(txtFechaNacimiento.getText().isEmpty()){
+            return false;
+        }
+        return true;
+    }
 //    /**
 //     * @param args the command line arguments
 //     */
