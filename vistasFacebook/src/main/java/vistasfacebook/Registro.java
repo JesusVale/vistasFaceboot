@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import peticiones.PeticionUsuario;
 import utils.ConversorFechas;
 import utils.FbConexion;
+import utils.IConversorFechas;
 import utils.Validaciones;
 
 /**
@@ -33,7 +34,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
      */
     public Registro(IComunicadorVista comunicadorVista) {
         initComponents();
-        faceboolIconBtn.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\facebbokIco.png"));
+        this.btnAgregar.setIcon(new javax.swing.ImageIcon("src\\main\\java\\imagenes\\registrarBtn.png"));
         llenarComboBoxSexo();
         this.comunicadorVista = comunicadorVista;
         
@@ -56,6 +57,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        facebookBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         lblNoCelular = new javax.swing.JLabel();
         lblPassword = new javax.swing.JLabel();
@@ -71,10 +73,8 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         txtNombre = new javax.swing.JTextField();
         txtFechaNacimiento = new com.github.lgooddatepicker.components.DatePicker();
         cbSexo = new javax.swing.JComboBox<>();
-        faceboolIconBtn = new javax.swing.JButton();
         btnAgregar = new javax.swing.JButton();
         btnIniciarSesion = new javax.swing.JButton();
-        btnEntraFacebook = new javax.swing.JButton();
         barra2 = new javax.swing.JLabel();
         rectangulo1 = new javax.swing.JLabel();
         rectangulo2 = new javax.swing.JLabel();
@@ -87,6 +87,10 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         jPanel1.setForeground(new java.awt.Color(153, 153, 153));
         jPanel1.setMinimumSize(new java.awt.Dimension(910, 600));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        facebookBtn.setBackground(new java.awt.Color(212, 237, 231));
+        facebookBtn.setBorder(null);
+        jPanel1.add(facebookBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 330, 120, 130));
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 3, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -157,12 +161,9 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         cbSexo.setToolTipText("");
         jPanel1.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 320, 130, -1));
 
-        faceboolIconBtn.setBackground(new java.awt.Color(212, 237, 231));
-        faceboolIconBtn.setBorder(null);
-        jPanel1.add(faceboolIconBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 340, 120, 100));
-
         btnAgregar.setText("Registrar");
-        btnAgregar.setBackground(new java.awt.Color(133, 190, 188));
+        btnAgregar.setBackground(new java.awt.Color(37, 161, 142));
+        btnAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnAgregar.setForeground(new java.awt.Color(255, 255, 255));
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -173,7 +174,7 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
         jPanel1.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 430, 180, 35));
 
         btnIniciarSesion.setText("Iniciar Sesión");
-        btnIniciarSesion.setBackground(new java.awt.Color(133, 190, 188));
+        btnIniciarSesion.setBackground(new java.awt.Color(37, 161, 142));
         btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
         btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -182,17 +183,6 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
             }
         });
         jPanel1.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 190, 180, 35));
-
-        btnEntraFacebook.setText("Facebook");
-        btnEntraFacebook.setBackground(new java.awt.Color(212, 237, 231));
-        btnEntraFacebook.setBorder(null);
-        btnEntraFacebook.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        btnEntraFacebook.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEntraFacebookActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnEntraFacebook, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 440, 190, -1));
 
         barra2.setBackground(new java.awt.Color(37, 161, 142));
         barra2.setOpaque(true);
@@ -231,12 +221,13 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        IConversorFechas conversorFechas = new ConversorFechas();
         String nombre = this.txtNombre.getText();
         String password = String.valueOf(this.txtPassword.getPassword());
         String email = this.txtEmail.getText();
         String telefono = this.txtNoCelular.getText();
         Sexo sexo = (Sexo) cbSexo.getSelectedItem();
-        Calendar fechaNacimiento = ConversorFechas.toCalendar(this.txtFechaNacimiento.getDate());
+        Calendar fechaNacimiento = conversorFechas.toCalendar(this.txtFechaNacimiento.getDate());
         
         if(!Validaciones.validarCorreo(email)){
             JOptionPane.showMessageDialog(this, "El correo no cuenta con un formato correcto", "Información", JOptionPane.INFORMATION_MESSAGE);
@@ -276,24 +267,6 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
             evt.consume();
         } 
     }//GEN-LAST:event_txtNombreKeyTyped
-
-    private void btnEntraFacebookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntraFacebookActionPerformed
-        try {
-            FbConexion fbCon = new FbConexion();
-            Usuario usuario = fbCon.authUser();
-            String telefono ="";
-            do{
-               telefono = JOptionPane.showInputDialog("Inserta tu telefono");
-               if(!Validaciones.validarTelefono(telefono)){
-                   JOptionPane.showMessageDialog(this, "Formato de teléfono erroneo");
-               }
-            }while(!Validaciones.validarTelefono(telefono));
-            usuario.setTelefono(telefono);
-            comunicadorVista.iniciarSesionFacebook(usuario);
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }//GEN-LAST:event_btnEntraFacebookActionPerformed
 
     @Override
     public void onRegistrarUsuario(PeticionUsuario peticionUsuario) {
@@ -342,10 +315,9 @@ public class Registro extends javax.swing.JFrame implements IRegistrarUsuarioObs
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel barra2;
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnEntraFacebook;
     private javax.swing.JButton btnIniciarSesion;
     private javax.swing.JComboBox<String> cbSexo;
-    private javax.swing.JButton faceboolIconBtn;
+    private javax.swing.JButton facebookBtn;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblEmail;

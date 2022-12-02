@@ -160,4 +160,5 @@ public class ComunicadorVista implements IComunicadorVista {
         String peticionEnviar = conversor.convertirObjetoString(peticion);
         EventListener.getInstance().enviarMensaje(peticionEnviar);
     }
+
 }
